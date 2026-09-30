@@ -59,15 +59,22 @@
 
           <h2 id="dense-vs-sparse">1. The Inherent Flaw in Single-Vector Search</h2>
           <p>
-            Dense embeddings (OpenAI <code>text-embedding-3-large</code>, Cohere <code>embed-english-v3.0</code>) map entire paragraphs into high-dimensional points. They excel at recognizing that <em>"cardiac arrest"</em> is semantically related to <em>"heart attack"</em>.
+            When engineers discover vector search, it feels like pure magic. You convert text into high-dimensional embedding vectors, compute cosine similarity, and suddenly your system understands that <em>"heart attack"</em> and <em>"cardiac arrest"</em> are talking about the exact same medical condition.
           </p>
           <p>
-            However, dense single-vector search has an Achilles' heel: <strong>it ignores exact alphanumeric identifiers</strong>.
+            Naturally, teams think: <em>"Great! We can throw away old-school Elasticsearch and Lucene. Vectors solve everything!"</em>
           </p>
-          <ul>
-            <li>If a customer searches for part code <code>XJ-904-REV2</code>, the dense vector flattens the digits into a fuzzy representation of "mechanical replacement component", retrieving documents for <code>XJ-902</code> or <code>XJ-904-REV1</code> with nearly identical cosine scores.</li>
-            <li>Classical BM25 (sparse inverted indices), on the other hand, indexes exact tokens with surgical precision, but completely fails if the user searches for <em>"automobile fix"</em> when the document says <em>"car repair"</em>.</li>
-          </ul>
+          <p>
+            Then they hit the real world. A customer searches for part code <code>XJ-904-REV2</code>. The vector model compresses those numbers and letters into a generic semantic cluster representing "mechanical replacement widget", cheerfully returning manuals for <code>XJ-902</code> or <code>XJ-904-REV1</code> with a 0.96 cosine score. The user gets the wrong part, and the machine breaks down.
+          </p>
+          <p>
+            Dense embeddings have an Achilles' heel: <strong>they are blurry on exact symbols</strong>. Classical BM25, on the other hand, is laser-focused on exact letters and numbers, but has zero semantic imagination. To build a world-class search engine, you must force both to work together.
+          </p>
+
+          <!-- Funnel Architecture Diagram -->
+          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+            <img src="../assets/diagrams/hybrid-retrieval-funnel.svg" alt="Multi-Stage Hybrid Retrieval Funnel" style="width: 100%; height: auto; display: block;" />
+          </div>
 
           <div class="callout callout-novice">
             <div class="callout-header">💡 The 2-Minute Intuition (Novice Track): The Librarian & The Keyword Index</div>

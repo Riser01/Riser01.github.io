@@ -59,14 +59,25 @@
 
           <h2 id="limits-of-naive-rag">1. The Brittle Nature of Single-Shot RAG</h2>
           <p>
-            In standard RAG, the query travels in a strict, irreversible one-way pipe:
+            In standard RAG, the query travels in a strict, irreversible one-way conveyor belt:
           </p>
           <div class="math-block">
             \text{User Question} \longrightarrow \text{Embed} \longrightarrow \text{Retrieve Top } K \longrightarrow \text{Generate Answer}
           </div>
           <p>
-            If the retriever returns irrelevant documents (or the information simply does not exist in the vector database), the generation model is forced to choose between two bad outcomes: admit defeat, or hallucinate a plausible-sounding lie.
+            It is simple, fast, and remarkably brittle. The conveyor belt has no eyes, no brakes, and no self-awareness. If the retriever grabs 5 totally irrelevant documents because of poor phrasing or missing corporate data, the generation model is backed into a corner: it must either admit failure or fabricate a convincing lie.
           </p>
+          <p>
+            Humans do not operate this way. When you look through a filing cabinet and find empty folders, you don't make up random statistics — you say: <em>"Wait, these documents don't answer the question. Let me search the archives under a different department or check our external database."</em>
+          </p>
+          <p>
+            That is what <strong>Agentic Corrective RAG (CRAG)</strong> delivers: stateful self-reflection.
+          </p>
+
+          <!-- CRAG Flow Diagram -->
+          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+            <img src="../assets/diagrams/agentic-crag-flow.svg" alt="Corrective RAG State Machine Flow" style="width: 100%; height: auto; display: block;" />
+          </div>
 
           <div class="callout callout-novice">
             <div class="callout-header">💡 The 2-Minute Intuition (Novice Track): The Chef with a Missing Ingredient</div>

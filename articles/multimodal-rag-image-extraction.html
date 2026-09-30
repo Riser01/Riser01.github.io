@@ -67,13 +67,19 @@
             Standard enterprise Retrieval-Augmented Generation (RAG) pipelines follow an orthodox recipe: extract raw plain text with <code>pypdf</code> or <code>pdfplumber</code>, slice it into 512-token chunks, compute dense vector embeddings, and store them in a vector database.
           </p>
           <p>
-            This recipe fails catastrophically the moment documents contain <strong>visual semantics</strong>:
+            Here is a war story every senior engineer has lived through: You build a contract search engine. The engineering team is thrilled. Then the head of finance asks: <em>"What were our net international licensing fees in Q3 compared to Q2?"</em>
           </p>
-          <ul>
-            <li><strong>Multi-column financial statements:</strong> Text extractors read left-to-right across columns, mixing revenue figures with expense line items from adjacent sections.</li>
-            <li><strong>Engineering schematics & flowcharts:</strong> Directional arrows, decision diamonds, and spatial relationships are stripped into word soups.</li>
-            <li><strong>Infographics & trend charts:</strong> The graphical data points that answer "What was the Q3 YoY growth?" disappear entirely from plain text extractors.</li>
-          </ul>
+          <p>
+            The LLM answers with absolute confidence: <strong>"$42.8 Million"</strong>. The actual number on the page was <strong>negative $1.2 Million</strong>.
+          </p>
+          <p>
+            What happened? The parser read the 4-column financial balance sheet from left to right like a regular book. It grabbed numbers from adjacent columns, merged them into a chaotic string of digits, and handed that scrambled mess to the model. The model did not hallucinate out of stupidity — it hallucinated because we blinded it before it even had a chance to read.
+          </p>
+
+          <!-- Visual Architecture Diagram -->
+          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+            <img src="../assets/diagrams/visual-rag-colpali.svg" alt="Visual RAG and ColPali Architecture Diagram" style="width: 100%; height: auto; display: block;" />
+          </div>
 
           <!-- Callout Novice -->
           <div class="callout callout-novice">

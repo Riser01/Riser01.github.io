@@ -59,16 +59,19 @@
 
           <h2 id="why-eyeball-tests-fail">1. The "Vibes-Based" Evaluation Trap</h2>
           <p>
-            When teams first build a RAG prototype, evaluation usually consists of 5 internal engineers typing a few questions into a web UI and remarking: <em>"Looks pretty good!"</em>
+            When engineers first build a RAG prototype, evaluation usually consists of 5 teammates sitting around a laptop, typing questions like <em>"What is our parental leave policy?"</em>, and nodding when a clean paragraph appears. <em>"Looks awesome, let's ship it!"</em>
           </p>
           <p>
-            Three weeks later in production, disaster strikes:
+            We call this <strong>"Vibes-Based Engineering"</strong> — and it is the single most common reason AI projects stall before production.
           </p>
-          <ul>
-            <li>The system hallucinates an SLA deadline because the retriever grabbed a draft contract instead of the executed amendment.</li>
-            <li>The model answers a query correctly, but cites a completely irrelevant policy document (silent context corruption).</li>
-            <li>A small tweak to chunk overlap boosts recall on marketing documents while quietly cratering retrieval precision on API documentation by 24%.</li>
-          </ul>
+          <p>
+            Why? Because information retrieval is fundamentally non-linear. You tweak your chunk size from 512 to 256 tokens to make your chatbot snappier. Suddenly, customer support queries improve by 10%, but your complex engineering documentation queries silently degrade by 35% because long code blocks are now split in half. Without automated metrics, you won't notice until your customers start complaining.
+          </p>
+
+          <!-- Evaluation Triad Diagram -->
+          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+            <img src="../assets/diagrams/rag-evaluation-triad.svg" alt="The Production RAG Evaluation Triad" style="width: 100%; height: auto; display: block;" />
+          </div>
 
           <div class="callout callout-novice">
             <div class="callout-header">💡 The 2-Minute Intuition (Novice Track): The Courtroom Trial</div>
