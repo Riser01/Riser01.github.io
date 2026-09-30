@@ -7,8 +7,15 @@
   <meta name="description" content="A masterclass on combining sparse lexical search with dense vector embeddings and late interaction rerankers, solving the 1-keyword delta semantic collision problem." />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/article.css" />
+  <!-- KaTeX for pristine vector mathematical typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
+
+  <!-- Top Reading Progress Indicator -->
+  <div id="reading-progress"></div>
 
   <header class="site-header">
     <div class="container nav-inner">
@@ -31,7 +38,7 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container article-container">
     <article>
       <header class="article-header">
         <div class="article-breadcrumb">
@@ -44,7 +51,7 @@
         <div class="article-author-bar">
           <div class="author-pill">
             <div class="author-avatar">PR</div>
-            <span>Prajwal Rao &bull; Senior AI / Autonomous Systems Engineer</span>
+            <span>Prajwal Rao &bull; Senior Applied Data Scientist</span>
           </div>
           <span>&bull;</span>
           <span>September 2026</span>
@@ -56,6 +63,27 @@
         <!-- Editorial Hero Graphic -->
         <div class="article-hero-banner">
           <img src="../assets/images/hybrid-search-hero.jpg" alt="Hybrid Retrieval & Reciprocal Rank Fusion Architecture Hero Banner" />
+        </div>
+
+        <!-- Executive Summary Card (60-Second Quick Scan) -->
+        <div class="executive-summary-card">
+          <div class="executive-summary-title">
+            <span>⚡ Executive Summary &bull; Core Takeaways in 60 Seconds</span>
+          </div>
+          <div class="executive-summary-grid">
+            <div>
+              <div class="summary-item-label">The Core Failure</div>
+              <div class="summary-item-text">Dense embeddings compress keywords away, causing false positive matches on distinct part codes and serial numbers (The 1-Keyword Delta).</div>
+            </div>
+            <div>
+              <div class="summary-item-label">The 2026 Solution</div>
+              <div class="summary-item-text">Two-Stage Hybrid Funnel: BM25 Lexical + Dense Vector retrieval merged with Reciprocal Rank Fusion ($k=60$), followed by a Late Interaction cross-encoder reranker.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">Production Impact</div>
+              <div class="summary-item-text"><strong>+24% MRR@10 improvement</strong> across technical manuals and complete elimination of semantic cache collisions.</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -108,7 +136,7 @@
           </p>
 
           <div class="math-block">
-            RRF(d) = \sum_{m \in M} w_m \cdot \frac{1}{k + r_m(d)}
+            $$\text{RRF}(d) = \sum_{m \in M} w_m \cdot \frac{1}{k + r_m(d)}$$
           </div>
 
           <p>
@@ -121,23 +149,51 @@
             <li>$w_m$: Optional domain weighting (usually 1.0 for each).</li>
           </ul>
 
+          <!-- Step-by-Step Numerical Walkthrough -->
+          <div class="step-walkthrough">
+            <div class="step-walkthrough-title">
+              <span>🔍 Numerical Step-by-Step Walkthrough: Why Multi-List Consensus Wins</span>
+            </div>
+            <p style="margin-bottom: 0.5rem; font-size: 0.92rem;">
+              Suppose $k=60$, with equal weights $w=1.0$. Consider 3 competing candidate documents:
+            </p>
+            <ul style="margin: 0.5rem 0 0.5rem 1.25rem; font-size: 0.9rem;">
+              <li><strong>Doc A (One-Hit Wonder):</strong> Rank #1 in Dense, but missing in BM25 (assigned Rank #100):<br />
+                $$\text{RRF} = \frac{1}{60 + 1} + \frac{1}{60 + 100} = 0.01639 + 0.00625 = \mathbf{0.02264}$$
+              </li>
+              <li><strong>Doc B (Lexical Outlier):</strong> Rank #50 in Dense, Rank #1 in BM25:<br />
+                $$\text{RRF} = \frac{1}{60 + 50} + \frac{1}{60 + 1} = 0.00909 + 0.01639 = \mathbf{0.02548}$$
+              </li>
+              <li><strong>Doc C (Consensus Champion):</strong> Rank #3 in Dense, Rank #4 in BM25:<br />
+                $$\text{RRF} = \frac{1}{60 + 3} + \frac{1}{60 + 4} = 0.01587 + 0.01563 = \mathbf{0.03150}$$
+              </li>
+            </ul>
+            <p style="margin-top: 0.5rem; font-size: 0.92rem; color: var(--accent-emerald);">
+              <strong>The Consensus Winner:</strong> <strong>Doc C wins decisively</strong> with an RRF score of $0.03150$. Even though Doc C was neither #1 in Dense nor #1 in BM25, it appeared near the top of both lists, proving high mutual relevance across both paradigms.
+            </p>
+          </div>
+
           <p>Here is how straightforward RRF is to implement in 10 lines of production Python:</p>
 
-          <div class="code-block-box">
-            <pre><code class="language-python">def reciprocal_rank_fusion(dense_results: list[dict], sparse_results: list[dict], k: int = 60) -> list[dict]:
-    """Combines two candidate lists using Reciprocal Rank Fusion (RRF)."""
-    scores: dict[str, float] = {}
-    for rank, doc in enumerate(dense_results, start=1):
-        doc_id = doc["id"]
-        scores[doc_id] = scores.get(doc_id, 0.0) + (1.0 / (k + rank))
-    for rank, doc in enumerate(sparse_results, start=1):
-        doc_id = doc["id"]
-        scores[doc_id] = scores.get(doc_id, 0.0) + (1.0 / (k + rank))
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Python 3.12 &bull; rrf_fusion.py</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code><span class="hl-k">def</span> <span class="hl-f">reciprocal_rank_fusion</span>(dense_results: <span class="hl-t">list</span>[<span class="hl-t">dict</span>], sparse_results: <span class="hl-t">list</span>[<span class="hl-t">dict</span>], k: <span class="hl-t">int</span> = <span class="hl-n">60</span>) -&gt; <span class="hl-t">list</span>[<span class="hl-t">dict</span>]:
+    <span class="hl-s">"""Combines two candidate lists using Reciprocal Rank Fusion (RRF)."""</span>
+    scores: <span class="hl-t">dict</span>[<span class="hl-t">str</span>, <span class="hl-t">float</span>] = {}
+    <span class="hl-k">for</span> rank, doc <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(dense_results, start=<span class="hl-n">1</span>):
+        doc_id = doc[<span class="hl-s">"id"</span>]
+        scores[doc_id] = scores.<span class="hl-f">get</span>(doc_id, <span class="hl-n">0.0</span>) + (<span class="hl-n">1.0</span> / (k + rank))
+    <span class="hl-k">for</span> rank, doc <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(sparse_results, start=<span class="hl-n">1</span>):
+        doc_id = doc[<span class="hl-s">"id"</span>]
+        scores[doc_id] = scores.<span class="hl-f">get</span>(doc_id, <span class="hl-n">0.0</span>) + (<span class="hl-n">1.0</span> / (k + rank))
     
-    # Sort candidate documents by descending RRF consensus score
-    ranked = sorted([{"id": doc_id, "rrf_score": score} for doc_id, score in scores.items()],
-                    key=lambda item: item["rrf_score"], reverse=True)
-    return ranked</code></pre>
+    <span class="hl-c"># Sort candidate documents by descending RRF consensus score</span>
+    ranked = <span class="hl-f">sorted</span>([{<span class="hl-s">"id"</span>: doc_id, <span class="hl-s">"rrf_score"</span>: score} <span class="hl-k">for</span> doc_id, score <span class="hl-k">in</span> scores.<span class="hl-f">items</span>()],
+                    key=<span class="hl-k">lambda</span> item: item[<span class="hl-s">"rrf_score"</span>], reverse=<span class="hl-k">True</span>)
+    <span class="hl-k">return</span> ranked</code></pre>
           </div>
 
           <!-- Embedded Interactive Calculator -->
@@ -212,8 +268,11 @@
           </div>
 
           <!-- Semantic Collision Vector Space Diagram -->
-          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-            <img src="../assets/diagrams/semantic-collision-vector-space.svg" alt="The 1-Keyword Delta Semantic Collision in Vector Space" style="width: 100%; height: auto; display: block;" />
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/semantic-collision-vector-space.svg" alt="The 1-Keyword Delta Semantic Collision in Vector Space" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: The 1-Keyword Delta Phenomenon — High cosine similarity false matches in single-vector embeddings.</span>
+            </div>
           </div>
 
           <div class="callout callout-deepdive">
@@ -221,7 +280,7 @@
             <ol>
               <li><strong>Categorical Entity Extraction & Composite Cache Keys:</strong> Never key a semantic cache purely on the raw vector embedding. Extract entity slots:
                 <div class="math-block">
-                  \text{Cache Key} = \text{SHA256}(\text{Entity}_{\text{category}} \parallel \text{Intent}) \ \mathbf{AND} \ \text{CosineSim} \ge 0.96
+                  $$\text{Cache Key} = \text{SHA256}(\text{Entity}_{\text{category}} \parallel \text{Intent}) \ \mathbf{AND} \ \text{CosineSim} \ge 0.96$$
                 </div>
                 Two queries only hit the cache if their entity slots (<code>shoes</code> vs <code>electronics</code>) match strictly.
               </li>
@@ -287,7 +346,7 @@
             In production enterprise architectures, the gold standard pipeline is:
           </p>
           <div class="math-block">
-            \text{User Query} \xrightarrow{\text{Query Rewrite}} \begin{cases} \text{Dense Vector (Top 100)} \\ \text{BM25 Lexical (Top 100)} \end{cases} \xrightarrow{\text{RRF } (k=60)} \text{Top 50} \xrightarrow{\text{Cross-Encoder}} \text{Top 5} \xrightarrow{} \text{LLM Context}
+            $$\text{User Query} \xrightarrow{\text{Query Rewrite}} \begin{cases} \text{Dense Vector (Top 100)} \\ \text{BM25 Lexical (Top 100)} \end{cases} \xrightarrow{\text{RRF } (k=60)} \text{Top 50} \xrightarrow{\text{Cross-Encoder}} \text{Top 5} \xrightarrow{} \text{LLM Context}$$
           </div>
           <p>
             This multi-stage architecture delivers sub-120ms total end-to-end retrieval latency while achieving over 0.94 NDCG@10 on benchmark evaluations.

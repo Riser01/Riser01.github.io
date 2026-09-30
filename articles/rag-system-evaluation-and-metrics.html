@@ -7,8 +7,15 @@
   <meta name="description" content="A rigorous guide to measuring, scoring, and benchmarking RAG pipelines in production using classical IR ranking metrics and LLM-as-a-judge frameworks." />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/article.css" />
+  <!-- KaTeX for pristine vector mathematical typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
+
+  <!-- Top Reading Progress Indicator -->
+  <div id="reading-progress"></div>
 
   <header class="site-header">
     <div class="container nav-inner">
@@ -31,7 +38,7 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container article-container">
     <article>
       <header class="article-header">
         <div class="article-breadcrumb">
@@ -44,7 +51,7 @@
         <div class="article-author-bar">
           <div class="author-pill">
             <div class="author-avatar">PR</div>
-            <span>Prajwal Rao &bull; Senior AI / Autonomous Systems Engineer</span>
+            <span>Prajwal Rao &bull; Senior Applied Data Scientist</span>
           </div>
           <span>&bull;</span>
           <span>September 2026</span>
@@ -56,6 +63,27 @@
         <!-- Editorial Hero Graphic -->
         <div class="article-hero-banner">
           <img src="../assets/images/rag-eval-hero.jpg" alt="Production RAG Evaluation and Quality Gate Playbook Hero Graphic" />
+        </div>
+
+        <!-- Executive Summary Card (60-Second Quick Scan) -->
+        <div class="executive-summary-card">
+          <div class="executive-summary-title">
+            <span>⚡ Executive Summary &bull; Core Takeaways in 60 Seconds</span>
+          </div>
+          <div class="executive-summary-grid">
+            <div>
+              <div class="summary-item-label">The Core Failure</div>
+              <div class="summary-item-text">"Vibes-based" manual testing hides severe regression: small chunking or retriever changes quietly break downstream generation without alert.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">The 2026 Solution</div>
+              <div class="summary-item-text">Decouple the RAG Triad: Measure retrieval mathematically (Hit Rate, MRR, NDCG@10) and evaluate generation faithfulness via atomic claim verification.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">Production Impact</div>
+              <div class="summary-item-text"><strong>Zero ungrounded hallucinations</strong> in enterprise support chatbots and an automated CI/CD benchmark gate that blocks faulty retriever pull requests.</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -155,7 +183,7 @@
             The simplest metric: what percentage of queries successfully contain at least one ground-truth relevant document in the Top $K$ results?
           </p>
           <div class="math-block">
-            \text{Hit Rate}@K = \frac{1}{|Q|} \sum_{q \in Q} \mathbb{I}\left( \text{relevant passage} \in \text{Top } K(q) \right)
+            $$\text{Hit Rate}@K = \frac{1}{|Q|} \sum_{q \in Q} \mathbb{I}\left( \text{relevant passage} \in \text{Top } K(q) \right)$$
           </div>
 
           <h3>B. Mean Reciprocal Rank (MRR)</h3>
@@ -163,7 +191,7 @@
             Hit Rate ignores <em>where</em> the correct document landed. If the correct document is at rank #1, that is vastly better than rank #10. MRR rewards higher rank placement:
           </p>
           <div class="math-block">
-            \text{MRR} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}
+            $$\text{MRR} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}$$
           </div>
 
           <h3>C. Normalized Discounted Cumulative Gain (NDCG@K)</h3>
@@ -176,7 +204,35 @@
           </p>
 
           <div class="math-block">
-            \text{DCG}@K = \sum_{i=1}^{K} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}, \quad \text{NDCG}@K = \frac{\text{DCG}@K}{\text{IDCG}@K}
+            $$\text{DCG}@K = \sum_{i=1}^{K} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}, \quad \text{NDCG}@K = \frac{\text{DCG}@K}{\text{IDCG}@K}$$
+          </div>
+
+          <!-- Step-by-Step Numerical Walkthrough -->
+          <div class="step-walkthrough">
+            <div class="step-walkthrough-title">
+              <span>🔍 Numerical Step-by-Step Walkthrough: Calculating NDCG@3 with Real Numbers</span>
+            </div>
+            <p style="margin-bottom: 0.5rem; font-size: 0.92rem;">
+              Suppose our search engine retrieves 3 documents with graded ground-truth relevance $[3, 0, 2]$:
+            </p>
+            <ul style="margin: 0.5rem 0 0.5rem 1.25rem; font-size: 0.9rem;">
+              <li><strong>Rank 1 ($\text{rel}=3$):</strong> Gain = $(2^3 - 1) / \log_2(1+1) = 7 / 1.0 = \mathbf{7.000}$</li>
+              <li><strong>Rank 2 ($\text{rel}=0$):</strong> Gain = $(2^0 - 1) / \log_2(2+1) = 0 / 1.585 = \mathbf{0.000}$</li>
+              <li><strong>Rank 3 ($\text{rel}=2$):</strong> Gain = $(2^2 - 1) / \log_2(3+1) = 3 / 2.0 = \mathbf{1.500}$</li>
+              <li><strong>Actual DCG@3:</strong> $7.000 + 0.000 + 1.500 = \mathbf{8.500}$</li>
+            </ul>
+            <p style="margin-top: 0.5rem; font-size: 0.92rem;">
+              Now compute the <strong>Ideal Ranking (IDCG@3)</strong> where documents are sorted perfectly $[3, 2, 0]$:
+            </p>
+            <ul style="margin: 0.5rem 0 0.5rem 1.25rem; font-size: 0.9rem;">
+              <li>Rank 1 ($\text{rel}=3$): $7.000$</li>
+              <li>Rank 2 ($\text{rel}=2$): $(2^2 - 1) / \log_2(3) = 3 / 1.585 = 1.893$</li>
+              <li>Rank 3 ($\text{rel}=0$): $0.000$</li>
+              <li><strong>Ideal IDCG@3:</strong> $7.000 + 1.893 + 0 = \mathbf{8.893}$</li>
+            </ul>
+            <p style="margin-top: 0.5rem; font-size: 0.92rem; color: var(--accent-emerald);">
+              <strong>Final NDCG@3:</strong> $\text{DCG} / \text{IDCG} = 8.500 / 8.893 = \mathbf{0.9558}$ (95.6% of theoretical perfection).
+            </p>
           </div>
 
           <div class="code-wrapper">
@@ -184,32 +240,32 @@
               <span>Python 3.12 &bull; evaluate_retrieval.py</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>import math
-from typing import List, Set
+            <pre><code><span class="hl-k">import</span> math
+<span class="hl-k">from</span> typing <span class="hl-k">import</span> List, Set
 
-def compute_mrr(retrieved_ids: List[str], ground_truth_ids: Set[str]) -> float:
-    """Computes Reciprocal Rank for a single query."""
-    for rank, doc_id in enumerate(retrieved_ids, start=1):
-        if doc_id in ground_truth_ids:
-            return 1.0 / rank
-    return 0.0
+<span class="hl-k">def</span> <span class="hl-f">compute_mrr</span>(retrieved_ids: List[<span class="hl-t">str</span>], ground_truth_ids: Set[<span class="hl-t">str</span>]) -&gt; <span class="hl-t">float</span>:
+    <span class="hl-s">"""Computes Reciprocal Rank for a single query."""</span>
+    <span class="hl-k">for</span> rank, doc_id <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(retrieved_ids, start=<span class="hl-n">1</span>):
+        <span class="hl-k">if</span> doc_id <span class="hl-k">in</span> ground_truth_ids:
+            <span class="hl-k">return</span> <span class="hl-n">1.0</span> / rank
+    <span class="hl-k">return</span> <span class="hl-n">0.0</span>
 
-def compute_ndcg_at_k(retrieved_ids: List[str], relevance_scores: dict, k: int = 10) -> float:
-    """Computes Normalized Discounted Cumulative Gain at rank K."""
+<span class="hl-k">def</span> <span class="hl-f">compute_ndcg_at_k</span>(retrieved_ids: List[<span class="hl-t">str</span>], relevance_scores: <span class="hl-t">dict</span>, k: <span class="hl-t">int</span> = <span class="hl-n">10</span>) -&gt; <span class="hl-t">float</span>:
+    <span class="hl-s">"""Computes Normalized Discounted Cumulative Gain at rank K."""</span>
     top_k = retrieved_ids[:k]
-    dcg = sum(
-        (2 ** relevance_scores.get(doc_id, 0) - 1) / math.log2(idx + 2)
-        for idx, doc_id in enumerate(top_k)
+    dcg = <span class="hl-f">sum</span>(
+        (<span class="hl-n">2</span> ** relevance_scores.<span class="hl-f">get</span>(doc_id, <span class="hl-n">0</span>) - <span class="hl-n">1</span>) / math.<span class="hl-f">log2</span>(idx + <span class="hl-n">2</span>)
+        <span class="hl-k">for</span> idx, doc_id <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(top_k)
     )
     
-    # Ideal ranking (sorted by true relevance descending)
-    ideal_scores = sorted(relevance_scores.values(), reverse=True)[:k]
-    idcg = sum(
-        (2 ** score - 1) / math.log2(idx + 2)
-        for idx, score in enumerate(ideal_scores)
+    <span class="hl-c"># Ideal ranking (sorted by true relevance descending)</span>
+    ideal_scores = <span class="hl-f">sorted</span>(relevance_scores.<span class="hl-f">values</span>(), reverse=<span class="hl-k">True</span>)[:k]
+    idcg = <span class="hl-f">sum</span>(
+        (<span class="hl-n">2</span> ** score - <span class="hl-n">1</span>) / math.<span class="hl-f">log2</span>(idx + <span class="hl-n">2</span>)
+        <span class="hl-k">for</span> idx, score <span class="hl-k">in</span> <span class="hl-f">enumerate</span>(ideal_scores)
     )
     
-    return dcg / idcg if idcg > 0 else 0.0
+    <span class="hl-k">return</span> dcg / idcg <span class="hl-k">if</span> idcg &gt; <span class="hl-n">0</span> <span class="hl-k">else</span> <span class="hl-n">0.0</span>
 </code></pre>
           </div>
 

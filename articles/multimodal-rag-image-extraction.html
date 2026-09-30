@@ -7,8 +7,15 @@
   <meta name="description" content="A comprehensive guide to extracting knowledge from charts, diagrams, and complex PDFs for RAG systems, designed for novice and intermediate engineers." />
   <link rel="stylesheet" href="../assets/css/main.css" />
   <link rel="stylesheet" href="../assets/css/article.css" />
+  <!-- KaTeX for pristine vector mathematical typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
 </head>
 <body>
+
+  <!-- Top Reading Progress Indicator -->
+  <div id="reading-progress"></div>
 
   <!-- Site Navigation Header -->
   <header class="site-header">
@@ -32,7 +39,7 @@
     </div>
   </header>
 
-  <main class="container">
+  <main class="container article-container">
     <article>
       <!-- Header -->
       <header class="article-header">
@@ -46,7 +53,7 @@
         <div class="article-author-bar">
           <div class="author-pill">
             <div class="author-avatar">PR</div>
-            <span>Prajwal Rao &bull; Senior AI / Autonomous Systems Engineer</span>
+            <span>Prajwal Rao &bull; Senior Applied Data Scientist</span>
           </div>
           <span>&bull;</span>
           <span>September 2026</span>
@@ -58,6 +65,27 @@
         <!-- Editorial Hero Graphic -->
         <div class="article-hero-banner">
           <img src="../assets/images/multimodal-rag-hero.jpg" alt="Multimodal RAG and Visual Document Retrieval Hero Banner" />
+        </div>
+
+        <!-- Executive Summary Card (60-Second Quick Scan) -->
+        <div class="executive-summary-card">
+          <div class="executive-summary-title">
+            <span>⚡ Executive Summary &bull; Core Takeaways in 60 Seconds</span>
+          </div>
+          <div class="executive-summary-grid">
+            <div>
+              <div class="summary-item-label">The Core Failure</div>
+              <div class="summary-item-text">Standard text extractors slice PDFs from left-to-right, scrambling multi-column financial tables and turning charts into invisible noise.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">The 2026 Solution</div>
+              <div class="summary-item-text">Hybrid Layout Routing: Lightweight rule filters route simple text to free parsers, while complex visual pages pass to Vision LLMs or ColPali patch indexers.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">Production Impact</div>
+              <div class="summary-item-text"><strong>68% lower API ingestion cost</strong> on SEC 10-K filings with zero table hallucination and sub-50ms visual retrieval latency.</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -146,8 +174,11 @@
           </div>
 
           <!-- OCR vs ColPali Breakdown Diagram -->
-          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-            <img src="../assets/diagrams/ocr-vs-colpali-visual-breakdown.svg" alt="Traditional OCR Breakdown vs Native Visual RAG (ColPali)" style="width: 100%; height: auto; display: block;" />
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/ocr-vs-colpali-visual-breakdown.svg" alt="Traditional OCR Breakdown vs Native Visual RAG (ColPali)" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: Information Loss in Traditional OCR vs. Spatial Layout Preservation in ColPali Vision Transformers.</span>
+            </div>
           </div>
 
           <!-- Section 3: VLM Extraction Pipeline -->
@@ -161,16 +192,16 @@
               <span>Python 3.12 &bull; multimodal_ingest.py</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>import io
-import fitz  # PyMuPDF
-from PIL import Image
-import google.generativeai as genai
+            <pre><code><span class="hl-k">import</span> io
+<span class="hl-k">import</span> fitz  <span class="hl-c"># PyMuPDF</span>
+<span class="hl-k">from</span> PIL <span class="hl-k">import</span> Image
+<span class="hl-k">import</span> google.generativeai <span class="hl-k">as</span> genai
 
-# Instantiate Gemini model once globally for connection reuse across ingestion workers
-vlm_model = genai.GenerativeModel("gemini-2.0-flash")
+<span class="hl-c"># Instantiate Gemini model once globally for connection reuse across ingestion workers</span>
+vlm_model = genai.<span class="hl-f">GenerativeModel</span>(<span class="hl-s">"gemini-2.0-flash"</span>)
 
-# System prompt tuned to prevent hallucination and enforce structured Markdown tables
-VLM_PROMPT = """
+<span class="hl-c"># System prompt tuned to prevent hallucination and enforce structured Markdown tables</span>
+VLM_PROMPT = <span class="hl-s">"""
 You are an expert document digitization engine.
 Transcribe this page into clean, structured Markdown:
 1. Format all tabular data as valid Markdown tables. Never merge separate columns.
@@ -180,19 +211,19 @@ Transcribe this page into clean, structured Markdown:
    - Key trends and exact visible numerical data points.
 3. Preserve mathematical formulas in LaTeX format ($...$).
 4. Do not include introductory conversational text.
-"""
+"""</span>
 
-def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
-    doc = fitz.open(pdf_path)
-    page = doc.load_page(page_number)
+<span class="hl-k">def</span> <span class="hl-f">extract_page_visual_markdown</span>(pdf_path: <span class="hl-t">str</span>, page_number: <span class="hl-t">int</span>) -&gt; <span class="hl-t">str</span>:
+    doc = fitz.<span class="hl-f">open</span>(pdf_path)
+    page = doc.<span class="hl-f">load_page</span>(page_number)
     
-    # Render at 200 DPI for sharp text and fine table borders
-    pix = page.get_pixmap(dpi=200)
-    img_bytes = pix.tobytes("png")
-    image = Image.open(io.BytesIO(img_bytes))
+    <span class="hl-c"># Render at 200 DPI for sharp text and fine table borders</span>
+    pix = page.<span class="hl-f">get_pixmap</span>(dpi=<span class="hl-n">200</span>)
+    img_bytes = pix.<span class="hl-f">tobytes</span>(<span class="hl-s">"png"</span>)
+    image = Image.<span class="hl-f">open</span>(io.<span class="hl-f">BytesIO</span>(img_bytes))
     
-    response = vlm_model.generate_content([VLM_PROMPT, image])
-    return response.text
+    response = vlm_model.<span class="hl-f">generate_content</span>([VLM_PROMPT, image])
+    <span class="hl-k">return</span> response.text
 </code></pre>
           </div>
 
@@ -216,7 +247,7 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
           <div class="article-diagram-wrapper">
             <img src="../assets/diagrams/multimodal-cost-router.svg" alt="Layout-Aware Multimodal Cost Router and Triage Architecture" />
             <div class="article-diagram-caption">
-              <span>Figure 2: Hybrid Multimodal Triage — Routing text-dense documents through fast OCR and visual-rich layouts through ColPali/VLM.</span>
+              <span>Figure 3: Hybrid Multimodal Triage — Routing text-dense documents through fast OCR and visual-rich layouts through ColPali/VLM.</span>
             </div>
           </div>
 
@@ -234,7 +265,25 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
           </p>
 
           <div class="math-block">
-            \text{Score}(Q, D_{\text{page}}) = \sum_{i \in Q} \max_{j \in D_{\text{page}}} \left( \mathbf{E}_{\text{text}}(q_i) \cdot \mathbf{E}_{\text{patch}}(d_j) \right)
+            $$\text{Score}(Q, D_{\text{page}}) = \sum_{i \in Q} \max_{j \in D_{\text{page}}} \left( \mathbf{E}_{\text{text}}(q_i) \cdot \mathbf{E}_{\text{patch}}(d_j) \right)$$
+          </div>
+
+          <!-- Step-by-step numerical breakdown -->
+          <div class="step-walkthrough">
+            <div class="step-walkthrough-title">
+              <span>🔍 Numerical Step-by-Step Walkthrough: ColPali Late-Interaction MaxSim</span>
+            </div>
+            <p style="margin-bottom: 0.5rem; font-size: 0.92rem;">
+              Suppose the user query is <em>"Q3 operating margin"</em> ($|Q| = 3$ tokens: $q_1, q_2, q_3$). The candidate page image has 1,024 visual patch embeddings ($d_1, \dots, d_{1024}$):
+            </p>
+            <ul style="margin: 0.5rem 0 0.5rem 1.25rem; font-size: 0.9rem;">
+              <li><strong>Token 1 ("Q3"):</strong> Scans all 1,024 patches. Its highest dot product is against patch #412 (the quarterly column header): $\max = 0.88$.</li>
+              <li><strong>Token 2 ("operating"):</strong> Scans all patches. Its highest dot product is against patch #510 (row header in income statement): $\max = 0.92$.</li>
+              <li><strong>Token 3 ("margin"):</strong> Scans all patches. Its highest dot product is against patch #518 (percentage cell with bold typeface): $\max = 0.95$.</li>
+            </ul>
+            <p style="margin-top: 0.5rem; font-size: 0.92rem; color: var(--accent-emerald);">
+              <strong>Total MaxSim Consensus Score:</strong> $0.88 + 0.92 + 0.95 = \mathbf{2.75}$. The document is retrieved with near-perfect confidence because every single query token found an exact visual anchor on the page.
+            </p>
           </div>
 
           <p>
@@ -246,15 +295,15 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
               <span>Python 3.12 &bull; colpali_byaldi_search.py</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code>from byaldi import RAGMultiModalModel
+            <pre><code><span class="hl-k">from</span> byaldi <span class="hl-k">import</span> RAGMultiModalModel
 
-# 1. Load pretrained ColPali v1.2 late-interaction vision model
-RAG = RAGMultiModalModel.from_pretrained("vidore/colpali-v1.2", verbose=1)
+<span class="hl-c"># 1. Load pretrained ColPali v1.2 late-interaction vision model</span>
+RAG = RAGMultiModalModel.<span class="hl-f">from_pretrained</span>(<span class="hl-s">"vidore/colpali-v1.2"</span>, verbose=<span class="hl-n">1</span>)
 
-# 2. Index entire multi-page PDF directly as visual patch embeddings
-RAG.index(input_path="quarterly_report.pdf", index_name="q_report_index", store_collection_with_index=True)
+<span class="hl-c"># 2. Index entire multi-page PDF directly as visual patch embeddings</span>
+RAG.<span class="hl-f">index</span>(input_path=<span class="hl-s">"quarterly_report.pdf"</span>, index_name=<span class="hl-s">"q_report_index"</span>, store_collection_with_index=<span class="hl-k">True</span>)
 
-# 3. Retrieve top-3 most relevant pages matching visual charts or text
+<span class="hl-c"># 3. Retrieve top-3 most relevant pages matching visual charts or text</span>
 results = RAG.search(query="operating profit margin trends by region", k=3)
 print(f"Top matching page: {results[0].page_num} (Score: {results[0].score:.4f})")
 </code></pre>
