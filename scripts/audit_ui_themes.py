@@ -17,6 +17,7 @@ PAGES = [
     "/articles/multi-agent-systems-orchestration.html",
     "/articles/multi-agent-failure-modes-and-observability.html",
     "/articles/multi-agent-security-guardrails-and-hitl.html",
+    "/articles/multi-agent-human-in-the-loop-dual-key.html",
 ]
 
 VIEWPORTS = {

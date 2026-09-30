@@ -44,11 +44,11 @@
       <!-- Header -->
       <header class="article-header">
         <div class="article-breadcrumb">
-          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span>Agentic Security & Guardrails</span>
+          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span class="badge-series">Multi-Agent Systems &bull; Part 3</span>
         </div>
-        <h1 class="article-title">Securing Autonomous Multi-Agent Networks: Indirect Prompt Injection, Privilege Escalation, and Human-in-the-Loop Gating</h1>
+        <h1 class="article-title">Securing Autonomous Agents: Stopping the Confused Deputy Attack</h1>
         <p class="article-lead">
-          When autonomous agents are granted shell tools, database writes, and API keys, prompt injection becomes remote code execution. Here is how to architect zero-trust agent networks with capability-based security and cryptographic Human-in-the-Loop (HITL) gates.
+          When autonomous agents consume untrusted web data and are granted tool execution privileges, indirect prompt injection becomes a catastrophic remote exploit. Here is how to enforce Bell-LaPadula taint flow boundaries and 3-tier capability sandboxing.
         </p>
         <div class="article-author-bar">
           <div class="author-pill">
@@ -58,8 +58,8 @@
           <span>&bull;</span>
           <span>September 2026</span>
           <span>&bull;</span>
-          <span>18 min read</span>
-          <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+          <span>13 min read</span>
+          <span class="badge-reading-level">Intermediate &rarr; Senior</span>
         </div>
 
         <!-- Editorial Hero Graphic -->
@@ -243,77 +243,83 @@
           </div>
 
           <!-- Section 5: Runnable Implementation -->
-          <h2 id="hitl-implementation">5. Production Implementation: LangGraph Human-in-the-Loop Interrupt Gate</h2>
+          <h2 id="taint-guard-implementation">5. Production Implementation: Taint Flow Boundary Tracking &amp; Injection Guard</h2>
           <p>
-            Here is a production-ready LangGraph implementation demonstrating cryptographic state suspension using <code>interrupt()</code> and HMAC verification tokens:
+            Here is a production-grade Python implementation of an Information Flow Control (IFC) taint tracker. It computes integrity scores across multi-agent handoffs, sanitizes untrusted inputs, and halts execution before any tainted message reaches a privileged tool sink:
           </p>
 
           <div class="code-wrapper">
             <div class="code-header">
-              <span>Python 3.12 &bull; secure_hitl_agent.py</span>
+              <span>Python 3.12 &bull; taint_boundary_guard.py</span>
               <button class="copy-btn">Copy</button>
             </div>
-            <pre><code><span class="hl-k">from</span> typing <span class="hl-k">import</span> TypedDict, Optional
-<span class="hl-k">import</span> hmac
-<span class="hl-k">import</span> hashlib
-<span class="hl-k">from</span> langgraph.graph <span class="hl-k">import</span> StateGraph, END
-<span class="hl-k">from</span> langgraph.types <span class="hl-k">import</span> interrupt
+            <pre><code><span class="hl-k">import</span> re
+<span class="hl-k">from</span> typing <span class="hl-k">import</span> Dict, Any, List, Optional
+<span class="hl-k">from</span> dataclasses <span class="hl-k">import</span> dataclass
 
-HMAC_SECRET = b<span class="hl-s">"enterprise-security-secret-key-2026"</span>
+<span class="hl-k">@dataclass</span>
+<span class="hl-k">class</span> <span class="hl-f">AgentMessage</span>:
+    sender_id: <span class="hl-t">str</span>
+    content: <span class="hl-t">str</span>
+    integrity: <span class="hl-t">float</span>          <span class="hl-c"># Range [0.0, 1.0]; 1.0 is internal trusted instruction</span>
+    source_provenance: <span class="hl-t">str</span>   <span class="hl-c"># e.g., "internal_supervisor", "web_scrape_untrusted"</span>
 
-<span class="hl-c"># 1. State Schema</span>
-<span class="hl-k">class</span> <span class="hl-f">SecureAgentState</span>(TypedDict):
-    action_type: <span class="hl-t">str</span>          <span class="hl-c"># "READ" or "MUTATE"</span>
-    proposed_sql: <span class="hl-t">str</span>
-    human_approved: <span class="hl-t">bool</span>
-    approval_token: Optional[<span class="hl-t">str</span>]
-    execution_result: <span class="hl-t">str</span>
+<span class="hl-k">class</span> <span class="hl-f">TaintBoundaryGuard</span>:
+    <span class="hl-c"># High-risk prompt override patterns</span>
+    INJECTION_HEURISTICS = [
+        re.compile(r<span class="hl-s">"ignore\s+(previous|all)\s+instructions"</span>, re.IGNORECASE),
+        re.compile(r<span class="hl-s">"system\s+(override|note|prompt)"</span>, re.IGNORECASE),
+        re.compile(r<span class="hl-s">"drop\s+table|delete\s+from|alter\s+user"</span>, re.IGNORECASE),
+        re.compile(r<span class="hl-s">"exec\s*\(\s*['\"]"</span>, re.IGNORECASE),
+        re.compile(r<span class="hl-s">"curl\s+|webhook\s+|exfil"</span>, re.IGNORECASE),
+    ]
 
-<span class="hl-c"># 2. Planning Node: Agent proposes an action</span>
-<span class="hl-k">def</span> <span class="hl-f">agent_propose_action_node</span>(state: SecureAgentState) -&gt; <span class="hl-t">dict</span>:
-    <span class="hl-c"># Example of a sensitive mutation command</span>
-    <span class="hl-k">return</span> {
-        <span class="hl-s">"action_type"</span>: <span class="hl-s">"MUTATE"</span>,
-        <span class="hl-s">"proposed_sql"</span>: <span class="hl-s">"UPDATE accounts SET tier = 'VIP' WHERE user_id = 42;"</span>
-    }
+    <span class="hl-k">def</span> <span class="hl-f">__init__</span>(self, strict_threshold: <span class="hl-t">float</span> = <span class="hl-n">0.75</span>):
+        self.strict_threshold = strict_threshold
+        self.taint_audit_log: List[Dict[<span class="hl-t">str</span>, Any]] = []
 
-<span class="hl-c"># 3. Security Gate Node with interrupt()</span>
-<span class="hl-k">def</span> <span class="hl-f">human_approval_gate_node</span>(state: SecureAgentState) -&gt; <span class="hl-t">dict</span>:
-    <span class="hl-k">if</span> state[<span class="hl-s">"action_type"</span>] == <span class="hl-s">"MUTATE"</span>:
-        <span class="hl-c"># Suspends graph execution and awaits external webhook response</span>
-        review_decision = <span class="hl-f">interrupt</span>({
-            <span class="hl-s">"warning"</span>: <span class="hl-s">"Tier 3 Action Requested"</span>,
-            <span class="hl-s">"sql"</span>: state[<span class="hl-s">"proposed_sql"</span>]
-        })
+    <span class="hl-k">def</span> <span class="hl-f">evaluate_provenance</span>(self, text: <span class="hl-t">str</span>, source: <span class="hl-t">str</span>) -&gt; <span class="hl-t">float</span>:
+        <span class="hl-c"># Check for direct injection markers</span>
+        <span class="hl-k">for</span> pattern <span class="hl-k">in</span> self.INJECTION_HEURISTICS:
+            <span class="hl-k">if</span> pattern.search(text):
+                <span class="hl-k">return</span> <span class="hl-n">0.05</span>  <span class="hl-c"># Severe taint detected</span>
         
-        <span class="hl-c"># Validate cryptographic signature</span>
-        token = review_decision.get(<span class="hl-s">"token"</span>, <span class="hl-s">""</span>)
-        expected_sig = hmac.new(HMAC_SECRET, state[<span class="hl-s">"proposed_sql"</span>].encode(), hashlib.sha256).hexdigest()
+        <span class="hl-c"># Default untrusted penalty for raw external documents/scrapes</span>
+        <span class="hl-k">if</span> <span class="hl-s">"external"</span> <span class="hl-k">in</span> source <span class="hl-k">or</span> <span class="hl-s">"document"</span> <span class="hl-k">in</span> source:
+            <span class="hl-k">return</span> <span class="hl-n">0.25</span>
+        <span class="hl-k">return</span> <span class="hl-n">1.0</span>   <span class="hl-c"># Fully verified internal agent state</span>
+
+    <span class="hl-k">def</span> <span class="hl-f">propagate_taint</span>(self, inputs: List[AgentMessage], output_content: <span class="hl-t">str</span>) -&gt; AgentMessage:
+        <span class="hl-c"># Bell-LaPadula contraction: output integrity is bounded by minimum input integrity</span>
+        min_input_integrity = min([msg.integrity <span class="hl-k">for</span> msg <span class="hl-k">in</span> inputs]) <span class="hl-k">if</span> inputs <span class="hl-k">else</span> <span class="hl-n">1.0</span>
         
-        <span class="hl-k">if</span> review_decision.get(<span class="hl-s">"approved"</span>) <span class="hl-k">and</span> hmac.compare_digest(token, expected_sig):
-            <span class="hl-k">return</span> {<span class="hl-s">"human_approved"</span>: <span class="hl-k">True</span>, <span class="hl-s">"approval_token"</span>: token}
-        <span class="hl-k">return</span> {<span class="hl-s">"human_approved"</span>: <span class="hl-k">False</span>, <span class="hl-s">"approval_token"</span>: <span class="hl-k">None</span>}
-    
-    <span class="hl-k">return</span> {<span class="hl-s">"human_approved"</span>: <span class="hl-k">True</span>}
+        <span class="hl-c"># Check if newly generated content introduced untrusted strings</span>
+        output_direct_integrity = self.evaluate_provenance(output_content, <span class="hl-s">"agent_generation"</span>)
+        final_integrity = min(min_input_integrity, output_direct_integrity)
 
-<span class="hl-c"># 4. Safe Execution Node</span>
-<span class="hl-k">def</span> <span class="hl-f">execute_action_node</span>(state: SecureAgentState) -&gt; <span class="hl-t">dict</span>:
-    <span class="hl-k">if</span> <span class="hl-k">not</span> state.get(<span class="hl-s">"human_approved"</span>):
-        <span class="hl-k">return</span> {<span class="hl-s">"execution_result"</span>: <span class="hl-s">"Action BLOCKED by Human Security Policy."</span>}
-    <span class="hl-k">return</span> {<span class="hl-s">"execution_result"</span>: f<span class="hl-s">"Successfully executed: {state['proposed_sql']}"</span>}
+        <span class="hl-k">return</span> AgentMessage(
+            sender_id=<span class="hl-s">"synthesizer_agent"</span>,
+            content=output_content,
+            integrity=final_integrity,
+            source_provenance=<span class="hl-s">"propagated_cluster"</span>
+        )
 
-<span class="hl-c"># 5. Build Graph</span>
-workflow = <span class="hl-f">StateGraph</span>(SecureAgentState)
-workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"propose"</span>, agent_propose_action_node)
-workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"gate"</span>, human_approval_gate_node)
-workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"execute"</span>, execute_action_node)
+    <span class="hl-k">def</span> <span class="hl-f">authorize_tool_invocation</span>(self, message: AgentMessage, tool_tier: <span class="hl-t">int</span>) -&gt; Dict[<span class="hl-t">str</span>, Any]:
+        <span class="hl-c"># Tier 1 (Read-only) always authorized</span>
+        <span class="hl-k">if</span> tool_tier == <span class="hl-n">1</span>:
+            <span class="hl-k">return</span> {<span class="hl-s">"authorized"</span>: <span class="hl-k">True</span>, <span class="hl-s">"reason"</span>: <span class="hl-s">"Tier 1 Read-only autonomy permitted."</span>}
+        
+        <span class="hl-c"># Tier 2 (Sandboxed Code) requires clean taint score</span>
+        <span class="hl-k">if</span> tool_tier == <span class="hl-n">2</span>:
+            <span class="hl-k">if</span> message.integrity &lt; self.strict_threshold:
+                <span class="hl-k">return</span> {<span class="hl-s">"authorized"</span>: <span class="hl-k">False</span>, <span class="hl-s">"reason"</span>: <span class="hl-s">"Blocked: Tainted inputs cannot invoke Tier 2 sandboxes."</span>}
+            <span class="hl-k">return</span> {<span class="hl-s">"authorized"</span>: <span class="hl-k">True</span>, <span class="hl-s">"reason"</span>: <span class="hl-s">"Authorized under gVisor isolated microVM."</span>}
 
-workflow.<span class="hl-f">set_entry_point</span>(<span class="hl-s">"propose"</span>)
-workflow.<span class="hl-f">add_edge</span>(<span class="hl-s">"propose"</span>, <span class="hl-s">"gate"</span>)
-workflow.<span class="hl-f">add_edge</span>(<span class="hl-s">"gate"</span>, <span class="hl-s">"execute"</span>)
-workflow.<span class="hl-f">add_edge</span>(<span class="hl-s">"execute"</span>, END)
-
-secure_agent_graph = workflow.<span class="hl-f">compile</span>()
+        <span class="hl-c"># Tier 3 (State Mutation) requires human gating (covered in Part 4)</span>
+        <span class="hl-k">return</span> {
+            <span class="hl-s">"authorized"</span>: <span class="hl-k">False</span>,
+            <span class="hl-s">"reason"</span>: <span class="hl-s">"Halted: Tier 3 mutations require cryptographic Dual-Key HITL verification."</span>
+        }
 </code></pre>
           </div>
 
@@ -336,7 +342,7 @@ secure_agent_graph = workflow.<span class="hl-f">compile</span>()
                 <tr>
                   <td><strong>Taint Tracking</strong></td>
                   <td>Indirect Prompt Injection</td>
-                  <td>Tag all ingested external strings with $\mathcal{I} < 0.5$; prohibit tool calls with tainted parameters.</td>
+                  <td>Tag all ingested external strings with $\mathcal{I} &lt; 0.5$; prohibit tool calls with tainted parameters.</td>
                 </tr>
                 <tr>
                   <td><strong>Egress Firewalling</strong></td>
@@ -344,9 +350,9 @@ secure_agent_graph = workflow.<span class="hl-f">compile</span>()
                   <td>Deny default internet egress on worker containers; whitelist only designated domain APIs.</td>
                 </tr>
                 <tr>
-                  <td><strong>Cryptographic HITL</strong></td>
-                  <td>Unintended Database Mutation</td>
-                  <td>Require HMAC-signed tokens for all Tier 3 operations; pause state with <code>interrupt()</code>.</td>
+                  <td><strong>Capability Scoping</strong></td>
+                  <td>Privilege Escalation</td>
+                  <td>Enforce 3-tier capability separation: subagents cannot inherit execution tokens of supervisors.</td>
                 </tr>
                 <tr>
                   <td><strong>Credential Isolation</strong></td>
@@ -367,7 +373,7 @@ secure_agent_graph = workflow.<span class="hl-f">compile</span>()
             <li><a href="#attack-taxonomy">2. Multi-Agent Attack Surface</a></li>
             <li><a href="#three-tier-security">3. 3-Tier Security Architecture</a></li>
             <li><a href="#information-flow-math">4. Information Flow Control</a></li>
-            <li><a href="#hitl-implementation">5. LangGraph HITL Gate</a></li>
+            <li><a href="#taint-guard-implementation">5. Taint Boundary Guard</a></li>
             <li><a href="#security-checklist">6. Production Checklist</a></li>
           </ul>
         </aside>
@@ -376,12 +382,12 @@ secure_agent_graph = workflow.<span class="hl-f">compile</span>()
       <!-- Navigation Footer -->
       <footer class="article-nav-footer">
         <a href="multi-agent-failure-modes-and-observability.html" class="nav-article-card">
-          <span class="nav-article-label">&larr; Previous Article</span>
-          <span class="nav-article-title">Multi-Agent Failure Modes & Observability</span>
+          <span class="nav-article-label">&larr; Previous in Series (Part 2)</span>
+          <span class="nav-article-title">Debugging Multi-Agent Systems: The 3 AM Runaway Loop</span>
         </a>
-        <a href="index.html" class="nav-article-card" style="text-align: right;">
-          <span class="nav-article-label">All Articles &rarr;</span>
-          <span class="nav-article-title">Browse Publication Hub</span>
+        <a href="multi-agent-human-in-the-loop-dual-key.html" class="nav-article-card" style="text-align: right;">
+          <span class="nav-article-label">Next in Series (Part 4) &rarr;</span>
+          <span class="nav-article-title">Human-in-the-Loop for AI Agents: Cryptographic Dual-Key Approvals</span>
         </a>
       </footer>
 

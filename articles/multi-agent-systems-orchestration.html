@@ -44,11 +44,11 @@
       <!-- Header -->
       <header class="article-header">
         <div class="article-breadcrumb">
-          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span>Multi-Agent Systems</span>
+          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span class="badge-series">Multi-Agent Systems &bull; Part 1</span>
         </div>
-        <h1 class="article-title">Architecting Production Multi-Agent Systems: Hierarchical Supervisors, Swarms, and Model Context Protocol (MCP)</h1>
+        <h1 class="article-title">Why Most Multi-Agent Swarms Fail in Production</h1>
         <p class="article-lead">
-          Why monolithic "God Prompt" LLMs collapse under complex workflows, how to structure multi-agent communication topologies that actually converge, and how Anthropic's Model Context Protocol standardizes agent tool integration.
+          Connecting 5 agents in a peer-to-peer swarm explodes message complexity at $O(N^2)$ until your system burns tokens in infinite loops. Here is why hierarchical supervisor topologies beat unstructured swarms, and how the Model Context Protocol (MCP) standardizes tool boundaries.
         </p>
         <div class="article-author-bar">
           <div class="author-pill">
@@ -399,12 +399,12 @@ app = workflow.<span class="hl-f">compile</span>()
       <!-- Navigation Footer -->
       <footer class="article-nav-footer">
         <a href="agentic-rag-routing-and-crag.html" class="nav-article-card">
-          <span class="nav-article-label">&larr; Previous Article</span>
-          <span class="nav-article-title">Agentic RAG & Cognitive Routing</span>
+          <span class="nav-article-label">&larr; Previous Article (RAG Part 4)</span>
+          <span class="nav-article-title">When RAG Fails: Building Self-Correcting Pipelines</span>
         </a>
         <a href="multi-agent-failure-modes-and-observability.html" class="nav-article-card" style="text-align: right;">
-          <span class="nav-article-label">Next Article &rarr;</span>
-          <span class="nav-article-title">Multi-Agent Failure Modes & Observability</span>
+          <span class="nav-article-label">Next in Series (MAS Part 2) &rarr;</span>
+          <span class="nav-article-title">Debugging Multi-Agent Systems: The 3 AM Runaway Loop</span>
         </a>
       </footer>
 

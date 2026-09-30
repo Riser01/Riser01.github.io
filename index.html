@@ -322,11 +322,11 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Multimodal AI</span>
+              <span class="article-tag">Production RAG &bull; Part 1</span>
               <span>Sept 2026 &bull; 14 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/multimodal-rag-image-extraction.html">Visual RAG &amp; Multimodal Knowledge Extraction: From Tesseract OCR to ColPali &amp; Vision LLMs</a>
+              <a href="articles/multimodal-rag-image-extraction.html">Why OCR Breaks Your RAG (And How ColPali Fixes It)</a>
             </h3>
             <p class="article-card-desc">
               Why traditional text-only parsers destroy financial balance sheets and charts. Comprehensive comparison between VLM Markdown generation and native visual patch embeddings with ColPali.
@@ -344,11 +344,11 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">MLOps &amp; Eval</span>
+              <span class="article-tag">Production RAG &bull; Part 2</span>
               <span>Sept 2026 &bull; 16 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/rag-system-evaluation-and-metrics.html">The Production RAG Evaluation Playbook: How to Measure, Score, and Debug Retrieval Pipelines</a>
+              <a href="articles/rag-system-evaluation-and-metrics.html">Evaluating RAG Beyond Vibe Checks: A Production Testing Playbook</a>
             </h3>
             <p class="article-card-desc">
               Moving beyond vibes-based testing. Complete guide to decoupling Retriever ranking (Hit Rate@K, MRR, NDCG@10) from Generator Faithfulness with calibrated LLM-as-a-judge CI/CD gates.
@@ -366,14 +366,14 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Information Retrieval</span>
+              <span class="article-tag">Production RAG &bull; Part 3</span>
               <span>Sept 2026 &bull; 18 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/hybrid-retrieval-rrf-and-fusion.html">Hybrid Retrieval &amp; Fusion Science: Merging Dense, Sparse, and Late Interaction (and Solving the 1-Keyword Delta)</a>
+              <a href="articles/hybrid-retrieval-rrf-and-fusion.html">The 1-Keyword Trap: Mastering Hybrid Search &amp; Reciprocal Rank Fusion</a>
             </h3>
             <p class="article-card-desc">
-              The mathematics of Reciprocal Rank Fusion ($k=60$). How to solve subtle semantic collisions ("shoes" vs "electronics" at 0.975 cosine similarity) with cross-encoder re-ranking. Includes live interactive browser widget!
+              Why pure vector embeddings fail on single-keyword deltas, how Reciprocal Rank Fusion ($k=60$) mathematically reconciles candidate lists, and how cross-encoders eliminate semantic collisions. Includes live interactive simulator!
             </p>
             <div class="article-card-footer">
               <a href="articles/hybrid-retrieval-rrf-and-fusion.html">Read Full Deep-Dive &rarr;</a>
@@ -388,14 +388,14 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Agentic Systems</span>
+              <span class="article-tag">Production RAG &bull; Part 4</span>
               <span>Sept 2026 &bull; 15 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/agentic-rag-routing-and-crag.html">Agentic RAG &amp; Cognitive Routing: Building Self-Correcting Retrieval with LangGraph</a>
+              <a href="articles/agentic-rag-routing-and-crag.html">When RAG Fails: Building Self-Correcting Pipelines with LangGraph</a>
             </h3>
             <p class="article-card-desc">
-              Moving beyond naive static chunking to stateful, self-evaluating retrieval agents. Features an autonomous document grader, query rewriter, and fallback decision trees using LangGraph.
+              Moving beyond naive static chunking to stateful, self-evaluating retrieval loops. Features an autonomous document grader, query rewrite agent, and fallback decision trees using LangGraph.
             </p>
             <div class="article-card-footer">
               <a href="articles/agentic-rag-routing-and-crag.html">Read Full Deep-Dive &rarr;</a>
@@ -410,11 +410,11 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Multi-Agent Systems</span>
+              <span class="article-tag">Multi-Agent Systems &bull; Part 1</span>
               <span>Sept 2026 &bull; 16 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/multi-agent-systems-orchestration.html">Architecting Production Multi-Agent Systems: Hierarchical Supervisors, Swarms, and Model Context Protocol (MCP)</a>
+              <a href="articles/multi-agent-systems-orchestration.html">Why Most Multi-Agent Swarms Fail in Production</a>
             </h3>
             <p class="article-card-desc">
               Why monolithic God-prompt LLMs fail under complex workflows. How to architect hierarchical supervisors, peer swarms, and standardize tool execution via the Model Context Protocol (MCP).
@@ -432,11 +432,11 @@
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Reliability &amp; Tracing</span>
+              <span class="article-tag">Multi-Agent Systems &bull; Part 2</span>
               <span>Sept 2026 &bull; 17 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/multi-agent-failure-modes-and-observability.html">The Hard Failure Modes of Multi-Agent Systems: Cascading Hallucinations, Deadlocks, and Distributed Tracing</a>
+              <a href="articles/multi-agent-failure-modes-and-observability.html">Debugging Multi-Agent Systems: The 3 AM Runaway Loop</a>
             </h3>
             <p class="article-card-desc">
               Emergent multi-agent bugs: circular ping-pong deadlocks and context drift. Complete guide to OpenTelemetry parent-child trace instrumentation and hard token circuit breakers.
@@ -450,21 +450,43 @@
         <!-- Article 7 -->
         <article class="article-card">
           <div class="article-card-thumb">
-            <img src="assets/images/multi-agent-security-hero.jpg" alt="Multi-Agent Security and HITL Guardrails" loading="lazy" />
+            <img src="assets/images/multi-agent-security-hero.jpg" alt="Multi-Agent Security and Capability Sandboxing" loading="lazy" />
           </div>
           <div class="article-card-body">
             <div class="article-meta-row">
-              <span class="article-tag">Security &amp; HITL</span>
-              <span>Sept 2026 &bull; 18 min read</span>
+              <span class="article-tag">Multi-Agent Systems &bull; Part 3</span>
+              <span>Sept 2026 &bull; 13 min read</span>
             </div>
             <h3 class="article-card-title">
-              <a href="articles/multi-agent-security-guardrails-and-hitl.html">Securing Autonomous Multi-Agent Networks: Indirect Prompt Injection, Privilege Escalation, and Human-in-the-Loop Gating</a>
+              <a href="articles/multi-agent-security-guardrails-and-hitl.html">Securing Autonomous Agents: Stopping the Confused Deputy Attack</a>
             </h3>
             <p class="article-card-desc">
-              When agents have real tool access, prompt injection becomes remote code execution. Complete architectural blueprint for 3-tier capability sandboxing and cryptographic HMAC Human-in-the-Loop gates.
+              The Trojan Resume exploit in production. How indirect prompt injections weaponize privileged tool execution agents, and how to enforce Bell-LaPadula information flow control and 3-tier capability sandboxing.
             </p>
             <div class="article-card-footer">
               <a href="articles/multi-agent-security-guardrails-and-hitl.html">Read Full Deep-Dive &rarr;</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Article 8 -->
+        <article class="article-card">
+          <div class="article-card-thumb">
+            <img src="assets/images/multi-agent-hitl-hero.jpg" alt="Human-in-the-Loop Dual-Key Approvals" loading="lazy" />
+          </div>
+          <div class="article-card-body">
+            <div class="article-meta-row">
+              <span class="article-tag">Multi-Agent Systems &bull; Part 4</span>
+              <span>Sept 2026 &bull; 14 min read</span>
+            </div>
+            <h3 class="article-card-title">
+              <a href="articles/multi-agent-human-in-the-loop-dual-key.html">Human-in-the-Loop for AI Agents: Cryptographic Dual-Key Approvals</a>
+            </h3>
+            <p class="article-card-desc">
+              When autonomy must halt for irreversible actions. How to build durable state suspension, asynchronous approval queues, and cryptographic HMAC-SHA256 signature validation with LangGraph interrupts.
+            </p>
+            <div class="article-card-footer">
+              <a href="articles/multi-agent-human-in-the-loop-dual-key.html">Read Full Deep-Dive &rarr;</a>
             </div>
           </div>
         </article>

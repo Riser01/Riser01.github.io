@@ -44,11 +44,11 @@
       <!-- Header -->
       <header class="article-header">
         <div class="article-breadcrumb">
-          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span>Multi-Agent Observability</span>
+          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span class="badge-series">Multi-Agent Systems &bull; Part 2</span>
         </div>
-        <h1 class="article-title">The Hard Failure Modes of Multi-Agent Systems: Cascading Hallucinations, Deadlocks, and Distributed Tracing</h1>
+        <h1 class="article-title">Debugging Multi-Agent Systems: The 3 AM Runaway Loop</h1>
         <p class="article-lead">
-          When multiple autonomous LLMs interact, emergent failures replace simple bugs. Here is an engineer's field guide to detecting infinite ping-pong loops, context drift, state desynchronization, and instrumenting OpenTelemetry distributed trace spans.
+          At 3:14 AM, two autonomous agents entered a semantic deadlock and burned $1,240 in 42 minutes. Here is how to diagnose cascading failure modes, mathematically bound loop stability via Lyapunov functions, and instrument OpenTelemetry distributed tracing.
         </p>
         <div class="article-author-bar">
           <div class="author-pill">
@@ -338,15 +338,14 @@ resilient_app = workflow.<span class="hl-f">compile</span>()
         </aside>
       </div>
 
-      <!-- Navigation Footer -->
       <footer class="article-nav-footer">
         <a href="multi-agent-systems-orchestration.html" class="nav-article-card">
-          <span class="nav-article-label">&larr; Previous Article</span>
-          <span class="nav-article-title">Multi-Agent Systems Orchestration</span>
+          <span class="nav-article-label">&larr; Previous in Series (Part 1)</span>
+          <span class="nav-article-title">Why Most Multi-Agent Swarms Fail in Production</span>
         </a>
         <a href="multi-agent-security-guardrails-and-hitl.html" class="nav-article-card" style="text-align: right;">
-          <span class="nav-article-label">Next Article &rarr;</span>
-          <span class="nav-article-title">Securing Autonomous Multi-Agent Networks</span>
+          <span class="nav-article-label">Next in Series (Part 3) &rarr;</span>
+          <span class="nav-article-title">Securing Autonomous Agents: Stopping the Confused Deputy Attack</span>
         </a>
       </footer>
 

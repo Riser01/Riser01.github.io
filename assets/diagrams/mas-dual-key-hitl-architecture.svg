@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 440" width="100%" height="100%" style="background: #090d16; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="470" y="38" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">3-Tier Defense: Cryptographic Sandboxing &amp; Dual-Key HITL Gating</text>
+  <text x="470" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Zero-Trust Agent Architecture with Mandatory Human Approval for State-Mutating Operations</text>
+
+  <!-- Tier 1: Read-Only Tier -->
+  <g transform="translate(30, 95)">
+    <rect width="260" height="300" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="15" y="15" width="230" height="30" rx="4" fill="rgba(16, 185, 129, 0.15)"/>
+    <text x="130" y="36" text-anchor="middle" fill="#10b981" font-size="12" font-weight="700">Tier 1: Read-Only Autonomy</text>
+
+    <text x="20" y="70" fill="#cbd5e1" font-size="11" font-weight="600">Allowed Tool Calls (Unrestricted):</text>
+    <text x="20" y="92" fill="#94a3b8" font-size="10">• Document Retrieval (RAG)</text>
+    <text x="20" y="108" fill="#94a3b8" font-size="10">• Web Search (Tavily/Google)</text>
+    <text x="20" y="124" fill="#94a3b8" font-size="10">• Read-only SQL (SELECT only)</text>
+    <text x="20" y="140" fill="#94a3b8" font-size="10">• Code Linting &amp; Static Analysis</text>
+
+    <rect x="15" y="180" width="230" height="90" rx="6" fill="#131c31"/>
+    <text x="25" y="202" fill="#10b981" font-size="11" font-weight="600">Security Invariant:</text>
+    <text x="25" y="222" fill="#94a3b8" font-size="10">Zero side-effects.</text>
+    <text x="25" y="238" fill="#94a3b8" font-size="10">State cannot be permanently altered.</text>
+  </g>
+
+  <!-- Tier 2: Ephemeral Sandbox -->
+  <g transform="translate(320, 95)">
+    <rect width="280" height="300" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="15" y="15" width="250" height="30" rx="4" fill="rgba(56, 189, 248, 0.15)"/>
+    <text x="140" y="36" text-anchor="middle" fill="#38bdf8" font-size="12" font-weight="700">Tier 2: Ephemeral Sandboxing</text>
+
+    <text x="20" y="70" fill="#cbd5e1" font-size="11" font-weight="600">Isolated Execution Environments:</text>
+    <text x="20" y="92" fill="#94a3b8" font-size="10">• Docker / gVisor MicroVMs</text>
+    <text x="20" y="108" fill="#94a3b8" font-size="10">• Zero internet egress access</text>
+    <text x="20" y="124" fill="#94a3b8" font-size="10">• 10-second hard execution timeout</text>
+    <text x="20" y="140" fill="#94a3b8" font-size="10">• Non-root user with 256MB RAM cap</text>
+
+    <rect x="15" y="180" width="250" height="90" rx="6" fill="#131c31"/>
+    <text x="25" y="202" fill="#38bdf8" font-size="11" font-weight="600">Containment Boundary:</text>
+    <text x="25" y="222" fill="#94a3b8" font-size="10">Even if prompt injection succeeds,</text>
+    <text x="25" y="238" fill="#94a3b8" font-size="10">payload is trapped inside wiped VM.</text>
+  </g>
+
+  <!-- Tier 3: Dual-Key Human Approval Gate -->
+  <g transform="translate(630, 95)">
+    <rect width="280" height="300" rx="8" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
+    <rect x="15" y="15" width="250" height="30" rx="4" fill="rgba(168, 85, 247, 0.2)"/>
+    <text x="140" y="36" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="700">Tier 3: Dual-Key HITL Approval</text>
+
+    <text x="20" y="70" fill="#cbd5e1" font-size="11" font-weight="600">State-Mutating Critical Actions:</text>
+    <text x="20" y="92" fill="#e9d5ff" font-size="10">• SQL INSERT / UPDATE / DELETE</text>
+    <text x="20" y="108" fill="#e9d5ff" font-size="10">• Financial Wire / Card Transaction</text>
+    <text x="20" y="124" fill="#e9d5ff" font-size="10">• Production Git Commit / Release</text>
+    <text x="20" y="140" fill="#e9d5ff" font-size="10">• Dispatching Customer Emails</text>
+
+    <rect x="15" y="165" width="250" height="115" rx="6" fill="#2e1065" stroke="#a855f7"/>
+    <text x="140" y="188" text-anchor="middle" fill="#f8fafc" font-size="11" font-weight="700">LangGraph interrupt() Gate</text>
+    <text x="25" y="210" fill="#e9d5ff" font-size="9">1. Graph execution pauses state in Redis</text>
+    <text x="25" y="225" fill="#e9d5ff" font-size="9">2. Dispatches Slack/Webhook approval prompt</text>
+    <text x="25" y="240" fill="#e9d5ff" font-size="9">3. Requires signed HMAC token to resume</text>
+    <text x="25" y="255" fill="#a7f3d0" font-size="9">&#x2714; Zero unapproved production mutations</text>
+  </g>
+</svg>
