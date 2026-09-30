@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Technical Publications & Articles | Prajwal Rao</title>
+  <meta name="description" content="In-depth technical publications on Retrieval-Augmented Generation (RAG), multimodal AI, evaluation frameworks, and agentic cognitive routing by Prajwal Rao." />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="../index.html" class="brand-logo">
+        <span class="brand-badge">PR</span>
+        <span>Prajwal Rao</span>
+      </a>
+      <nav class="main-nav">
+        <a href="../index.html">Overview</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="index.html" class="active">Articles</a>
+        <a href="../index.html#interactive-rrf">RRF Simulator</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          ☀️ <span>Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding-top: 3.5rem; padding-bottom: 5rem;">
+    
+    <div style="margin-bottom: 3rem;">
+      <h1 style="font-size: clamp(2.2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.75rem;">
+        Technical Articles & Systems Research
+      </h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); max-width: 750px;">
+        Engineering teardowns, mathematical formulations, and production architectural playbooks designed for both novice intuition and intermediate/senior engineering rigor.
+      </p>
+    </div>
+
+    <!-- Article 1 -->
+    <div class="article-row">
+      <div class="article-row-content">
+        <span class="card-tag">Multimodal RAG &bull; Document AI</span>
+        <h3>
+          <a href="multimodal-rag-image-extraction.html">Visual RAG & Multimodal Knowledge Extraction: From Tesseract OCR to ColPali & Vision LLMs</a>
+        </h3>
+        <p>
+          Why traditional text-only parsers scramble balance sheets, tables, and diagrams. A deep dive into VLM Markdown generation vs. native patch-level Late Interaction with ColPali.
+        </p>
+        <div class="article-meta">
+          <span>Sept 2026</span>
+          <span>&bull;</span>
+          <span>14 min read</span>
+          <span>&bull;</span>
+          <span>Python 3.12, PyMuPDF, ColPali</span>
+        </div>
+      </div>
+      <div class="article-badge-col">
+        <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+        <a href="multimodal-rag-image-extraction.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Read Article &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Article 2 -->
+    <div class="article-row">
+      <div class="article-row-content">
+        <span class="card-tag">Evaluation & MLOps</span>
+        <h3>
+          <a href="rag-system-evaluation-and-metrics.html">The Production RAG Evaluation Playbook: How to Measure, Score, and Debug Retrieval Pipelines</a>
+        </h3>
+        <p>
+          Moving beyond vibes-based testing. Comprehensive guide to the RAG Triad, Hit Rate@K, Mean Reciprocal Rank (MRR), NDCG@10, and bias-dampened LLM-as-a-judge CI/CD gates.
+        </p>
+        <div class="article-meta">
+          <span>Sept 2026</span>
+          <span>&bull;</span>
+          <span>16 min read</span>
+          <span>&bull;</span>
+          <span>Ragas, TruLens, NDCG, Gemini 2.0</span>
+        </div>
+      </div>
+      <div class="article-badge-col">
+        <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+        <a href="rag-system-evaluation-and-metrics.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Read Article &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Article 3 -->
+    <div class="article-row">
+      <div class="article-row-content">
+        <span class="card-tag">Information Retrieval & Search</span>
+        <h3>
+          <a href="hybrid-retrieval-rrf-and-fusion.html">Hybrid Retrieval & Fusion Science: Merging Dense, Sparse, and Late Interaction (and Solving the 1-Keyword Delta)</a>
+        </h3>
+        <p>
+          The mathematics of Reciprocal Rank Fusion ($k=60$). How to solve subtle semantic collisions ("shoes" vs "electronics" at 0.975 cosine similarity) with cross-encoders. Includes live interactive playground!
+        </p>
+        <div class="article-meta">
+          <span>Sept 2026</span>
+          <span>&bull;</span>
+          <span>18 min read</span>
+          <span>&bull;</span>
+          <span>BM25, Qdrant, RRF, Cross-Encoders</span>
+        </div>
+      </div>
+      <div class="article-badge-col">
+        <span class="badge-reading-level">Interactive Widget &bull; Novice &rarr; Advanced</span>
+        <a href="hybrid-retrieval-rrf-and-fusion.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Read Article &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Article 4 -->
+    <div class="article-row">
+      <div class="article-row-content">
+        <span class="card-tag">Agentic Orchestration</span>
+        <h3>
+          <a href="agentic-rag-routing-and-crag.html">Agentic RAG & Cognitive Routing: Building Self-Correcting Retrieval with LangGraph</a>
+        </h3>
+        <p>
+          Architecting stateful retrieval loops. Features an autonomous document grader, query rewrite agent, and fallback degradation trees using LangGraph and Gemini 2.0 Flash.
+        </p>
+        <div class="article-meta">
+          <span>Sept 2026</span>
+          <span>&bull;</span>
+          <span>15 min read</span>
+          <span>&bull;</span>
+          <span>LangGraph, StateGraph, CRAG, Python</span>
+        </div>
+      </div>
+      <div class="article-badge-col">
+        <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+        <a href="agentic-rag-routing-and-crag.html" class="btn btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">Read Article &rarr;</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>&copy; 2026 Prajwal Rao. Built for high-reliability systems and distributed AI.</div>
+      <div class="footer-links">
+        <a href="https://github.com/Riser01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:prajwalrao56@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

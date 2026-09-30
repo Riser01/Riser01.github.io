@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Production RAG Evaluation Playbook: Measuring Retrieval & Faithfulness | Prajwal Rao</title>
+  <meta name="description" content="A rigorous guide to measuring, scoring, and benchmarking RAG pipelines in production using classical IR ranking metrics and LLM-as-a-judge frameworks." />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/article.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="../index.html" class="brand-logo">
+        <span class="brand-badge">PR</span>
+        <span>Prajwal Rao</span>
+      </a>
+      <nav class="main-nav">
+        <a href="../index.html">Overview</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="index.html" class="active">Articles</a>
+        <a href="../index.html#interactive-rrf">RRF Simulator</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          ☀️ <span>Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <article>
+      <header class="article-header">
+        <div class="article-breadcrumb">
+          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span>Evaluation & Metrics</span>
+        </div>
+        <h1 class="article-title">The Production RAG Evaluation Playbook: How to Measure, Score, and Debug Retrieval Pipelines</h1>
+        <p class="article-lead">
+          Stop evaluating RAG systems by eyeball tests. Learn how to combine classical Information Retrieval (IR) ranking metrics with calibrated LLM-as-a-judge frameworks for reliable production quality gates.
+        </p>
+        <div class="article-author-bar">
+          <div class="author-pill">
+            <div class="author-avatar">PR</div>
+            <span>Prajwal Rao &bull; Senior AI / Autonomous Systems Engineer</span>
+          </div>
+          <span>&bull;</span>
+          <span>September 2026</span>
+          <span>&bull;</span>
+          <span>16 min read</span>
+          <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+        </div>
+      </header>
+
+      <div class="article-layout">
+        <div class="article-content">
+
+          <h2 id="why-eyeball-tests-fail">1. The "Vibes-Based" Evaluation Trap</h2>
+          <p>
+            When teams first build a RAG prototype, evaluation usually consists of 5 internal engineers typing a few questions into a web UI and remarking: <em>"Looks pretty good!"</em>
+          </p>
+          <p>
+            Three weeks later in production, disaster strikes:
+          </p>
+          <ul>
+            <li>The system hallucinates an SLA deadline because the retriever grabbed a draft contract instead of the executed amendment.</li>
+            <li>The model answers a query correctly, but cites a completely irrelevant policy document (silent context corruption).</li>
+            <li>A small tweak to chunk overlap boosts recall on marketing documents while quietly cratering retrieval precision on API documentation by 24%.</li>
+          </ul>
+
+          <div class="callout callout-novice">
+            <div class="callout-header">💡 The 2-Minute Intuition (Novice Track): The Courtroom Trial</div>
+            <p>
+              Think of a RAG pipeline as a high-stakes court trial:
+            </p>
+            <ul>
+              <li><strong>The Detective (Retriever):</strong> Gathers evidence files from the archives. Did the detective find the real murder weapon (Context Recall), or just bring 10 bags of irrelevant office trash (Context Precision)?</li>
+              <li><strong>The Witness (Generator LLM):</strong> Testifies in front of the judge based <em>strictly</em> on the evidence bags. Did the witness stick to the evidence (Faithfulness), or invent a fictional backstory out of thin air (Hallucination)?</li>
+              <li><strong>The Answer:</strong> Did the testimony actually address the attorney's specific question (Answer Relevance)?</li>
+            </ul>
+          </div>
+
+          <h2 id="the-rag-triad">2. The 3 Core Evaluation Dimensions</h2>
+          <p>
+            A robust evaluation framework separates the <strong>Retriever</strong> from the <strong>Generator</strong>. Scoring both together as a single black box makes root-cause debugging impossible.
+          </p>
+
+          <div class="table-responsive">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Dimension</th>
+                  <th>Component Judged</th>
+                  <th>Core Question</th>
+                  <th>Target Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Context Relevance</strong></td>
+                  <td>Retriever</td>
+                  <td>Are all retrieved passages strictly necessary to answer the question?</td>
+                  <td>&ge; 0.85</td>
+                </tr>
+                <tr>
+                  <td><strong>Faithfulness (Groundedness)</strong></td>
+                  <td>Generator</td>
+                  <td>Can every factual claim in the generated answer be traced to the retrieved passages?</td>
+                  <td>&ge; 0.98</td>
+                </tr>
+                <tr>
+                  <td><strong>Answer Relevance</strong></td>
+                  <td>Generator</td>
+                  <td>Does the answer directly address the user's explicit intent without rambling?</td>
+                  <td>&ge; 0.90</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2 id="retrieval-ranking-math">3. Classical IR Metrics: Hit Rate, MRR, and NDCG@10</h2>
+          <p>
+            Before involving an expensive LLM judge, you should measure your retrieval engine using deterministic mathematical formulas against a golden dataset of query-passage pairs.
+          </p>
+
+          <h3>A. Hit Rate @ K</h3>
+          <p>
+            The simplest metric: what percentage of queries successfully contain at least one ground-truth relevant document in the Top $K$ results?
+          </p>
+          <div class="math-block">
+            \text{Hit Rate}@K = \frac{1}{|Q|} \sum_{q \in Q} \mathbb{I}\left( \text{relevant passage} \in \text{Top } K(q) \right)
+          </div>
+
+          <h3>B. Mean Reciprocal Rank (MRR)</h3>
+          <p>
+            Hit Rate ignores <em>where</em> the correct document landed. If the correct document is at rank #1, that is vastly better than rank #10. MRR rewards higher rank placement:
+          </p>
+          <div class="math-block">
+            \text{MRR} = \frac{1}{|Q|} \sum_{i=1}^{|Q|} \frac{1}{\text{rank}_i}
+          </div>
+
+          <h3>C. Normalized Discounted Cumulative Gain (NDCG@K)</h3>
+          <p>
+            When queries have multiple relevant passages with graduated relevance (e.g., highly relevant = 3, marginally relevant = 1, irrelevant = 0), <strong>NDCG@K</strong> is the gold standard used by major search engines:
+          </p>
+          <div class="math-block">
+            \text{DCG}@K = \sum_{i=1}^{K} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}, \quad \text{NDCG}@K = \frac{\text{DCG}@K}{\text{IDCG}@K}
+          </div>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Python 3.12 &bull; evaluate_retrieval.py</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>import math
+from typing import List, Set
+
+def compute_mrr(retrieved_ids: List[str], ground_truth_ids: Set[str]) -> float:
+    """Computes Reciprocal Rank for a single query."""
+    for rank, doc_id in enumerate(retrieved_ids, start=1):
+        if doc_id in ground_truth_ids:
+            return 1.0 / rank
+    return 0.0
+
+def compute_ndcg_at_k(retrieved_ids: List[str], relevance_scores: dict, k: int = 10) -> float:
+    """Computes Normalized Discounted Cumulative Gain at rank K."""
+    top_k = retrieved_ids[:k]
+    dcg = sum(
+        (2 ** relevance_scores.get(doc_id, 0) - 1) / math.log2(idx + 2)
+        for idx, doc_id in enumerate(top_k)
+    )
+    
+    # Ideal ranking (sorted by true relevance descending)
+    ideal_scores = sorted(relevance_scores.values(), reverse=True)[:k]
+    idcg = sum(
+        (2 ** score - 1) / math.log2(idx + 2)
+        for idx, score in enumerate(ideal_scores)
+    )
+    
+    return dcg / idcg if idcg > 0 else 0.0
+</code></pre>
+          </div>
+
+          <h2 id="llm-as-a-judge">4. Calibrated LLM-as-a-Judge for Generation Rigor</h2>
+          <p>
+            To evaluate <strong>Faithfulness</strong> automatically without human annotation, we instruct a high-capability judge model (e.g. Gemini 2.0 Flash) to decompose the generated response into atomic factual claims, and verify each claim individually against the context.
+          </p>
+
+          <div class="callout callout-deepdive">
+            <div class="callout-header">⚙️ Production Engineering (Intermediate Track): Preventing Judge Sycophancy</div>
+            <p>
+              LLM judges suffer from 3 notorious biases:
+            </p>
+            <ol>
+              <li><strong>Position Bias:</strong> Favoring documents presented at the beginning or end of context.</li>
+              <li><strong>Verbosity Bias:</strong> Giving higher scores to longer, fluffier responses.</li>
+              <li><strong>Self-Preference:</strong> Giving higher scores to responses produced by the same model family.</li>
+            </ol>
+            <p>
+              <strong>The Fix:</strong> Never ask for a subjective 1–5 score. Force the judge into a binary breakdown:
+              1) Extract atomic statements: <code>["Claim 1", "Claim 2", ...]</code>.
+              2) For each statement, output strictly <code>VERIFIED</code> (cite passage span) or <code>UNVERIFIED</code>.
+              3) Faithfulness = $\frac{|\text{VERIFIED}|}{|\text{TOTAL CLAIMS}|}$.
+            </p>
+          </div>
+
+          <h2 id="ci-cd-quality-gates">5. Integrating Evaluation into CI/CD Gates</h2>
+          <p>
+            Every time a developer changes chunk size, embedding models, prompt templates, or vector distance metrics, run an automated regression test suite before merging:
+          </p>
+          <ul>
+            <li><strong>Regression Threshold:</strong> Fail build if Mean MRR drops by more than 0.02.</li>
+            <li><strong>Zero Hallucination Gate:</strong> Fail build if Faithfulness on critical security/compliance golden questions is below 1.0.</li>
+            <li><strong>Cost Gate:</strong> Fail build if P95 context token count exceeds 3,500 tokens.</li>
+          </ul>
+
+        </div>
+
+        <aside class="sidebar-toc">
+          <div class="toc-title">Table of Contents</div>
+          <ul class="toc-list">
+            <li><a href="#why-eyeball-tests-fail">1. The "Vibes" Trap</a></li>
+            <li><a href="#the-rag-triad">2. The 3 Core Dimensions</a></li>
+            <li><a href="#retrieval-ranking-math">3. Classical IR Metrics</a></li>
+            <li><a href="#llm-as-a-judge">4. Calibrated LLM-as-a-Judge</a></li>
+            <li><a href="#ci-cd-quality-gates">5. CI/CD Quality Gates</a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <footer class="article-nav-footer">
+        <a href="multimodal-rag-image-extraction.html" class="nav-article-card">
+          <span class="nav-article-label">&larr; Previous Article</span>
+          <span class="nav-article-title">Visual RAG & Multimodal Knowledge Extraction</span>
+        </a>
+        <a href="hybrid-retrieval-rrf-and-fusion.html" class="nav-article-card" style="text-align: right;">
+          <span class="nav-article-label">Next Article &rarr;</span>
+          <span class="nav-article-title">Hybrid Retrieval & Fusion Science</span>
+        </a>
+      </footer>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>&copy; 2026 Prajwal Rao. Built for high-reliability systems and distributed AI.</div>
+      <div class="footer-links">
+        <a href="https://github.com/Riser01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:prajwalrao56@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

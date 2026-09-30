@@ -1,0 +1,20 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python & Node
+__pycache__/
+*.pyc
+node_modules/
+.env
+
+# Scratch & Internal Planning (Must not be committed to GitHub)
+scratch/
+TRACKER.md
+DESIGN.md
+ADVERSARIAL_REVIEWS.md
+ASSUMPTIONS.md
+RESEARCH_BRIEF.md
+IMPROVEMENTS.md

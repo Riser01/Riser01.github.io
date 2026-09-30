@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-8.4.2, pluggy-1.6.0 -- /opt/homebrew/Caskroom/miniforge/base/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /Users/prajwal/praj_work/praj_personal
+plugins: anyio-4.14.2
+collecting ... collected 12 items
+
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[index.html] PASSED [  8%]
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[articles/index.html] PASSED [ 16%]
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[articles/multimodal-rag-image-extraction.html] PASSED [ 25%]
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[articles/rag-system-evaluation-and-metrics.html] PASSED [ 33%]
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[articles/hybrid-retrieval-rrf-and-fusion.html] PASSED [ 41%]
+projects/personal-website/tests/test_html_structure.py::test_html_files_exist_and_valid[articles/agentic-rag-routing-and-crag.html] PASSED [ 50%]
+projects/personal-website/tests/test_html_structure.py::test_relative_links_integrity PASSED [ 58%]
+projects/personal-website/tests/test_html_structure.py::test_interactive_rrf_elements PASSED [ 66%]
+projects/personal-website/tests/test_html_structure.py::test_dual_tier_callouts_in_articles PASSED [ 75%]
+projects/personal-website/tests/test_user_simulation.py::test_user_simulation_default_rrf PASSED [ 83%]
+projects/personal-website/tests/test_user_simulation.py::test_user_simulation_heavy_dense_bias PASSED [ 91%]
+projects/personal-website/tests/test_user_simulation.py::test_user_simulation_heavy_sparse_bias PASSED [100%]
+
+============================== 12 passed in 0.09s ==============================
