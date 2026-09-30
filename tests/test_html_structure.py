@@ -49,7 +49,7 @@ def test_relative_links_integrity():
         with open(full_path, "r", encoding="utf-8") as f:
             soup = BeautifulSoup(f.read(), "html.parser")
             
-        links = soup.find_all(["a", "link", "script"])
+        links = soup.find_all(["a", "link", "script", "img"])
         for tag in links:
             target = tag.get("href") or tag.get("src")
             if not target or target.startswith(("http", "https", "mailto:", "#")):

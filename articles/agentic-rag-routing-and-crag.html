@@ -52,15 +52,15 @@
           <span>15 min read</span>
           <span class="badge-reading-level">Novice &rarr; Intermediate</span>
         </div>
+
+        <!-- Editorial Hero Graphic -->
+        <div class="article-hero-banner">
+          <img src="../assets/images/agentic-rag-hero.jpg" alt="Agentic RAG and Cognitive Routing Hero Banner" />
+        </div>
       </header>
 
       <div class="article-layout">
         <div class="article-content">
-
-          <!-- Hero Cover Image -->
-          <div style="margin-bottom: 2.5rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
-            <img src="../assets/images/agentic-rag-hero.jpg" alt="Agentic RAG and Cognitive Routing" style="width: 100%; height: auto; display: block;" />
-          </div>
 
           <div class="callout callout-warning">
             <div class="callout-header">⚠️ The Real-World War Story: The $40,000 Hallucinated Guarantee</div>
@@ -73,8 +73,11 @@
           </div>
 
           <!-- Naive vs Agentic Diagram -->
-          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-            <img src="../assets/diagrams/naive-vs-agentic-loop.svg" alt="Naive Conveyor Belt vs Agentic Self-Correcting Loop" style="width: 100%; height: auto; display: block;" />
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/naive-vs-agentic-loop.svg" alt="Naive Conveyor Belt vs Agentic Self-Correcting Loop" />
+            <div class="article-diagram-caption">
+              <span>Figure 1: Architectural Comparison — Moving from brittle single-pass pipes to closed-loop cognitive reflection.</span>
+            </div>
           </div>
 
           <div class="callout callout-novice">
@@ -93,26 +96,19 @@
 
           <h2 id="crag-architecture">2. Corrective RAG (CRAG) Architecture</h2>
           <p>
-            Corrective RAG (CRAG) introduces an autonomous <strong>Document Evaluator</strong> node into the graph.
+            Corrective RAG (CRAG) introduces an autonomous <strong>Document Evaluator</strong> node into the graph. When the retrieved context falls short, the system doesn't surrender to hallucination — it triggers intelligent query expansion and external search fallbacks.
           </p>
 
-          <div class="code-wrapper">
-            <div class="code-header">
-              <span>Mermaid Architecture Flow</span>
+          <p>
+            Think of query rewriting like a <strong>customer walking into a hardware store</strong>. The customer asks: <em>"Where are the sticky silver rolls?"</em> A naive clerk shrugs and says <em>"We don't sell sticky silver rolls."</em> But an experienced clerk rewrites the query in their head: <em>"Ah, they mean duct tape or HVAC foil tape."</em> They guide the customer to Aisle 4. If the initial search comes up empty, an agentic query rewriter performs that exact translation — decomposing vague vernacular into precise domain terminology before making a second attempt.
+          </p>
+
+          <!-- CRAG Loop & Guardrails Diagram -->
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/crag-loop-guardrails.svg" alt="CRAG State Loop with Hard Circuit Breakers" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: Production CRAG Loop — Document evaluation, query rewriting, and hard retry circuit breakers to prevent infinite loops.</span>
             </div>
-            <pre><code>flowchart TD
-    UserQuery[User Query] --> RetrieveDocs[Retrieve Top K Documents]
-    RetrieveDocs --> GradeDocs{Document Evaluator Node}
-    
-    GradeDocs -->|Context Relevant & Sufficient| Generator[Generate Grounded Answer]
-    GradeDocs -->|Context Irrelevant / Ambiguous| RewriteQuery[Query Transformation Node]
-    
-    RewriteQuery --> WebSearch[External Search / Fallback DB]
-    WebSearch --> Generator
-    
-    Generator --> HallucinationCheck{Self-RAG Hallucination Gate}
-    HallucinationCheck -->|Pass| FinalOutput([Deliver Final Response])
-    HallucinationCheck -->|Fail| Generator</code></pre>
           </div>
 
           <h2 id="langgraph-implementation">3. Production Implementation with LangGraph</h2>
@@ -138,6 +134,7 @@ class AgentState(TypedDict):
     rewritten_query: str
     generation: str
     grade_status: str  # "PASS" or "RETRY"
+    retry_count: int   # Hard circuit breaker counter
 
 # Node 1: Document Retrieval (Hybrid / Vector Mock)
 def retrieve_node(state: AgentState) -> dict:
@@ -165,21 +162,33 @@ def grade_documents_node(state: AgentState) -> dict:
 
 # Node 3: Query Rewriter Node (Fires if retrieval failed)
 def rewrite_query_node(state: AgentState) -> dict:
-    model = genai.GenerativeModel("gemini-2.0-flash")
+    current_retries = state.get("retry_count", 0)
     # Expands query with semantic synonyms
     new_query = f"{state['question']} ColPali multi-vector late interaction"
-    return {"rewritten_query": new_query}
+    return {
+        "rewritten_query": new_query,
+        "retry_count": current_retries + 1
+    }
 
 # Node 4: Answer Generator
 def generate_node(state: AgentState) -> dict:
     model = genai.GenerativeModel("gemini-2.0-flash")
     context = "\n".join(state["documents"])
     prompt = f"Answer the user question using ONLY the provided context:\nContext:\n{context}\n\nQuestion:\n{state['question']}"
-    return {"generation": f"Based on the retrieved context, ColPali uses visual patch embeddings to enable direct visual retrieval."}
+    return {"generation": "Based on the retrieved context, ColPali uses visual patch embeddings to enable direct visual retrieval."}
 
-# Routing function
+# Node 5: Graceful Fallback Node (Prevents runaway cost / latency)
+def fallback_node(state: AgentState) -> dict:
+    return {"generation": "I searched the knowledge base and refined queries twice, but could not find verified context to safely answer this question."}
+
+# Routing function with Hard Circuit Breaker
 def route_grade(state: AgentState) -> str:
-    return "generate" if state["grade_status"] == "PASS" else "rewrite"
+    if state["grade_status"] == "PASS":
+        return "generate"
+    # Circuit breaker: abort circular loop if retries exhausted
+    if state.get("retry_count", 0) >= 2:
+        return "fallback"
+    return "rewrite"
 
 # Build the StateGraph
 workflow = StateGraph(AgentState)
@@ -187,15 +196,18 @@ workflow.add_node("retrieve", retrieve_node)
 workflow.add_node("grade_docs", grade_documents_node)
 workflow.add_node("rewrite", rewrite_query_node)
 workflow.add_node("generate", generate_node)
+workflow.add_node("fallback", fallback_node)
 
 workflow.set_entry_point("retrieve")
 workflow.add_edge("retrieve", "grade_docs")
 workflow.add_conditional_edges("grade_docs", route_grade, {
     "generate": "generate",
-    "rewrite": "rewrite"
+    "rewrite": "rewrite",
+    "fallback": "fallback"
 })
 workflow.add_edge("rewrite", "retrieve")
 workflow.add_edge("generate", END)
+workflow.add_edge("fallback", END)
 
 app = workflow.compile()
 </code></pre>
