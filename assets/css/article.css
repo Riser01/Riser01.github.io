@@ -13,6 +13,7 @@
   font-size: 0.82rem;
   color: var(--text-dim);
   margin-bottom: 1.25rem;
+  flex-wrap: wrap;
 }
 
 .article-breadcrumb a {
@@ -75,6 +76,10 @@
   font-size: 1.05rem;
   line-height: 1.75;
   color: #e2e8f0;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 [data-theme="light"] .article-content {
@@ -284,6 +289,8 @@
   border-radius: var(--radius-md);
   margin: 2rem 0;
   overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
   text-align: center;
   font-size: 1.12rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -292,6 +299,11 @@
 
 .katex-display {
   margin: 0.5rem 0 !important;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.25rem 0;
 }
 
 [data-theme="light"] .math-block {
@@ -307,6 +319,7 @@
   border-radius: var(--radius-md);
   margin: 2rem 0;
   overflow: hidden;
+  max-width: 100%;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
@@ -366,6 +379,8 @@
 pre {
   padding: 1.25rem 1.5rem;
   overflow-x: auto;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
   font-family: var(--font-mono);
   font-size: 0.9rem;
   line-height: 1.65;
@@ -528,7 +543,7 @@ p code, li code {
 
 @media (max-width: 992px) {
   .article-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .sidebar-toc {
     display: none;
@@ -621,6 +636,7 @@ p code, li code {
 
 .article-hero-banner img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   max-height: 480px;
   object-fit: cover;
@@ -644,6 +660,7 @@ p code, li code {
 
 .article-diagram-wrapper img {
   width: 100%;
+  max-width: 100%;
   height: auto;
   display: block;
 }
