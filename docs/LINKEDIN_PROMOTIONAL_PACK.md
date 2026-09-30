@@ -31,7 +31,7 @@ Skip OCR and text extraction completely. Pass raw page images through a Vision T
 
 I put together a complete technical breakdown comparing both paradigms — including cost-per-page routing algorithms, latency benchmarks, and runnable Python ingestion pipelines:
 
-🔗 Read the full teardown: https://riser01.github.io/articles/multimodal-rag-image-extraction.html
+🔗 Read the full teardown: https://prajwalrao.is-a.dev/articles/multimodal-rag-image-extraction.html
 
 How is your team handling tables and charts in your document stores today? Are you still relying on OCR heuristics, or moving towards multimodal patch embeddings?
 
@@ -68,7 +68,7 @@ Crucial tip for LLM judges: Never ask for a subjective 1–5 score (models have 
 
 I published our end-to-end evaluation playbook with the exact mathematical equations, Python evaluation scripts, and CI/CD threshold rules:
 
-🔗 Full guide: https://riser01.github.io/articles/rag-system-evaluation-and-metrics.html
+🔗 Full guide: https://prajwalrao.is-a.dev/articles/rag-system-evaluation-and-metrics.html
 
 What evaluation gates do you enforce before pushing retrieval changes to production?
 
@@ -106,7 +106,7 @@ Because a cross-encoder evaluates the concatenated [Query + Document] tokens sim
 
 I built a free interactive browser playground where you can test Reciprocal Rank Fusion and see how documents re-rank as you adjust smoothing constants and weights:
 
-🎛️ Interactive RRF Calculator & Deep Dive: https://riser01.github.io/articles/hybrid-retrieval-rrf-and-fusion.html
+🎛️ Interactive RRF Calculator & Deep Dive: https://prajwalrao.is-a.dev/articles/hybrid-retrieval-rrf-and-fusion.html
 
 Have you hit semantic collision bugs in your vector search? How did you resolve them?
 
@@ -142,7 +142,7 @@ To prevent runaway costs and infinite loops, we enforce three strict guardrails:
 
 I published a complete, runnable LangGraph implementation of a self-correcting RAG pipeline using Google's Gemini 2.0 Flash:
 
-🔗 Read the full code & benchmark breakdown: https://riser01.github.io/articles/agentic-rag-routing-and-crag.html
+🔗 Read the full code & benchmark breakdown: https://prajwalrao.is-a.dev/articles/agentic-rag-routing-and-crag.html
 
 Are you using static retrieval or stateful agent loops in your LLM applications?
 
@@ -170,7 +170,7 @@ The modern 2026 multi-agent architecture is built around three core patterns:
 
 In my latest article, I break down the mathematical convergence of multi-agent state machines, compare communication topologies, and share a runnable LangGraph implementation:
 
-🔗 Read the full guide: https://riser01.github.io/articles/multi-agent-systems-orchestration.html
+🔗 Read the full guide: https://prajwalrao.is-a.dev/articles/multi-agent-systems-orchestration.html
 
 Is your team orchestrating agents with central supervisors or peer swarms?
 
@@ -193,7 +193,7 @@ Is your team orchestrating agents with central supervisors or peer swarms?
 Decouple your database and API tools into independent micro-servers over JSON-RPC. Zero framework lock-in.
 
 Full architectural deep-dive + runnable LangGraph code:
-🔗 https://riser01.github.io/articles/multi-agent-systems-orchestration.html
+🔗 https://prajwalrao.is-a.dev/articles/multi-agent-systems-orchestration.html
 ```
 
 ---
@@ -225,7 +225,7 @@ The engineering solution:
 
 I wrote an in-depth field guide covering the 4 failure modes, mathematical Lyapunov stability conditions for agent loops, and how to instrument distributed tracing:
 
-🔗 Read the full teardown: https://riser01.github.io/articles/multi-agent-failure-modes-and-observability.html
+🔗 Read the full teardown: https://prajwalrao.is-a.dev/articles/multi-agent-failure-modes-and-observability.html
 
 Have you ever witnessed an autonomous agent loop runaway in staging or production?
 
@@ -252,7 +252,7 @@ Here is how to make Multi-Agent Systems observable and resilient:
 • OpenTelemetry parent-child span propagation
 
 Read the complete failure mode autopsy and get the circuit breaker code:
-🔗 https://riser01.github.io/articles/multi-agent-failure-modes-and-observability.html
+🔗 https://prajwalrao.is-a.dev/articles/multi-agent-failure-modes-and-observability.html
 ```
 
 ---
@@ -277,7 +277,7 @@ To secure autonomous multi-agent networks, production systems require a 3-Tier D
 
 In my latest article, I share the complete zero-trust security blueprint, information flow mathematics, and a production LangGraph HITL interrupt implementation:
 
-🔗 Read the full security guide: https://riser01.github.io/articles/multi-agent-security-guardrails-and-hitl.html
+🔗 Read the full security guide: https://prajwalrao.is-a.dev/articles/multi-agent-security-guardrails-and-hitl.html
 
 How does your team handle Human-in-the-Loop approvals for high-stakes agent actions?
 
@@ -300,6 +300,6 @@ Untrusted public data (PDFs/websites) tricks low-privilege research agents into 
 • Tier 3: Irreversible actions gated by cryptographic HMAC human approvals via LangGraph `interrupt()`
 
 Read the complete security blueprint & implementation code:
-🔗 https://riser01.github.io/articles/multi-agent-security-guardrails-and-hitl.html
+🔗 https://prajwalrao.is-a.dev/articles/multi-agent-security-guardrails-and-hitl.html
 ```
 

@@ -6,8 +6,9 @@
 This repository contains the source code for the personal website and technical publications platform of Prajwal Rao (@Riser01). It showcases flagship autonomous AI systems (Murder Mystery Agent Arena, PropAgent MCP, InterviewForge, CareerVault) and features four comprehensive, publication-grade research articles explaining advanced Retrieval-Augmented Generation (RAG) architectures with dual-track novice and intermediate pedagogy.
 
 ## Live Demo & Website
-- **Live URL:** [https://riser01.github.io/](https://riser01.github.io/)
-- **Technical Articles Hub:** [https://riser01.github.io/articles/](https://riser01.github.io/articles/)
+- **Primary Domain:** [https://prajwalrao.is-a.dev/](https://prajwalrao.is-a.dev/)
+- **Fallback URL:** [https://riser01.github.io/](https://riser01.github.io/)
+- **Technical Articles Hub:** [https://prajwalrao.is-a.dev/articles/](https://prajwalrao.is-a.dev/articles/)
 - **Interactive RRF Playground:** Embedded on homepage and inside the hybrid retrieval article.
 
 ## Key Features

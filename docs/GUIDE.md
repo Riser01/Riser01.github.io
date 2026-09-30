@@ -8,7 +8,7 @@ This platform serves two primary purposes:
 The design philosophy favors **zero-maintenance resilience**: zero framework bloat, zero serverless runtime cold starts, zero client-side hydration delays, and instant deployment to GitHub Pages.
 
 ## Layer 2: How It Works — Step by Step
-1. **Request Lifecycle:** When a user visits `https://riser01.github.io/`, GitHub Pages serves static semantic HTML. The browser parses CSS variables from `assets/css/main.css`, achieving First Contentful Paint in <300ms.
+1. **Request Lifecycle:** When a user visits `https://prajwalrao.is-a.dev/`, GitHub Pages serves static semantic HTML. The browser parses CSS variables from `assets/css/main.css`, achieving First Contentful Paint in <300ms.
 2. **Interactive Elements:**
    - Dark/Light Theme: `assets/js/main.js` reads `localStorage.getItem("theme")`, updating `data-theme` attribute on `<html>` without page flash.
    - Filter Grid: Pure DOM attribute queries (`data-category`) toggle project cards with CSS flex transitions.
