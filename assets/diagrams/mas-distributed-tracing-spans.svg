@@ -5,7 +5,7 @@
   <!-- Root Trace Bar -->
   <g transform="translate(40, 80)">
     <rect width="860" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
-    <text x="20" y="25" fill="#f8fafc" font-size="12" font-weight="700">Root Trace: [POST /api/v1/analyze-market] &bull; Total: 2,450ms &bull; 8,420 Tokens &bull; $0.0124</text>
+    <text x="20" y="25" fill="#f8fafc" font-size="12" font-weight="700">Root Trace: [POST /api/v1/analyze-market] • Total: 2,450ms • 8,420 Tokens • $0.0124</text>
   </g>
 
   <!-- Span 1: Supervisor -->

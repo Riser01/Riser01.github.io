@@ -10,7 +10,7 @@
     <text x="132" y="36" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">1. Context Relevance</text>
 
     <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
-    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query &rarr; Retrieved Chunks</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query → Retrieved Chunks</text>
 
     <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
 
@@ -39,7 +39,7 @@
     <text x="132" y="36" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">2. Groundedness (Faithfulness)</text>
 
     <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
-    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Retrieved Chunks &rarr; Answer</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Retrieved Chunks → Answer</text>
 
     <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
 
@@ -68,7 +68,7 @@
     <text x="132" y="36" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700">3. Answer Relevance</text>
 
     <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
-    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query &rarr; Generated Answer</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query → Generated Answer</text>
 
     <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
 

@@ -87,7 +87,7 @@
     <!-- Late Interaction Formula Box -->
     <rect x="25" y="175" width="350" height="85" rx="6" fill="#064e3b" stroke="#10b981"/>
     <text x="35" y="198" fill="#34d399" font-size="11" font-weight="700">Late Interaction Match Formula:</text>
-    <text x="35" y="218" fill="#a7f3d0" font-size="11" font-family="monospace">Score = &Sigma; max_j (q_i &bull; p_j)</text>
+    <text x="35" y="218" fill="#a7f3d0" font-size="11" font-family="monospace">Score = Σ max_j (q_i • p_j)</text>
     <text x="35" y="242" fill="#e2e8f0" font-size="10">Attends directly to the 2D bounding cell in sub-second inference.</text>
 
     <!-- Consequence -->

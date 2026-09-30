@@ -81,11 +81,11 @@
     <!-- Token-Level Repulsion Arrow -->
     <path d="M 195 170 L 205 170" stroke="#f59e0b" stroke-width="2"/>
     <text x="200" y="130" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">BM25 / Token MaxSim</text>
-    <text x="200" y="142" text-anchor="middle" fill="#cbd5e1" font-size="9">Negation Penalty &rarr; Repelled</text>
+    <text x="200" y="142" text-anchor="middle" fill="#cbd5e1" font-size="9">Negation Penalty → Repelled</text>
 
     <!-- Metric Tag -->
     <rect x="120" y="225" width="160" height="40" rx="6" fill="#064e3b" stroke="#10b981"/>
-    <text x="200" y="242" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Separation Score: &Delta; 0.64</text>
+    <text x="200" y="242" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Separation Score: Δ 0.64</text>
     <text x="200" y="256" text-anchor="middle" fill="#a7f3d0" font-size="9">Correctly Routed to Distinct Contexts</text>
 
     <!-- Outcome Note -->

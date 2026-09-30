@@ -55,7 +55,7 @@
     <text x="40" y="228" fill="#fca5a5" font-size="11" font-weight="700">❌ Catastrophic Context Destruction:</text>
     <text x="40" y="248" fill="#cbd5e1" font-size="10" font-family="monospace">"Q3 2025 Revenue 4.2M 1.1M Margins 12%</text>
     <text x="40" y="264" fill="#cbd5e1" font-size="10" font-family="monospace">Operating Cost Tax Net Income (2.4M)..."</text>
-    <text x="40" y="290" fill="#94a3b8" font-size="10">• Column borders lost &bull; Chart lines erased</text>
+    <text x="40" y="290" fill="#94a3b8" font-size="10">• Column borders lost • Chart lines erased</text>
     <text x="40" y="306" fill="#94a3b8" font-size="10">• High hallucination risk during LLM retrieval</text>
   </g>
 
@@ -94,9 +94,9 @@
     <!-- High fidelity result -->
     <rect x="25" y="205" width="330" height="115" rx="6" fill="#0f172a" stroke="rgba(56,189,248,0.3)"/>
     <text x="40" y="228" fill="#38bdf8" font-size="11" font-weight="700">✅ Native Layout &amp; Semantic Preservation:</text>
-    <text x="40" y="250" fill="#cbd5e1" font-size="10">&bull; Query word "trend" matches visual chart curve</text>
-    <text x="40" y="268" fill="#cbd5e1" font-size="10">&bull; Multi-column tables queried with 100% spatial fidelity</text>
-    <text x="40" y="286" fill="#cbd5e1" font-size="10">&bull; Zero OCR dependency &bull; Sub-40ms vector retrieval</text>
-    <text x="40" y="306" fill="#10b981" font-size="10" font-weight="700">&bull; 99.4% precision on complex financial tables</text>
+    <text x="40" y="250" fill="#cbd5e1" font-size="10">• Query word "trend" matches visual chart curve</text>
+    <text x="40" y="268" fill="#cbd5e1" font-size="10">• Multi-column tables queried with 100% spatial fidelity</text>
+    <text x="40" y="286" fill="#cbd5e1" font-size="10">• Zero OCR dependency • Sub-40ms vector retrieval</text>
+    <text x="40" y="306" fill="#10b981" font-size="10" font-weight="700">• 99.4% precision on complex financial tables</text>
   </g>
 </svg>

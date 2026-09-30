@@ -11,7 +11,7 @@
     <rect x="25" y="70" width="165" height="35" rx="6" fill="#2d1522" stroke="#f43f5e"/>
     <text x="107" y="92" text-anchor="middle" fill="#fda4af" font-size="10">Agent A: "Clarify table schema"</text>
 
-    <text x="208" y="93" fill="#f43f5e" font-size="14" font-weight="700">&harr;</text>
+    <text x="208" y="93" fill="#f43f5e" font-size="14" font-weight="700">↔</text>
 
     <rect x="225" y="70" width="165" height="35" rx="6" fill="#2d1522" stroke="#f43f5e"/>
     <text x="307" y="92" text-anchor="middle" fill="#fda4af" font-size="10">Agent B: "Provide query first"</text>
@@ -27,7 +27,7 @@
 
     <rect x="20" y="70" width="375" height="40" rx="6" fill="#2a1e0b" stroke="#f59e0b"/>
     <text x="30" y="87" fill="#fef3c7" font-size="10">User: "Draft refund policy for EU residents under 14-day statutory law."</text>
-    <text x="30" y="102" fill="#fde68a" font-size="9">&rarr; Summary A: "Draft refund policy" &rarr; Agent C writes US 30-day warranty!</text>
+    <text x="30" y="102" fill="#fde68a" font-size="9">→ Summary A: "Draft refund policy" → Agent C writes US 30-day warranty!</text>
 
     <text x="20" y="135" fill="#fbbf24" font-size="10" font-weight="600">Symptom: Compliance violation due to semantic loss across handoffs.</text>
   </g>
@@ -59,7 +59,7 @@
 
     <rect x="20" y="70" width="375" height="40" rx="6" fill="#0d281e" stroke="#10b981"/>
     <text x="30" y="87" fill="#a7f3d0" font-size="10">Supervisor spawns: Subagent[1..50] each querying internal Elasticsearch</text>
-    <text x="30" y="102" fill="#6ee7b7" font-size="9">&rarr; Connection pool exhausted &rarr; Database connection timeout (503 Service Unavailable)</text>
+    <text x="30" y="102" fill="#6ee7b7" font-size="9">→ Connection pool exhausted → Database connection timeout (503 Service Unavailable)</text>
 
     <text x="20" y="140" fill="#34d399" font-size="10" font-weight="600">Symptom: Production infrastructure outage triggered by unthrottled agent concurrency.</text>
   </g>
