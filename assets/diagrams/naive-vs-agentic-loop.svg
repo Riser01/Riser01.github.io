@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%" style="background: #0f1523; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="36" text-anchor="middle" fill="#f1f5f9" font-size="20" font-weight="700">Naive Conveyor Belt vs. Agentic Self-Correcting Loop</text>
+  <text x="460" y="58" text-anchor="middle" fill="#94a3b8" font-size="13">Why Single-Shot RAG Fails When Data Is Missing &amp; How CRAG Heals Query Failures</text>
+
+  <!-- SECTION 1: Naive Single-Shot RAG (Top) -->
+  <g transform="translate(40, 80)">
+    <rect x="0" y="0" width="840" height="135" rx="8" fill="#131c2e" stroke="#334155"/>
+    <text x="20" y="24" fill="#f43f5e" font-size="13" font-weight="700">❌ Naive Single-Shot RAG (One-Way Conveyor Belt — Zero Self-Awareness)</text>
+
+    <!-- Step 1: User Query -->
+    <rect x="20" y="45" width="160" height="50" rx="6" fill="#1e293b" stroke="#64748b"/>
+    <text x="100" y="68" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="600">User Query</text>
+    <text x="100" y="83" text-anchor="middle" fill="#94a3b8" font-size="9">"Q3 refund clause"</text>
+
+    <!-- Arrow 1 -->
+    <line x1="180" y1="70" x2="230" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+    <!-- Step 2: Vector DB -->
+    <rect x="230" y="45" width="170" height="50" rx="6" fill="#1e293b" stroke="#64748b"/>
+    <text x="315" y="68" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="600">Dense Retrieval</text>
+    <text x="315" y="83" text-anchor="middle" fill="#f87171" font-size="9">⚠️ Top-5 chunks irrelevant</text>
+
+    <!-- Arrow 2 -->
+    <line x1="400" y1="70" x2="450" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+    <!-- Step 3: LLM Context -->
+    <rect x="450" y="45" width="160" height="50" rx="6" fill="#1e293b" stroke="#64748b"/>
+    <text x="530" y="68" text-anchor="middle" fill="#f1f5f9" font-size="11" font-weight="600">Prompt Assembly</text>
+    <text x="530" y="83" text-anchor="middle" fill="#94a3b8" font-size="9">Garbage in, no validation</text>
+
+    <!-- Arrow 3 -->
+    <line x1="610" y1="70" x2="660" y2="70" stroke="#64748b" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+    <!-- Step 4: Hallucination -->
+    <rect x="660" y="45" width="160" height="50" rx="6" fill="#2d151e" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="740" y="68" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">Hallucinated Output</text>
+    <text x="740" y="83" text-anchor="middle" fill="#fca5a5" font-size="9">Fabricates policy terms</text>
+    <text x="740" y="112" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="600">Silent Outage / Liability</text>
+  </g>
+
+  <!-- SECTION 2: Agentic CRAG Loop (Bottom) -->
+  <g transform="translate(40, 235)">
+    <rect x="0" y="0" width="840" height="225" rx="8" fill="#131c2e" stroke="#10b981"/>
+    <text x="20" y="24" fill="#10b981" font-size="13" font-weight="700">✅ Agentic CRAG (Stateful Self-Reflection with LangGraph Conditional Edges)</text>
+
+    <!-- Step 1: Query -->
+    <rect x="20" y="55" width="130" height="50" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="85" y="77" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">User Query</text>
+    <text x="85" y="93" text-anchor="middle" fill="#94a3b8" font-size="9">"Q3 refund clause"</text>
+
+    <!-- Arrow to Retrieve -->
+    <line x1="150" y1="80" x2="190" y2="80" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+    <!-- Step 2: Retrieve -->
+    <rect x="190" y="55" width="140" height="50" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="260" y="77" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">Retrieve Chunks</text>
+    <text x="260" y="93" text-anchor="middle" fill="#94a3b8" font-size="9">Vector + BM25</text>
+
+    <!-- Arrow to Evaluator -->
+    <line x1="330" y1="80" x2="370" y2="80" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+    <!-- Step 3: Grade Chunks (The Brain) -->
+    <polygon points="450,55 520,80 450,105 380,80" fill="#1e293b" stroke="#f59e0b" stroke-width="2"/>
+    <text x="450" y="77" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">Grade Chunks</text>
+    <text x="450" y="90" text-anchor="middle" fill="#fef3c7" font-size="8">Relevant?</text>
+
+    <!-- Path YES -> Generate -->
+    <path d="M 520 80 L 660 80" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    <text x="590" y="72" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700">YES &gt; 0.70</text>
+
+    <!-- Final Output -->
+    <rect x="660" y="55" width="160" height="50" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="740" y="77" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Grounded Answer</text>
+    <text x="740" y="93" text-anchor="middle" fill="#a7f3d0" font-size="9">100% Cites Source</text>
+
+    <!-- Path NO -> Query Rewriter & Web Search -->
+    <path d="M 450 105 L 450 150 L 320 150" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowOrange)"/>
+    <text x="400" y="142" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="700">NO / Ambiguous</text>
+
+    <!-- Rewrite Node -->
+    <rect x="180" y="130" width="140" height="40" rx="6" fill="#1e293b" stroke="#f59e0b"/>
+    <text x="250" y="148" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="600">Rewrite Query</text>
+    <text x="250" y="161" text-anchor="middle" fill="#94a3b8" font-size="8">LLM Hypothesizes Synonym</text>
+
+    <!-- Fallback Search Node -->
+    <path d="M 250 170 L 250 190 L 530 190 L 530 160" stroke="#f59e0b" stroke-width="2" marker-end="url(#arrowOrange)"/>
+    <rect x="460" y="130" width="150" height="40" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+    <text x="535" y="148" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">Web Search Fallback</text>
+    <text x="535" y="161" text-anchor="middle" fill="#94a3b8" font-size="8">Tavily / Google Serper API</text>
+
+    <!-- Re-inject back to Generate -->
+    <path d="M 610 150 L 740 150 L 740 105" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+    <text x="675" y="168" text-anchor="middle" fill="#34d399" font-size="9" font-weight="600">Healed Context Re-injected</text>
+  </g>
+</svg>

@@ -54,6 +54,11 @@
           <span>14 min read</span>
           <span class="badge-reading-level">Novice &rarr; Intermediate</span>
         </div>
+
+        <!-- Editorial Hero Graphic -->
+        <div class="article-hero-banner">
+          <img src="../assets/images/multimodal-rag-hero.jpg" alt="Multimodal RAG and Visual Document Retrieval Hero Banner" />
+        </div>
       </header>
 
       <!-- Layout with Sidebar -->
@@ -77,8 +82,11 @@
           </p>
 
           <!-- Visual Architecture Diagram -->
-          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-            <img src="../assets/diagrams/visual-rag-colpali.svg" alt="Visual RAG and ColPali Architecture Diagram" style="width: 100%; height: auto; display: block;" />
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/visual-rag-colpali.svg" alt="Visual RAG and ColPali Architecture Diagram" />
+            <div class="article-diagram-caption">
+              <span>Figure 1: Visual RAG Pipeline — Preserving spatial relationships and graphical context via vision transformer patch embeddings.</span>
+            </div>
           </div>
 
           <!-- Callout Novice -->
@@ -153,6 +161,9 @@ import fitz  # PyMuPDF
 from PIL import Image
 import google.generativeai as genai
 
+# Instantiate Gemini model once globally for connection reuse across ingestion workers
+vlm_model = genai.GenerativeModel("gemini-2.0-flash")
+
 # System prompt tuned to prevent hallucination and enforce structured Markdown tables
 VLM_PROMPT = """
 You are an expert document digitization engine.
@@ -175,8 +186,7 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
     img_bytes = pix.tobytes("png")
     image = Image.open(io.BytesIO(img_bytes))
     
-    model = genai.GenerativeModel("gemini-2.0-flash")
-    response = model.generate_content([VLM_PROMPT, image])
+    response = vlm_model.generate_content([VLM_PROMPT, image])
     return response.text
 </code></pre>
           </div>
@@ -197,6 +207,14 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
             </p>
           </div>
 
+          <!-- Cost Router Diagram -->
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/multimodal-cost-router.svg" alt="Layout-Aware Multimodal Cost Router and Triage Architecture" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: Hybrid Multimodal Triage — Routing text-dense documents through fast OCR and visual-rich layouts through ColPali/VLM.</span>
+            </div>
+          </div>
+
           <!-- Section 4: ColPali Deep Dive -->
           <h2 id="colpali-revolution">4. Paradigm B: The ColPali Multi-Vector Visual Breakthrough</h2>
           <p>
@@ -206,16 +224,36 @@ def extract_page_visual_markdown(pdf_path: str, page_number: int) -> str:
             ColPali marries a Vision Transformer (SigLIP) with an autoregressive language model (PaliGemma). It processes an entire document page image and emits a grid of multi-vector patch embeddings (typically 1,024 vectors per page, each representing a distinct visual patch).
           </p>
 
+          <p>
+            Think of ColPali's MaxSim operator like <strong>holding a dozen colored flashlights in front of a giant mosaic wall</strong>. The page is chopped into a thousand tiny visual tiles (mosaic patches). Each word in your query is a handheld flashlight looking for its exact twin tile. When you ask <em>"gross margin bar chart 2025"</em>, the <em>"bar chart"</em> flashlight sweeps the wall, completely ignores all paragraphs of text, and locks onto the exact visual rectangular bars at the bottom right. The scores of all flashlights are summed, producing an immediate, flawless match without ever running OCR.
+          </p>
+
           <div class="math-block">
             \text{Score}(Q, D_{\text{page}}) = \sum_{i \in Q} \max_{j \in D_{\text{page}}} \left( \mathbf{E}_{\text{text}}(q_i) \cdot \mathbf{E}_{\text{patch}}(d_j) \right)
           </div>
 
           <p>
-            At query time, the user's text query is embedded into individual token vectors. The system computes the <strong>MaxSim operator</strong>: each query word finds its single highest-similarity visual patch on the document page, and the maximum scores are summed.
+            Here is how you index and search documents natively using <code>byaldi</code> (a high-performance ColPali wrapper) in just 6 lines of Python:
           </p>
-          <p>
-            If a query asks for <em>"gross margin trend 2025"</em>, the vector for <em>"trend"</em> naturally aligns with the visual curve on the page's graph, without anyone ever having converted that graph into text!
-          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Python 3.12 &bull; colpali_byaldi_search.py</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>from byaldi import RAGMultiModalModel
+
+# 1. Load pretrained ColPali v1.2 late-interaction vision model
+RAG = RAGMultiModalModel.from_pretrained("vidore/colpali-v1.2", verbose=1)
+
+# 2. Index entire multi-page PDF directly as visual patch embeddings
+RAG.index(input_path="quarterly_report.pdf", index_name="q_report_index", store_collection_with_index=True)
+
+# 3. Retrieve top-3 most relevant pages matching visual charts or text
+results = RAG.search(query="operating profit margin trends by region", k=3)
+print(f"Top matching page: {results[0].page_num} (Score: {results[0].score:.4f})")
+</code></pre>
+          </div>
 
           <!-- Section 5: Implementation Decision Matrix -->
           <h2 id="practical-recommendations">5. Architectural Decision Checklist</h2>

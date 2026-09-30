@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#64748b" />
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981" />
+    </marker>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <rect width="960" height="480" rx="16" fill="url(#bgGrad)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title Badge & Header -->
+  <rect x="40" y="24" width="220" height="26" rx="13" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1"/>
+  <text x="52" y="41" fill="#60a5fa" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" letter-spacing="0.5">LLM EVALUATION DECOUPLING</text>
+  <text x="40" y="78" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">Atomic Claim Decomposition vs. Monolithic LLM Judge</text>
+
+  <!-- Left: Monolithic Judge (Flawed) -->
+  <g transform="translate(40, 105)" filter="url(#shadow)">
+    <rect width="280" height="340" rx="12" fill="url(#cardGrad1)" stroke="#ef4444" stroke-width="1.5" stroke-opacity="0.6"/>
+    <rect x="16" y="16" width="90" height="22" rx="4" fill="#ef4444" fill-opacity="0.2"/>
+    <text x="24" y="31" fill="#fca5a5" font-family="sans-serif" font-size="11" font-weight="700">FLAWED PATTERN</text>
+    <text x="16" y="62" fill="#f1f5f9" font-family="sans-serif" font-size="16" font-weight="700">Monolithic "Vibe" Score</text>
+    
+    <rect x="16" y="80" width="248" height="60" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="24" y="98" fill="#94a3b8" font-family="monospace" font-size="11">Input: Full 4-paragraph answer</text>
+    <text x="24" y="116" fill="#94a3b8" font-family="monospace" font-size="11">Prompt: "Grade 1-5 for accuracy"</text>
+    <text x="24" y="132" fill="#ef4444" font-family="monospace" font-size="11">Result: 4.5 / 5.0 (Vague)</text>
+
+    <!-- Flaw Points -->
+    <circle cx="28" cy="170" r="4" fill="#ef4444"/>
+    <text x="40" y="174" fill="#cbd5e1" font-family="sans-serif" font-size="12"><tspan font-weight="600" fill="#f87171">Length Bias:</tspan> Longer answers get +0.8</text>
+
+    <circle cx="28" cy="205" r="4" fill="#ef4444"/>
+    <text x="40" y="209" fill="#cbd5e1" font-family="sans-serif" font-size="12"><tspan font-weight="600" fill="#f87171">Hallucination Masking:</tspan> 9 real facts</text>
+    <text x="40" y="225" fill="#94a3b8" font-family="sans-serif" font-size="11">hide 1 fatal fabrication</text>
+
+    <circle cx="28" cy="255" r="4" fill="#ef4444"/>
+    <text x="40" y="259" fill="#cbd5e1" font-family="sans-serif" font-size="12"><tspan font-weight="600" fill="#f87171">Sycophancy Loop:</tspan> Models favor</text>
+    <text x="40" y="275" fill="#94a3b8" font-family="sans-serif" font-size="11">their own family's speaking style</text>
+
+    <rect x="16" y="295" width="248" height="30" rx="6" fill="#450a0a" stroke="#991b1b"/>
+    <text x="45" y="315" fill="#fca5a5" font-family="sans-serif" font-size="12" font-weight="600">⚠ Unreproducible &amp; Non-auditable</text>
+  </g>
+
+  <!-- Right: Atomic Claim Decomposition (Robust) -->
+  <g transform="translate(360, 105)" filter="url(#shadow)">
+    <rect width="560" height="340" rx="12" fill="url(#cardGrad1)" stroke="#10b981" stroke-width="1.5" stroke-opacity="0.7"/>
+    <rect x="20" y="16" width="130" height="22" rx="4" fill="#10b981" fill-opacity="0.2"/>
+    <text x="28" y="31" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">PRODUCTION PATTERN</text>
+    <text x="20" y="62" fill="#f1f5f9" font-family="sans-serif" font-size="16" font-weight="700">Deterministic Atomic Verification</text>
+
+    <!-- Step 1: Synthesize into Atomic Claims -->
+    <rect x="20" y="85" width="160" height="135" rx="8" fill="#0f172a" stroke="#3b82f6" stroke-width="1"/>
+    <text x="30" y="105" fill="#60a5fa" font-family="sans-serif" font-size="12" font-weight="700">Step 1: Extractor</text>
+    <text x="30" y="125" fill="#94a3b8" font-family="monospace" font-size="10">Decompose response</text>
+    <text x="30" y="140" fill="#94a3b8" font-family="monospace" font-size="10">into self-contained</text>
+    <text x="30" y="155" fill="#94a3b8" font-family="monospace" font-size="10">factual claims:</text>
+    <text x="30" y="180" fill="#e2e8f0" font-family="monospace" font-size="10">Claim A (Revenue)</text>
+    <text x="30" y="198" fill="#e2e8f0" font-family="monospace" font-size="10">Claim B (CEO date)</text>
+    <text x="30" y="214" fill="#e2e8f0" font-family="monospace" font-size="10">Claim C (HQ city)</text>
+
+    <!-- Step 2: Parallel Citation Check -->
+    <rect x="210" y="85" width="175" height="135" rx="8" fill="#0f172a" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="220" y="105" fill="#c084fc" font-family="sans-serif" font-size="12" font-weight="700">Step 2: NLI Verifier</text>
+    <text x="220" y="125" fill="#94a3b8" font-family="monospace" font-size="10">Cross-reference vs</text>
+    <text x="220" y="140" fill="#94a3b8" font-family="monospace" font-size="10">retrieved contexts:</text>
+    <rect x="220" y="155" width="155" height="18" rx="4" fill="#064e3b"/>
+    <text x="226" y="168" fill="#34d399" font-family="monospace" font-size="9.5">Claim A: ENTAILED [✓]</text>
+    <rect x="220" y="177" width="155" height="18" rx="4" fill="#064e3b"/>
+    <text x="226" y="190" fill="#34d399" font-family="monospace" font-size="9.5">Claim B: ENTAILED [✓]</text>
+    <rect x="220" y="199" width="155" height="18" rx="4" fill="#450a0a"/>
+    <text x="226" y="212" fill="#f87171" font-family="monospace" font-size="9.5">Claim C: CONTRADICT [✗]</text>
+
+    <!-- Step 3: Exact Math Score -->
+    <rect x="415" y="85" width="125" height="135" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1"/>
+    <text x="425" y="105" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Step 3: Math Metric</text>
+    <text x="425" y="130" fill="#94a3b8" font-family="sans-serif" font-size="10">Faithfulness =</text>
+    <text x="425" y="155" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="700">2 / 3</text>
+    <text x="425" y="175" fill="#10b981" font-family="sans-serif" font-size="20" font-weight="800">66.7%</text>
+    <text x="425" y="200" fill="#94a3b8" font-family="sans-serif" font-size="10">Deterministic</text>
+
+    <!-- Connectors -->
+    <line x1="180" y1="150" x2="208" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+    <line x1="385" y1="150" x2="413" y2="150" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- Bottom summary box -->
+    <rect x="20" y="240" width="520" height="85" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="35" y="262" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="600">Why this replaces subjective LLM judges:</text>
+    <text x="35" y="284" fill="#94a3b8" font-family="sans-serif" font-size="12">1. <tspan fill="#e2e8f0">Pinpoints exact hallucinated sentence</tspan> rather than giving a muddy composite score.</text>
+    <text x="35" y="306" fill="#94a3b8" font-family="sans-serif" font-size="12">2. <tspan fill="#e2e8f0">Immune to length bias and tone sycophancy</tspan> — evaluations evaluate facts, not style.</text>
+  </g>
+</svg>

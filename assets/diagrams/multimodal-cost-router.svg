@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+    <marker id="arrBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#3b82f6" />
+    </marker>
+    <marker id="arrGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#10b981" />
+    </marker>
+    <marker id="arrAmber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <rect width="960" height="480" rx="16" fill="url(#bgGrad2)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title Badge & Header -->
+  <rect x="40" y="24" width="230" height="26" rx="13" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1"/>
+  <text x="52" y="41" fill="#c084fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" letter-spacing="0.5">COST-PERFORMANCE HYBRID ROUTER</text>
+  <text x="40" y="78" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">Triage: Layout OCR vs. Native Visual Patch Embeddings (ColPali)</text>
+
+  <!-- Input Document Box -->
+  <g transform="translate(40, 180)" filter="url(#shadow2)">
+    <rect width="180" height="150" rx="10" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="15" y="16" width="60" height="20" rx="4" fill="#3b82f6" fill-opacity="0.2"/>
+    <text x="22" y="30" fill="#93c5fd" font-family="sans-serif" font-size="10" font-weight="700">INPUT</text>
+    <text x="15" y="58" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="700">Inbound PDF /</text>
+    <text x="15" y="78" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="700">Slide Deck</text>
+    <text x="15" y="105" fill="#94a3b8" font-family="sans-serif" font-size="11">Fast Vision Inspector</text>
+    <text x="15" y="122" fill="#94a3b8" font-family="sans-serif" font-size="11">evaluates visual density</text>
+  </g>
+
+  <!-- Decision Branching -->
+  <path d="M 220 255 L 290 255 L 290 160 L 330 160" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrGreen)"/>
+  <path d="M 220 255 L 290 255 L 290 350 L 330 350" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#arrAmber)"/>
+
+  <!-- Decision Labels -->
+  <rect x="250" y="125" width="80" height="24" rx="4" fill="#064e3b" stroke="#059669"/>
+  <text x="256" y="141" fill="#6ee7b7" font-family="monospace" font-size="10" font-weight="700">&lt; 10% Visuals</text>
+
+  <rect x="250" y="365" width="80" height="24" rx="4" fill="#451a03" stroke="#d97706"/>
+  <text x="256" y="381" fill="#fcd34d" font-family="monospace" font-size="10" font-weight="700">≥ 10% Visuals</text>
+
+  <!-- Route A: Fast OCR Tier -->
+  <g transform="translate(340, 105)" filter="url(#shadow2)">
+    <rect width="360" height="120" rx="10" fill="url(#cardGrad2)" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="16" y="14" width="130" height="20" rx="4" fill="#10b981" fill-opacity="0.2"/>
+    <text x="24" y="28" fill="#6ee7b7" font-family="sans-serif" font-size="10" font-weight="700">TIER 1: TEXT-CENTRIC</text>
+    <text x="16" y="54" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="700">Chunked Text + Bounding Box OCR</text>
+    <text x="16" y="76" fill="#cbd5e1" font-family="sans-serif" font-size="12">Dense embeddings (BGE-M3 / OpenAI text-3-large)</text>
+    
+    <rect x="16" y="90" width="90" height="18" rx="3" fill="#0f172a" stroke="#334155"/>
+    <text x="22" y="103" fill="#34d399" font-family="monospace" font-size="10">Cost: $0.0001/pg</text>
+    <rect x="115" y="90" width="80" height="18" rx="3" fill="#0f172a" stroke="#334155"/>
+    <text x="121" y="103" fill="#93c5fd" font-family="monospace" font-size="10">Latency: ~20ms</text>
+  </g>
+
+  <!-- Route B: ColPali Native Visual Patch Tier -->
+  <g transform="translate(340, 290)" filter="url(#shadow2)">
+    <rect width="360" height="120" rx="10" fill="url(#cardGrad2)" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="16" y="14" width="150" height="20" rx="4" fill="#f59e0b" fill-opacity="0.2"/>
+    <text x="24" y="28" fill="#fcd34d" font-family="sans-serif" font-size="10" font-weight="700">TIER 2: VISUAL-INTENSIVE</text>
+    <text x="16" y="54" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="700">ColPali Multi-Vector Late Interaction</text>
+    <text x="16" y="76" fill="#cbd5e1" font-family="sans-serif" font-size="12">Preserves charts, infographics, tables &amp; spatial layout</text>
+    
+    <rect x="16" y="90" width="90" height="18" rx="3" fill="#0f172a" stroke="#334155"/>
+    <text x="22" y="103" fill="#f59e0b" font-family="monospace" font-size="10">Cost: $0.0035/pg</text>
+    <rect x="115" y="90" width="85" height="18" rx="3" fill="#0f172a" stroke="#334155"/>
+    <text x="121" y="103" fill="#c084fc" font-family="monospace" font-size="10">Recall: 94.2%</text>
+  </g>
+
+  <!-- Right side: Fusion Vector Store -->
+  <g transform="translate(740, 175)" filter="url(#shadow2)">
+    <rect width="180" height="160" rx="10" fill="#0f172a" stroke="#8b5cf6" stroke-width="1.5"/>
+    <text x="20" y="32" fill="#c084fc" font-family="sans-serif" font-size="13" font-weight="700">Unified Storage</text>
+    <line x1="20" y1="42" x2="160" y2="42" stroke="#334155"/>
+    <text x="20" y="65" fill="#e2e8f0" font-family="sans-serif" font-size="11">Qdrant / Milvus</text>
+    <text x="20" y="82" fill="#94a3b8" font-family="sans-serif" font-size="10">• Named dense text vectors</text>
+    <text x="20" y="98" fill="#94a3b8" font-family="sans-serif" font-size="10">• Multi-vector MaxSim</text>
+    <text x="20" y="114" fill="#94a3b8" font-family="sans-serif" font-size="10">• Bounding box metadata</text>
+    <rect x="15" y="128" width="150" height="20" rx="4" fill="#1e1b4b"/>
+    <text x="22" y="142" fill="#a78bfa" font-family="sans-serif" font-size="10" font-weight="600">80% Cost Reduction</text>
+  </g>
+
+  <path d="M 700 165 L 735 220" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <path d="M 700 350 L 735 290" fill="none" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrAmber)"/>
+</svg>

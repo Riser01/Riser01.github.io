@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%" style="background: #0f1523; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="460" y="38" text-anchor="middle" fill="#f1f5f9" font-size="20" font-weight="700">Traditional OCR Breakdown vs. Native Visual RAG (ColPali)</text>
+  <text x="460" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Why Parsing Financial Tables with PyPDF Destroys Geometry &amp; How Patch Embeddings Preserve Context</text>
+
+  <!-- Left Side: Traditional OCR Failure -->
+  <g transform="translate(40, 85)">
+    <rect x="0" y="0" width="400" height="360" rx="10" fill="#131c2e" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="28" fill="#f43f5e" font-size="14" font-weight="700">❌ Naive Text OCR Pipeline (Tesseract / PyPDF)</text>
+    <text x="20" y="46" fill="#94a3b8" font-size="11">Flattens 2D visual tables into 1D scrambled text strings</text>
+
+    <!-- Visual Table -->
+    <rect x="25" y="65" width="350" height="90" rx="4" fill="#1e293b" stroke="#475569"/>
+    <!-- Table Header -->
+    <rect x="25" y="65" width="350" height="24" fill="#334155"/>
+    <text x="35" y="81" fill="#f8fafc" font-size="10" font-weight="600">Metric</text>
+    <text x="140" y="81" fill="#f8fafc" font-size="10" font-weight="600">Q3 2025</text>
+    <text x="230" y="81" fill="#f8fafc" font-size="10" font-weight="600">Q3 2026</text>
+    <text x="320" y="81" fill="#f8fafc" font-size="10" font-weight="600">YoY %</text>
+    <!-- Table Rows -->
+    <line x1="25" y1="112" x2="375" y2="112" stroke="#475569"/>
+    <text x="35" y="104" fill="#94a3b8" font-size="10">Operating Income</text>
+    <text x="140" y="104" fill="#cbd5e1" font-size="10">$14.2M</text>
+    <text x="230" y="104" fill="#cbd5e1" font-size="10">$18.9M</text>
+    <text x="320" y="104" fill="#34d399" font-size="10">+33.1%</text>
+
+    <text x="35" y="128" fill="#94a3b8" font-size="10">Severance Charge (Footnote 4)</text>
+    <text x="230" y="128" fill="#f87171" font-size="10">($2.1M)</text>
+    <text x="320" y="128" fill="#f87171" font-size="10">N/A</text>
+
+    <!-- Arrow down -->
+    <line x1="200" y1="165" x2="200" y2="195" stroke="#f43f5e" stroke-width="2" marker-end="url(#arrowRed)"/>
+    <text x="200" y="185" text-anchor="middle" fill="#f43f5e" font-size="10" font-weight="600">OCR Extraction &amp; Chunking</text>
+
+    <!-- Scrambled Output Box -->
+    <rect x="25" y="205" width="350" height="75" rx="6" fill="#2d151e" stroke="#f43f5e"/>
+    <text x="35" y="224" fill="#fca5a5" font-size="10" font-family="monospace">"Operating Income Q3 2025 Q3 2026 YoY %</text>
+    <text x="35" y="238" fill="#fca5a5" font-size="10" font-family="monospace">$14.2M $18.9M +33.1% Severance ($2.1M) N/A"</text>
+    <text x="35" y="260" fill="#f87171" font-size="9" font-weight="700">🚨 Column alignments destroyed! LLM associates ($2.1M) with wrong metric.</text>
+
+    <!-- Consequence -->
+    <rect x="25" y="295" width="350" height="50" rx="6" fill="#1e293b" stroke="#64748b"/>
+    <text x="200" y="316" text-anchor="middle" fill="#fca5a5" font-size="11" font-weight="600">Result: Hallucinated Financial Calculations</text>
+    <text x="200" y="332" text-anchor="middle" fill="#94a3b8" font-size="10">Lost 2D spatial coordinates make numbers jump across headers.</text>
+  </g>
+
+  <!-- Right Side: ColPali Visual RAG Solution -->
+  <g transform="translate(480, 85)">
+    <rect x="0" y="0" width="400" height="360" rx="10" fill="#131c2e" stroke="#10b981" stroke-width="1.5"/>
+    <text x="20" y="28" fill="#10b981" font-size="14" font-weight="700">✅ Native Visual RAG (ColPali / Vision Patches)</text>
+    <text x="20" y="46" fill="#94a3b8" font-size="11">Page rendered as image; 1,024 spatial patch embeddings</text>
+
+    <!-- Visual Grid of Patches -->
+    <g transform="translate(35, 65)">
+      <rect x="0" y="0" width="160" height="90" rx="4" fill="#1e293b" stroke="#38bdf8"/>
+      <!-- Grid lines representing patches -->
+      <line x1="40" y1="0" x2="40" y2="90" stroke="#334155" stroke-dasharray="2,2"/>
+      <line x1="80" y1="0" x2="80" y2="90" stroke="#334155" stroke-dasharray="2,2"/>
+      <line x1="120" y1="0" x2="120" y2="90" stroke="#334155" stroke-dasharray="2,2"/>
+      <line x1="0" y1="30" x2="160" y2="30" stroke="#334155" stroke-dasharray="2,2"/>
+      <line x1="0" y1="60" x2="160" y2="60" stroke="#334155" stroke-dasharray="2,2"/>
+      <!-- Highlighted Target Patch -->
+      <rect x="80" y="30" width="40" height="30" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="2"/>
+      <circle cx="100" cy="45" r="3" fill="#10b981"/>
+    </g>
+
+    <!-- Query Token Vector -->
+    <g transform="translate(225, 75)">
+      <rect x="0" y="0" width="140" height="70" rx="6" fill="#1e293b" stroke="#38bdf8"/>
+      <text x="70" y="24" text-anchor="middle" fill="#38bdf8" font-size="10" font-weight="600">Query Token:</text>
+      <text x="70" y="40" text-anchor="middle" fill="#f1f5f9" font-size="10">"Q3 2026 Severance"</text>
+      <text x="70" y="58" text-anchor="middle" fill="#10b981" font-size="9" font-weight="700">Token-to-Patch MaxSim</text>
+    </g>
+
+    <!-- Spatial Arrow -->
+    <line x1="225" y1="110" x2="145" y2="110" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+    <!-- Late Interaction Formula Box -->
+    <rect x="25" y="175" width="350" height="85" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="35" y="198" fill="#34d399" font-size="11" font-weight="700">Late Interaction Match Formula:</text>
+    <text x="35" y="218" fill="#a7f3d0" font-size="11" font-family="monospace">Score = &Sigma; max_j (q_i &bull; p_j)</text>
+    <text x="35" y="242" fill="#e2e8f0" font-size="10">Attends directly to the 2D bounding cell in sub-second inference.</text>
+
+    <!-- Consequence -->
+    <rect x="25" y="280" width="350" height="65" rx="6" fill="#1e293b" stroke="#475569"/>
+    <text x="200" y="302" text-anchor="middle" fill="#6ee7b7" font-size="11" font-weight="600">Result: 100% Geometry &amp; Context Preservation</text>
+    <text x="200" y="318" text-anchor="middle" fill="#94a3b8" font-size="10">No OCR hallucinations, zero table distortion, and seamless visual</text>
+    <text x="200" y="332" text-anchor="middle" fill="#94a3b8" font-size="10">diagram reasoning without brittle bounding-box rules.</text>
+  </g>
+</svg>

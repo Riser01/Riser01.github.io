@@ -52,10 +52,20 @@
           <span>16 min read</span>
           <span class="badge-reading-level">Novice &rarr; Intermediate</span>
         </div>
+
+        <!-- Editorial Hero Graphic -->
+        <div class="article-hero-banner">
+          <img src="../assets/images/rag-eval-hero.jpg" alt="Production RAG Evaluation and Quality Gate Playbook Hero Graphic" />
+        </div>
       </header>
 
       <div class="article-layout">
         <div class="article-content">
+
+          <!-- Hero Cover Image -->
+          <div style="margin-bottom: 2.5rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+            <img src="../assets/images/rag-eval-hero.jpg" alt="RAG System Evaluation & Testing" style="width: 100%; height: auto; display: block;" />
+          </div>
 
           <h2 id="why-eyeball-tests-fail">1. The "Vibes-Based" Evaluation Trap</h2>
           <p>
@@ -69,8 +79,11 @@
           </p>
 
           <!-- Evaluation Triad Diagram -->
-          <div style="margin: 2rem 0; border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
-            <img src="../assets/diagrams/rag-evaluation-triad.svg" alt="The Production RAG Evaluation Triad" style="width: 100%; height: auto; display: block;" />
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/rag-evaluation-triad.svg" alt="The Production RAG Evaluation Triad" />
+            <div class="article-diagram-caption">
+              <span>Figure 1: The Production Evaluation Triad — Decoupling Retriever precision & recall from Generator hallucination.</span>
+            </div>
           </div>
 
           <div class="callout callout-novice">
@@ -102,10 +115,16 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><strong>Context Relevance</strong></td>
+                  <td><strong>Context Relevance (Precision)</strong></td>
                   <td>Retriever</td>
                   <td>Are all retrieved passages strictly necessary to answer the question?</td>
                   <td>&ge; 0.85</td>
+                </tr>
+                <tr>
+                  <td><strong>Context Recall</strong></td>
+                  <td>Retriever</td>
+                  <td>Did the search locate all ground-truth facts necessary to formulate a complete answer?</td>
+                  <td>&ge; 0.90</td>
                 </tr>
                 <tr>
                   <td><strong>Faithfulness (Groundedness)</strong></td>
@@ -148,6 +167,11 @@
           <p>
             When queries have multiple relevant passages with graduated relevance (e.g., highly relevant = 3, marginally relevant = 1, irrelevant = 0), <strong>NDCG@K</strong> is the gold standard used by major search engines:
           </p>
+
+          <p>
+            Think of NDCG like the famous <strong>"fold" on Google Search</strong>. When you search online, the #1 link gets roughly 30% of all clicks, while result #10 gets less than 2%. People simply don't read to the bottom. NDCG mathematically mirrors this human psychology: it applies a logarithmic discount penalty ($1 / \log_2(\text{rank} + 1)$) to every result down the list. Finding the right answer at position #1 earns maximum points; burying that exact same answer at position #9 is penalized as near-total failure.
+          </p>
+
           <div class="math-block">
             \text{DCG}@K = \sum_{i=1}^{K} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}, \quad \text{NDCG}@K = \frac{\text{DCG}@K}{\text{IDCG}@K}
           </div>
@@ -191,6 +215,18 @@ def compute_ndcg_at_k(retrieved_ids: List[str], relevance_scores: dict, k: int =
             To evaluate <strong>Faithfulness</strong> automatically without human annotation, we instruct a high-capability judge model (e.g. Gemini 2.0 Flash) to decompose the generated response into atomic factual claims, and verify each claim individually against the context.
           </p>
 
+          <p>
+            Asking an LLM to evaluate its own responses by subjective prompt is like <strong>asking a student to grade their own exam with a red pen</strong>. If you ask <em>"Did you write a good answer?"</em>, they will naturally give themselves an A+. In AI, this is known as LLM judge sycophancy and verbosity bias — models systematically favor long, eloquent answers and responses produced by their own model family.
+          </p>
+
+          <!-- Claim Decomposition Diagram -->
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/llm-judge-claim-decomposition.svg" alt="Monolithic LLM Judge vs Deterministic Atomic Claim Decomposition" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: Atomic Claim Decomposition — Eliminating sycophancy and length bias by enforcing binary NLI claim entailment.</span>
+            </div>
+          </div>
+
           <div class="callout callout-deepdive">
             <div class="callout-header">⚙️ Production Engineering (Intermediate Track): Preventing Judge Sycophancy</div>
             <p>
@@ -207,6 +243,31 @@ def compute_ndcg_at_k(retrieved_ids: List[str], relevance_scores: dict, k: int =
               2) For each statement, output strictly <code>VERIFIED</code> (cite passage span) or <code>UNVERIFIED</code>.
               3) Faithfulness = $\frac{|\text{VERIFIED}|}{|\text{TOTAL CLAIMS}|}$.
             </p>
+          </div>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Python 3.12 &bull; atomic_claim_verifier.py</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code>from pydantic import BaseModel, Field
+from typing import List, Literal
+
+class ClaimVerification(BaseModel):
+    claim_text: str = Field(description="Single, self-contained atomic factual assertion.")
+    verdict: Literal["VERIFIED", "CONTRADICTED", "UNSUPPORTED"]
+    evidence_citation: str = Field(description="Exact verbatim sentence span from context supporting the verdict.")
+
+class EvaluationReport(BaseModel):
+    claims: List[ClaimVerification]
+    
+    @property
+    def faithfulness_score(self) -> float:
+        if not self.claims:
+            return 1.0
+        verified_count = sum(1 for c in self.claims if c.verdict == "VERIFIED")
+        return verified_count / len(self.claims)
+</code></pre>
           </div>
 
           <h2 id="ci-cd-quality-gates">5. Integrating Evaluation into CI/CD Gates</h2>

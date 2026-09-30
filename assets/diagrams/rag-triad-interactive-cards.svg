@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 480" width="100%" height="100%" style="background: #0f1523; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <!-- Title -->
+  <text x="460" y="38" text-anchor="middle" fill="#f1f5f9" font-size="20" font-weight="700">The Production RAG Evaluation Scorecard (The Triad)</text>
+  <text x="460" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Isolating Retrieval Failures from Generation Hallucinations via Continuous Ragas &amp; TruLens Guards</text>
+
+  <!-- Card 1: Context Relevance -->
+  <g transform="translate(40, 85)">
+    <rect x="0" y="0" width="265" height="360" rx="10" fill="#131c2e" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="15" y="15" width="235" height="32" rx="6" fill="rgba(56, 189, 248, 0.15)"/>
+    <text x="132" y="36" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">1. Context Relevance</text>
+
+    <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query &rarr; Retrieved Chunks</text>
+
+    <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
+
+    <text x="20" y="125" fill="#f1f5f9" font-size="12" font-weight="600">Core Metric Question:</text>
+    <text x="20" y="145" fill="#cbd5e1" font-size="11">"Did our search engine retrieve</text>
+    <text x="20" y="160" fill="#cbd5e1" font-size="11">clean signal, or noisy filler?"</text>
+
+    <!-- Passing Example -->
+    <rect x="15" y="180" width="235" height="60" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="25" y="200" fill="#34d399" font-size="10" font-weight="700">PASS (Score: 0.94)</text>
+    <text x="25" y="218" fill="#e2e8f0" font-size="9">Query: "SaaS refund window"</text>
+    <text x="25" y="230" fill="#a7f3d0" font-size="9">Chunk: "Refunds allowed within 14 days."</text>
+
+    <!-- Failing Example -->
+    <rect x="15" y="250" width="235" height="75" rx="6" fill="#2d151e" stroke="#f43f5e"/>
+    <text x="25" y="270" fill="#f87171" font-size="10" font-weight="700">FAIL (Score: 0.21)</text>
+    <text x="25" y="288" fill="#e2e8f0" font-size="9">Chunk: 800 words describing the company</text>
+    <text x="25" y="300" fill="#e2e8f0" font-size="9">history, office locations, and team bios.</text>
+    <text x="25" y="316" fill="#fca5a5" font-size="8">Diagnostic: Retrieval noise poisons prompt.</text>
+  </g>
+
+  <!-- Card 2: Groundedness / Faithfulness -->
+  <g transform="translate(328, 85)">
+    <rect x="0" y="0" width="265" height="360" rx="10" fill="#131c2e" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="15" y="15" width="235" height="32" rx="6" fill="rgba(16, 185, 129, 0.15)"/>
+    <text x="132" y="36" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">2. Groundedness (Faithfulness)</text>
+
+    <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Retrieved Chunks &rarr; Answer</text>
+
+    <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
+
+    <text x="20" y="125" fill="#f1f5f9" font-size="12" font-weight="600">Core Metric Question:</text>
+    <text x="20" y="145" fill="#cbd5e1" font-size="11">"Is every factual claim directly</text>
+    <text x="20" y="160" fill="#cbd5e1" font-size="11">traceable to the source context?"</text>
+
+    <!-- Passing Example -->
+    <rect x="15" y="180" width="235" height="60" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="25" y="200" fill="#34d399" font-size="10" font-weight="700">PASS (Score: 1.00)</text>
+    <text x="25" y="218" fill="#e2e8f0" font-size="9">Answer: "You may request a refund</text>
+    <text x="25" y="230" fill="#a7f3d0" font-size="9">within 14 days of purchase."</text>
+
+    <!-- Failing Example -->
+    <rect x="15" y="250" width="235" height="75" rx="6" fill="#2d151e" stroke="#f43f5e"/>
+    <text x="25" y="270" fill="#f87171" font-size="10" font-weight="700">FAIL (Score: 0.00 - Hallucination!)</text>
+    <text x="25" y="288" fill="#e2e8f0" font-size="9">Answer: "We offer refunds up to 90</text>
+    <text x="25" y="300" fill="#e2e8f0" font-size="9">days plus a free $50 coupon credit."</text>
+    <text x="25" y="316" fill="#fca5a5" font-size="8">Diagnostic: Severe LLM hallucination leak.</text>
+  </g>
+
+  <!-- Card 3: Answer Relevance -->
+  <g transform="translate(615, 85)">
+    <rect x="0" y="0" width="265" height="360" rx="10" fill="#131c2e" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="15" y="15" width="235" height="32" rx="6" fill="rgba(245, 158, 11, 0.15)"/>
+    <text x="132" y="36" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="700">3. Answer Relevance</text>
+
+    <text x="132" y="68" text-anchor="middle" fill="#94a3b8" font-size="11">Relationship Tested:</text>
+    <text x="132" y="85" text-anchor="middle" fill="#f1f5f9" font-size="12" font-weight="600">Query &rarr; Generated Answer</text>
+
+    <line x1="20" y1="102" x2="245" y2="102" stroke="#334155"/>
+
+    <text x="20" y="125" fill="#f1f5f9" font-size="12" font-weight="600">Core Metric Question:</text>
+    <text x="20" y="145" fill="#cbd5e1" font-size="11">"Did the model answer what was</text>
+    <text x="20" y="160" fill="#cbd5e1" font-size="11">actually asked without dodging?"</text>
+
+    <!-- Passing Example -->
+    <rect x="15" y="180" width="235" height="60" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="25" y="200" fill="#34d399" font-size="10" font-weight="700">PASS (Score: 0.98)</text>
+    <text x="25" y="218" fill="#e2e8f0" font-size="9">Direct concise answer stating 14 days</text>
+    <text x="25" y="230" fill="#a7f3d0" font-size="9">with clear actionable instructions.</text>
+
+    <!-- Failing Example -->
+    <rect x="15" y="250" width="235" height="75" rx="6" fill="#2d151e" stroke="#f43f5e"/>
+    <text x="25" y="270" fill="#f87171" font-size="10" font-weight="700">FAIL (Score: 0.35 - Dodging Query)</text>
+    <text x="25" y="288" fill="#e2e8f0" font-size="9">Answer: "Our customer service team</text>
+    <text x="25" y="300" fill="#e2e8f0" font-size="9">cares deeply about customer satisfaction."</text>
+    <text x="25" y="316" fill="#fca5a5" font-size="8">Diagnostic: Model dodges actual time window.</text>
+  </g>
+</svg>
