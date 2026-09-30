@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Prajwal Rao — Senior Applied Data Scientist & AI Engineer</title>
-  <meta name="description" content="Personal blog and portfolio of Prajwal Rao, Senior Applied Data Scientist at Microsoft. Production multi-agent systems, LLM evaluation, and RAG architectures." />
+  <title>Prajwal Rao — Senior Applied Data Scientist & AI Systems Tech Lead</title>
+  <meta name="description" content="Personal blog and engineering portfolio of Prajwal Rao, Senior Applied Data Scientist at Microsoft. Production multi-agent systems, LLM evaluation, and RAG architectures." />
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body>
@@ -12,13 +12,16 @@
   <!-- Site Navigation Header -->
   <header class="site-header">
     <div class="container nav-inner">
-      <a href="index.html" class="brand-title">Prajwal Rao</a>
+      <a href="index.html" class="brand-wrapper">
+        <div class="brand-avatar">PR</div>
+        <span class="brand-name">Prajwal Rao</span>
+      </a>
       <nav class="main-nav">
         <a href="#about" class="active">About</a>
         <a href="#experience">Experience</a>
         <a href="#articles">Articles</a>
-        <a href="#projects">Code</a>
-        <a href="#contact">Contact</a>
+        <a href="#projects">Systems</a>
+        <a href="#skills">Skills</a>
       </nav>
       <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
         ☀️ <span>Light</span>
@@ -30,300 +33,482 @@
     
     <!-- Hero / Intro -->
     <section id="about" class="hero">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span>Senior Applied Data Scientist @ Microsoft</span>
+      </div>
       <h1 class="hero-name">Prajwal Rao</h1>
-      <div class="hero-title-role">Senior Applied Data Scientist / AI Engineer &bull; Bengaluru, India</div>
+      <div class="hero-role">AI Engineer &amp; Systems Tech Lead &bull; Bengaluru, India</div>
       <p class="hero-bio">
-        I architect autonomous multi-agent systems, high-precision retrieval engines (RAG), and production LLM evaluation platforms. Currently leading AI/ML initiatives at <strong>Microsoft</strong> shipping to Fortune 500 customers. Previously built large-scale ML systems at <strong>Swiggy</strong> and <strong>American Express</strong>.
+        I architect autonomous multi-agent pipelines, enterprise LLM evaluation platforms, and high-precision hybrid retrieval engines (RAG). Currently leading AI/ML initiatives at <strong>Microsoft</strong> shipping to Fortune 500 customers across multi-agent sales automation and security threat classification. Previously built core ML platforms at <strong>Swiggy</strong> and <strong>American Express</strong>.
       </p>
-      <div class="hero-links">
-        <a href="https://github.com/Riser01" target="_blank" rel="noopener">GitHub (@Riser01)</a>
-        <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="mailto:prajwalrao56@gmail.com">prajwalrao56@gmail.com</a>
-        <a href="#articles">Technical Writing &darr;</a>
+
+      <!-- Polished Action Buttons with SVG Icons -->
+      <div class="hero-actions">
+        <a href="#articles" class="btn-pill btn-pill-primary">
+          <span>Read Technical Articles</span>
+          <span>&darr;</span>
+        </a>
+        <a href="https://github.com/Riser01" target="_blank" rel="noopener" class="btn-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener" class="btn-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a href="mailto:prajwalrao56@gmail.com" class="btn-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span>Email</span>
+        </a>
       </div>
     </section>
 
     <!-- Professional Experience Section -->
-    <section id="experience" style="border-bottom: 1px solid var(--border-color);">
-      <h2 class="section-heading">Professional Experience</h2>
-      
-      <div class="experience-list">
-        
+    <section id="experience" class="section-wrapper">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>🏢</span>
+          <span>Professional Experience</span>
+        </h2>
+        <span style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-muted);">6+ Years Engineering Impact</span>
+      </div>
+
+      <div class="experience-feed">
+
         <!-- MICROSOFT -->
-        <article class="experience-item">
-          <div class="exp-header">
-            <span class="exp-company-role">Microsoft &mdash; Senior Applied Data Scientist</span>
-            <span class="exp-period">June 2022 &ndash; Present &bull; Bangalore, IN</span>
+        <article class="company-card">
+          <div class="company-header">
+            <div class="company-identity">
+              <span class="company-badge">MICROSOFT</span>
+              <div>
+                <h3 class="company-name">Senior Applied Data Scientist</h3>
+                <div class="company-role">AI &amp; Multi-Agent Systems Tech Lead</div>
+              </div>
+            </div>
+            <div class="company-meta">
+              <div>June 2022 &ndash; Present</div>
+              <div>Bengaluru, India</div>
+            </div>
           </div>
-          <p class="exp-summary">
-            Leading AI/ML engineering across two core verticals: autonomous sales agents (LLM/multi-agent orchestration) shipping to Fortune 500 customers and automated security risk classification.
+
+          <p class="company-intro">
+            Lead AI/ML initiatives across two core enterprise verticals: autonomous sales qualification agents (LLM/multi-agent) shipping to Fortune 500 customers, and automated security threat classification.
           </p>
 
-          <div class="exp-projects">
-            <!-- Project 1 -->
-            <div>
-              <div class="exp-project-title">Sales Qualification Multi-Agent AI System</div>
-              <div class="exp-project-tech">Tech: Azure, Python, Copilot Studio, LangGraph, GPT-5, Function Apps</div>
-              <ul class="exp-bullets">
-                <li>Architected an autonomous multi-agent AI pipeline (Research, Engage, Readiness, BANT qualification) processing <strong>15M+ weekly messages across 200+ enterprise tenants</strong>.</li>
-                <li>Designed 5 LLM prompt and fine-tuned modules (OOF detection, BANT interview, follow-up cadence) achieving <strong>95% average accuracy</strong> via dedicated LLM-as-a-judge pipelines while maintaining &gt;91% task completion and &lt;3% hallucination.</li>
-                <li>Built <strong>AgentEval</strong> — a reusable agentic evaluation framework that reduced model validation cycles by 60%, replacing ad-hoc prompt testing in CI/CD with synthetic data generation and automated benchmarking (adopted across 3+ sibling teams).</li>
-                <li>Re-architected hybrid RAG retrieval (dense embeddings + BM25), elevating <strong>NDCG@5 by 18%</strong> and RAGAS Faithfulness from 84% to 91% (&lt;3% overall hallucination).</li>
-                <li>Served as Tech Lead for 3 engineers, establishing engineering practices for prompt regression testing, tenant-isolated state, and production drift monitoring.</li>
-              </ul>
+          <!-- Project 1 -->
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">1. Sales Qualification Multi-Agent AI System</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-emerald); font-weight: 700;">15M+ msgs/wk &bull; 200+ tenants</span>
             </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Azure</span>
+              <span class="tech-pill">Copilot Studio</span>
+              <span class="tech-pill">LangGraph</span>
+              <span class="tech-pill">GPT-5</span>
+              <span class="tech-pill">Function Apps</span>
+              <span class="tech-pill">LLM-as-a-Judge</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Architected an autonomous multi-agent AI system (Research, Engage, Readiness, BANT qualification) processing <strong>15M+ weekly messages across 200+ enterprise tenants</strong>.</li>
+              <li>Designed 5 LLM prompt and fine-tuning modules (OOF detection, BANT interview, follow-up cadence, email drafting, question extraction) achieving <strong>95% average accuracy</strong> via dedicated LLM-as-a-judge pipelines while maintaining <strong>&gt;91% task completion</strong> and <strong>&lt;3% hallucination</strong>.</li>
+              <li>Built <strong>AgentEval</strong> &mdash; a reusable agentic evaluation framework that reduced model validation cycles by <strong>60%</strong>, replacing ad-hoc prompt testing in CI/CD with synthetic data generation and automated benchmarking (adopted across 3+ sibling teams).</li>
+              <li>Re-architected hybrid RAG retrieval (dense embeddings + BM25), elevating <strong>NDCG@5 by 18%</strong> and RAGAS Faithfulness from 84% to 91% (&lt;3% overall hallucination).</li>
+              <li>Served as Tech Lead for 3 engineers, establishing engineering best practices for prompt regression testing, tenant-isolated state handling, and production drift monitoring.</li>
+            </ul>
+          </div>
 
-            <!-- Project 2 -->
-            <div>
-              <div class="exp-project-title">Security Report Risk Scoring & Classification</div>
-              <div class="exp-project-tech">Tech: Azure ML Studio, PyTorch, RoBERTa, QLoRA, DPO, MLflow</div>
-              <ul class="exp-bullets">
-                <li>Automated triage for <strong>12,000 monthly unstructured threat reports</strong>, reducing median SOC analyst turnaround time by 85%.</li>
-                <li>Built ML platform in Azure to develop, deploy, and monitor 8 models for classification and regression tasks, identifying risk levels and generating automated security profiles.</li>
-                <li>Engineered custom RoBERTa architectures combining structured metadata with raw text, achieving <strong>80% F1 score and 90% recall on high-risk incidents</strong>.</li>
-              </ul>
+          <!-- Project 2 -->
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">2. Security Report Risk Scoring &amp; NLP Classification</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); font-weight: 700;">85% turnaround cut &bull; 12k reports/mo</span>
             </div>
+            <div class="tech-pills">
+              <span class="tech-pill">PyTorch</span>
+              <span class="tech-pill">RoBERTa</span>
+              <span class="tech-pill">Azure ML Studio</span>
+              <span class="tech-pill">QLoRA</span>
+              <span class="tech-pill">DPO</span>
+              <span class="tech-pill">MLflow</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Automated triage for <strong>12,000 monthly unstructured threat reports</strong>, reducing median SOC analyst turnaround time by <strong>85%</strong>.</li>
+              <li>Built an ML platform in Azure to develop, deploy, and monitor 8 models for classification and regression tasks, identifying risk levels and assigning risk scores.</li>
+              <li>Engineered custom RoBERTa architectures with custom layers combining structured tabular data with text data, achieving <strong>80% F1 score and 90% recall on high-risk incidents</strong>.</li>
+              <li>Created automated threat risk profiles based on historical incident data for security researchers.</li>
+            </ul>
+          </div>
 
-            <!-- Project 3 -->
-            <div>
-              <div class="exp-project-title">LLM Distillation & Fine-Tuning</div>
-              <div class="exp-project-tech">Tech: PyTorch, Llama 2, LoRA, QLoRA, DPO, Azure OpenAI</div>
-              <ul class="exp-bullets">
-                <li>Built custom classification models for high-risk categories with extreme data imbalance (&lt;1% positive class prevalence).</li>
-                <li>Distilled GPT-4 capabilities into fine-tuned open-source models (Llama 2) using Instruction Tuning, LoRA, and DPO, drastically reducing inference latency and API costs.</li>
-              </ul>
+          <!-- Project 3 -->
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">3. LLM Distillation &amp; High-Risk Classification Systems</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-purple); font-weight: 700;">&lt;1% imbalanced data &bull; Low latency</span>
             </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Llama 2</span>
+              <span class="tech-pill">Instruction Tuning</span>
+              <span class="tech-pill">LoRA</span>
+              <span class="tech-pill">QLoRA</span>
+              <span class="tech-pill">DPO</span>
+              <span class="tech-pill">Azure OpenAI</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Built custom RoBERTa classification models to detect high-risk categories with extreme data imbalance (&lt;1% positive class prevalence).</li>
+              <li>Created an automated evaluation and prompt improvement framework to systematically benchmark and optimize LLM performance.</li>
+              <li>Distilled GPT-4 capabilities into fine-tuned open-source models (Llama 2) using Instruction Tuning, LoRA, and DPO, achieving near-parity with commercial LLMs while drastically cutting inference cost and latency.</li>
+            </ul>
+          </div>
 
-            <!-- Project 4 -->
-            <div>
-              <div class="exp-project-title">Enterprise Knowledge Base Chatbot with RAG & Plugins</div>
-              <div class="exp-project-tech">Tech: LangChain, Semantic Kernel, Qdrant, Azure Functions</div>
-              <ul class="exp-bullets">
-                <li>Designed and deployed an enterprise conversational RAG system over internal knowledge bases, saving an estimated 200 hours of manual lookup effort monthly.</li>
-              </ul>
+          <!-- Project 4 -->
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">4. Enterprise Chatbot with RAG &amp; Tool Plugins</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-blue); font-weight: 700;">200 hrs/mo saved</span>
             </div>
+            <div class="tech-pills">
+              <span class="tech-pill">LangChain</span>
+              <span class="tech-pill">Semantic Kernel</span>
+              <span class="tech-pill">Qdrant</span>
+              <span class="tech-pill">GPT</span>
+              <span class="tech-pill">Azure Functions</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Designed and built a scalable LLM chat system securely answering user queries over internal enterprise knowledge bases, saving 200+ hours of manual lookup effort monthly.</li>
+              <li>Created specific tool plugins for automated case summarization and technical report generation.</li>
+              <li>Architected end-to-end ingestion and processing pipelines to extract and vectorize multi-format enterprise documents.</li>
+            </ul>
           </div>
         </article>
 
         <!-- SWIGGY -->
-        <article class="experience-item">
-          <div class="exp-header">
-            <span class="exp-company-role">Swiggy &mdash; Machine Learning Engineer II</span>
-            <span class="exp-period">May 2021 &ndash; June 2022 &bull; Bangalore, IN</span>
-          </div>
-          <div class="exp-projects">
-            <div>
-              <div class="exp-project-title">MLOps Platform & Distributed Training</div>
-              <div class="exp-project-tech">Tech: Scala, Python, Spark, MLflow, AWS, Databricks, Flink</div>
-              <ul class="exp-bullets">
-                <li>Maintained and operated Swiggy's central ML platform powering <strong>5,000+ feature jobs and ~100 models in production</strong>.</li>
-                <li>Streamlined feature pipeline monitoring and alerts on data drift, reducing model failure turnaround time from 1 day to <strong>under 2 hours</strong>.</li>
-                <li>Reduced AWS cluster costs by <strong>25%</strong> through Spark job optimization and instance fine-tuning.</li>
-                <li>Built a customizable TensorFlow multi-headed model framework that piggybacked on feature fetches, cutting production network calls and inferencing latency by 30%.</li>
-              </ul>
+        <article class="company-card">
+          <div class="company-header">
+            <div class="company-identity">
+              <span class="company-badge" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-color: rgba(245, 158, 11, 0.3);">SWIGGY</span>
+              <div>
+                <h3 class="company-name">Machine Learning Engineer II</h3>
+                <div class="company-role">ML Platform &amp; Distributed Inference</div>
+              </div>
             </div>
+            <div class="company-meta">
+              <div>May 2021 &ndash; June 2022</div>
+              <div>Bengaluru, India</div>
+            </div>
+          </div>
+
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">1. MLOps Platform &amp; Pipeline Automation</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #f59e0b; font-weight: 700;">5k jobs &bull; 100 models &bull; -25% AWS cost</span>
+            </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Scala</span>
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">Spark</span>
+              <span class="tech-pill">MLflow</span>
+              <span class="tech-pill">AWS</span>
+              <span class="tech-pill">Databricks</span>
+              <span class="tech-pill">Flink</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Maintained and operated central ML platform powering <strong>5,000+ feature jobs and ~100 models in production</strong>.</li>
+              <li>Streamlined monitoring by implementing feature pipeline quality checks, alerts on data drift, and automated failure detection, reducing model failure turnaround from 1 day to <strong>under 2 hours</strong>.</li>
+              <li>Reduced AWS cluster costs by <strong>25%</strong> through Spark job optimization and instance fine-tuning.</li>
+              <li>Leveraged MLflow to build a retraining platform integrated into the production system, automating 2&ndash;3 days of manual re-training per model.</li>
+            </ul>
+          </div>
+
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">2. TensorFlow Multi-Headed Model Framework</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #f59e0b; font-weight: 700;">-30% latency &bull; Multi-network training</span>
+            </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">TensorFlow</span>
+              <span class="tech-pill">AWS</span>
+              <span class="tech-pill">Databricks</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Built an easy-to-use customizable framework for multi-headed models, reducing production network calls and cutting overall latencies by <strong>30%</strong>.</li>
+              <li>Piggybacked on feature fetches to minimize resource usage during inference, yielding significant inference compute savings.</li>
+              <li>Enabled multi-dataset, multi-network distributed training and model serialization.</li>
+            </ul>
           </div>
         </article>
 
         <!-- AMERICAN EXPRESS -->
-        <article class="experience-item">
-          <div class="exp-header">
-            <span class="exp-company-role">American Express &mdash; Big Data & ML Engineer</span>
-            <span class="exp-period">June 2019 &ndash; May 2021 &bull; Bangalore, IN</span>
-          </div>
-          <div class="exp-projects">
-            <div>
-              <div class="exp-project-title">Competitor Insights & Merchant Intelligence Data Pipeline</div>
-              <div class="exp-project-tech">Tech: Hive, Spark, Scala, GraphX, GCP, BigQuery, Beam</div>
-              <ul class="exp-bullets">
-                <li>Developed and optimized a <strong>15TB data pipeline</strong> cleaning and processing raw merchant datasets, improving end-to-end pipeline execution time by 30%.</li>
-                <li>Enriched data using string matching and algorithmic clustering (Bloom filters, Levenshtein, Hamming distance, and Spark GraphX).</li>
-              </ul>
+        <article class="company-card">
+          <div class="company-header">
+            <div class="company-identity">
+              <span class="company-badge" style="background: rgba(99, 102, 241, 0.15); color: #818cf8; border-color: rgba(99, 102, 241, 0.3);">AMERICAN EXPRESS</span>
+              <div>
+                <h3 class="company-name">Big Data &amp; ML Engineer</h3>
+                <div class="company-role">Competitor Insights &amp; Algorithmic Clustering</div>
+              </div>
             </div>
+            <div class="company-meta">
+              <div>June 2019 &ndash; May 2021</div>
+              <div>Bengaluru, India</div>
+            </div>
+          </div>
+
+          <div class="project-subcard">
+            <div class="project-title-bar">
+              <span class="project-title">Competitor Insights 15TB Big Data Pipeline</span>
+              <span style="font-family: var(--font-mono); font-size: 0.8rem; color: #818cf8; font-weight: 700;">15TB pipeline &bull; 30% execution lift</span>
+            </div>
+            <div class="tech-pills">
+              <span class="tech-pill">Hive</span>
+              <span class="tech-pill">Spark</span>
+              <span class="tech-pill">Scala</span>
+              <span class="tech-pill">Python</span>
+              <span class="tech-pill">GraphX</span>
+              <span class="tech-pill">GCP BigQuery</span>
+              <span class="tech-pill">Beam</span>
+            </div>
+            <ul class="impact-bullets">
+              <li>Developed and optimized a <strong>15TB data pipeline</strong> to clean and process third-party raw merchant data, improving end-to-end execution time by <strong>30%</strong>.</li>
+              <li>Cleaned and enriched data using complex string matching and clustering algorithms (Bloom filters, Levenshtein, Hamming distance).</li>
+              <li>Utilized Spark GraphX to optimize entity resolution and clustering algorithms, matching third-party merchant records with internal accounts.</li>
+              <li>Built custom analytics dashboards with Tableau to track merchant transaction velocity and competitor consumer trends.</li>
+            </ul>
           </div>
         </article>
 
         <!-- TECH MAHINDRA -->
-        <article class="experience-item">
-          <div class="exp-header">
-            <span class="exp-company-role">Tech Mahindra &mdash; Software Engineer</span>
-            <span class="exp-period">June 2018 &ndash; June 2019 &bull; Bangalore, IN</span>
+        <article class="company-card">
+          <div class="company-header">
+            <div class="company-identity">
+              <span class="company-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8; border-color: rgba(148, 163, 184, 0.3);">TECH MAHINDRA</span>
+              <div>
+                <h3 class="company-name">Software Engineer</h3>
+                <div class="company-role">Cloud Analytics &amp; Serverless Pipelines</div>
+              </div>
+            </div>
+            <div class="company-meta">
+              <div>June 2018 &ndash; June 2019</div>
+              <div>Bengaluru, India</div>
+            </div>
           </div>
-          <p class="exp-summary" style="margin-left: 1rem;">
-            Built automated data extraction scripts (+100GB data) and serverless cloud functions on AWS Lambda (Node.js) for British Telecom and PepsiCo network usage analytics.
+
+          <p class="company-intro">
+            Built data extraction scripts for 100+ GB network telemetry for British Telecom and PepsiCo worldwide infrastructure. Built serverless cloud functions on AWS Lambda (Node.js) for Amazon Alexa BT Skills.
           </p>
         </article>
 
       </div>
     </section>
 
-    <!-- Technical Articles Section -->
-    <section id="articles" style="border-bottom: 1px solid var(--border-color);">
-      <div class="section-heading">
-        <span>Published Technical Articles & Guides</span>
-        <a href="articles/index.html">View All &rarr;</a>
+    <!-- Technical Articles Showcase (Magazine Grid with Cover Images) -->
+    <section id="articles" class="section-wrapper">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>📚</span>
+          <span>Published Technical Articles &amp; Research</span>
+        </h2>
+        <a href="articles/index.html" class="section-link">View All Articles &rarr;</a>
       </div>
 
-      <div class="articles-feed">
+      <div class="articles-grid">
         
         <!-- Article 1 -->
-        <article class="article-entry">
-          <span class="article-entry-date">September 2026 &bull; 14 min read</span>
-          <h3 class="article-entry-title">
-            <a href="articles/multimodal-rag-image-extraction.html">Visual RAG & Multimodal Knowledge Extraction: From Tesseract OCR to ColPali & Vision LLMs</a>
-          </h3>
-          <p class="article-entry-desc">
-            Why traditional text-only parsers destroy financial tables and charts. A production comparison of VLM Markdown extraction against native visual patch embeddings with ColPali and Late Interaction MaxSim.
-          </p>
-          <div class="article-entry-meta">
-            <span>#MultimodalAI</span>
-            <span>#DocumentIngestion</span>
-            <span>#ColPali</span>
+        <article class="article-card">
+          <div class="article-card-thumb">
+            <img src="assets/images/multimodal-rag-hero.jpg" alt="Visual RAG and Multimodal Document Retrieval" loading="lazy" />
+          </div>
+          <div class="article-card-body">
+            <div class="article-meta-row">
+              <span class="article-tag">Multimodal AI</span>
+              <span>Sept 2026 &bull; 14 min read</span>
+            </div>
+            <h3 class="article-card-title">
+              <a href="articles/multimodal-rag-image-extraction.html">Visual RAG &amp; Multimodal Knowledge Extraction: From Tesseract OCR to ColPali &amp; Vision LLMs</a>
+            </h3>
+            <p class="article-card-desc">
+              Why traditional text-only parsers destroy financial balance sheets and charts. Comprehensive comparison between VLM Markdown generation and native visual patch embeddings with ColPali.
+            </p>
+            <div class="article-card-footer">
+              <a href="articles/multimodal-rag-image-extraction.html">Read Full Deep-Dive &rarr;</a>
+            </div>
           </div>
         </article>
 
         <!-- Article 2 -->
-        <article class="article-entry">
-          <span class="article-entry-date">September 2026 &bull; 16 min read</span>
-          <h3 class="article-entry-title">
-            <a href="articles/rag-system-evaluation-and-metrics.html">The Production RAG Evaluation Playbook: How to Measure, Score, and Debug Retrieval Pipelines</a>
-          </h3>
-          <p class="article-entry-desc">
-            Moving beyond vibes-based testing. Comprehensive guide to decoupling the Retriever (Hit Rate@K, MRR, NDCG@10) from the Generator (Faithfulness, Answer Relevance) with automated CI/CD quality gates.
-          </p>
-          <div class="article-entry-meta">
-            <span>#Evaluation</span>
-            <span>#MLOps</span>
-            <span>#NDCG</span>
+        <article class="article-card">
+          <div class="article-card-thumb">
+            <img src="assets/images/rag-eval-hero.jpg" alt="RAG System Evaluation and Testing" loading="lazy" />
+          </div>
+          <div class="article-card-body">
+            <div class="article-meta-row">
+              <span class="article-tag">MLOps &amp; Eval</span>
+              <span>Sept 2026 &bull; 16 min read</span>
+            </div>
+            <h3 class="article-card-title">
+              <a href="articles/rag-system-evaluation-and-metrics.html">The Production RAG Evaluation Playbook: How to Measure, Score, and Debug Retrieval Pipelines</a>
+            </h3>
+            <p class="article-card-desc">
+              Moving beyond vibes-based testing. Complete guide to decoupling Retriever ranking (Hit Rate@K, MRR, NDCG@10) from Generator Faithfulness with calibrated LLM-as-a-judge CI/CD gates.
+            </p>
+            <div class="article-card-footer">
+              <a href="articles/rag-system-evaluation-and-metrics.html">Read Full Deep-Dive &rarr;</a>
+            </div>
           </div>
         </article>
 
         <!-- Article 3 -->
-        <article class="article-entry">
-          <span class="article-entry-date">September 2026 &bull; 18 min read</span>
-          <h3 class="article-entry-title">
-            <a href="articles/hybrid-retrieval-rrf-and-fusion.html">Hybrid Retrieval & Fusion Science: Merging Dense, Sparse, and Late Interaction (and Solving the 1-Keyword Delta)</a>
-          </h3>
-          <p class="article-entry-desc">
-            The mathematics of Reciprocal Rank Fusion ($k=60$). How to solve subtle semantic collisions ("shoes" vs "electronics" at 0.975 cosine similarity) with cross-encoder re-ranking. Includes interactive browser simulator.
-          </p>
-          <div class="article-entry-meta">
-            <span>#InformationRetrieval</span>
-            <span>#BM25</span>
-            <span>#RRF</span>
+        <article class="article-card">
+          <div class="article-card-thumb">
+            <img src="assets/images/hybrid-search-hero.jpg" alt="Hybrid Search and Rank Fusion" loading="lazy" />
+          </div>
+          <div class="article-card-body">
+            <div class="article-meta-row">
+              <span class="article-tag">Information Retrieval</span>
+              <span>Sept 2026 &bull; 18 min read</span>
+            </div>
+            <h3 class="article-card-title">
+              <a href="articles/hybrid-retrieval-rrf-and-fusion.html">Hybrid Retrieval &amp; Fusion Science: Merging Dense, Sparse, and Late Interaction (and Solving the 1-Keyword Delta)</a>
+            </h3>
+            <p class="article-card-desc">
+              The mathematics of Reciprocal Rank Fusion ($k=60$). How to solve subtle semantic collisions ("shoes" vs "electronics" at 0.975 cosine similarity) with cross-encoder re-ranking. Includes live interactive browser widget!
+            </p>
+            <div class="article-card-footer">
+              <a href="articles/hybrid-retrieval-rrf-and-fusion.html">Read Full Deep-Dive &rarr;</a>
+            </div>
           </div>
         </article>
 
         <!-- Article 4 -->
-        <article class="article-entry">
-          <span class="article-entry-date">September 2026 &bull; 15 min read</span>
-          <h3 class="article-entry-title">
-            <a href="articles/agentic-rag-routing-and-crag.html">Agentic RAG & Cognitive Routing: Building Self-Correcting Retrieval with LangGraph</a>
-          </h3>
-          <p class="article-entry-desc">
-            Architecting stateful retrieval loops. Features an autonomous document grader, query rewrite agent, and fallback degradation trees using LangGraph and Gemini 2.0 Flash.
-          </p>
-          <div class="article-entry-meta">
-            <span>#LangGraph</span>
-            <span>#AgenticAI</span>
-            <span>#CRAG</span>
+        <article class="article-card">
+          <div class="article-card-thumb">
+            <img src="assets/images/agentic-rag-hero.jpg" alt="Agentic RAG and LangGraph Cognitive Routing" loading="lazy" />
+          </div>
+          <div class="article-card-body">
+            <div class="article-meta-row">
+              <span class="article-tag">Agentic Systems</span>
+              <span>Sept 2026 &bull; 15 min read</span>
+            </div>
+            <h3 class="article-card-title">
+              <a href="articles/agentic-rag-routing-and-crag.html">Agentic RAG &amp; Cognitive Routing: Building Self-Correcting Retrieval with LangGraph</a>
+            </h3>
+            <p class="article-card-desc">
+              Moving beyond naive static chunking to stateful, self-evaluating retrieval agents. Features an autonomous document grader, query rewriter, and fallback decision trees using LangGraph.
+            </p>
+            <div class="article-card-footer">
+              <a href="articles/agentic-rag-routing-and-crag.html">Read Full Deep-Dive &rarr;</a>
+            </div>
           </div>
         </article>
 
       </div>
     </section>
 
-    <!-- Selected Codebases / Projects Section -->
-    <section id="projects" style="border-bottom: 1px solid var(--border-color);">
-      <h2 class="section-heading">Selected Open-Source Systems</h2>
-      
-      <div class="experience-list">
-        <div>
-          <div class="exp-header">
-            <span class="exp-company-role">
-              <a href="https://github.com/Riser01/Personal-Projects" target="_blank" rel="noopener" style="color: var(--text-main); text-decoration: none;">Murder Mystery Engine & Agent Arena &rarr;</a>
-            </span>
-            <span class="exp-period">LangGraph &bull; Gemini 2.0 Flash &bull; FastAPI</span>
-          </div>
-          <p class="exp-summary">
-            Interactive multi-agent deduction game where every suspect is an autonomous, stateful LangGraph node with memory checkpointers, prompt-injection defenses, and ground-truth forensic deduction matrices. Includes 18 passing Pytest tests.
+    <!-- Selected Open-Source Systems -->
+    <section id="projects" class="section-wrapper">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>⚡</span>
+          <span>Selected Open-Source Systems</span>
+        </h2>
+        <a href="https://github.com/Riser01" target="_blank" rel="noopener" class="section-link">GitHub Profile &rarr;</a>
+      </div>
+
+      <div class="codebase-grid">
+        <div class="codebase-card">
+          <div class="codebase-name">Murder Mystery Engine &amp; Agent Arena</div>
+          <p class="codebase-desc">
+            Autonomous multi-agent interrogation game. Every suspect is an isolated LangGraph node with stateful memory checkpointers, prompt injection defenses, and forensic ground-truth deduction evaluation.
           </p>
+          <div class="codebase-footer">
+            <span>LangGraph &bull; 18 Pytest Tests</span>
+            <a href="https://github.com/Riser01/Personal-Projects" target="_blank" rel="noopener">Repo &rarr;</a>
+          </div>
         </div>
 
-        <div>
-          <div class="exp-header">
-            <span class="exp-company-role">
-              <a href="https://github.com/Riser01/Personal-Projects/tree/master/docs" target="_blank" rel="noopener" style="color: var(--text-main); text-decoration: none;">PropAgent MCP: Multi-Agent Property Operations &rarr;</a>
-            </span>
-            <span class="exp-period">Model Context Protocol &bull; Python &bull; SQLite WAL</span>
-          </div>
-          <p class="exp-summary">
-            Multi-persona agent pipeline coordinating tenants, owners, and building security over Model Context Protocol (MCP). Implements concurrency-safe elevator reservation via lazy-TTL mutex locks and automated digital gate pass generation.
+        <div class="codebase-card">
+          <div class="codebase-name">PropAgent MCP: Multi-Agent Property Ops</div>
+          <p class="codebase-desc">
+            Distributed multi-agent residential operations coordinating tenants, owners, and management via Model Context Protocol (MCP). Implements concurrency-safe mutex locks and automated digital gate passes.
           </p>
+          <div class="codebase-footer">
+            <span>MCP Protocol &bull; 28 Pytest Tests</span>
+            <a href="https://github.com/Riser01/Personal-Projects/tree/master/docs" target="_blank" rel="noopener">Docs &rarr;</a>
+          </div>
         </div>
 
-        <div>
-          <div class="exp-header">
-            <span class="exp-company-role">
-              <a href="https://github.com/Riser01/careervault" target="_blank" rel="noopener" style="color: var(--text-main); text-decoration: none;">CareerVault: Local-First Vector Search Extension &rarr;</a>
-            </span>
-            <span class="exp-period">React 19 &bull; TypeScript &bull; transformers.js</span>
-          </div>
-          <p class="exp-summary">
-            100% local-first Chrome extension using on-device vector search via transformers.js and IndexedDB to learn custom job screening answers and auto-fill Workday and Greenhouse forms in under 3 seconds with zero server cost.
+        <div class="codebase-card">
+          <div class="codebase-name">CareerVault: Zero-Server Job Auto-Filler</div>
+          <p class="codebase-desc">
+            100% local-first Chrome extension using in-browser vector search via transformers.js and IndexedDB to auto-fill custom job application forms in under 3 seconds with zero server egress cost.
           </p>
+          <div class="codebase-footer">
+            <span>React 19 &bull; transformers.js</span>
+            <a href="https://github.com/Riser01/careervault" target="_blank" rel="noopener">Repo &rarr;</a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Technical Skills & Education -->
-    <section id="skills">
-      <h2 class="section-heading">Technical Arsenal & Education</h2>
+    <!-- Technical Arsenal & Education -->
+    <section id="skills" class="section-wrapper" style="border-bottom: none;">
+      <div class="section-head">
+        <h2 class="section-title">
+          <span>🛠️</span>
+          <span>Technical Arsenal &amp; Education</span>
+        </h2>
+      </div>
 
-      <div class="skills-group">
-        <div class="skills-group-title">LLM, Agents & RAG</div>
-        <div class="skills-tags">
-          <span class="skill-tag">LangGraph</span>
-          <span class="skill-tag">Copilot Studio</span>
-          <span class="skill-tag">Model Context Protocol (MCP)</span>
-          <span class="skill-tag">Semantic Kernel</span>
-          <span class="skill-tag">LLM-as-a-Judge</span>
-          <span class="skill-tag">Fine-Tuning (LoRA, QLoRA, DPO)</span>
-          <span class="skill-tag">Hybrid RAG (BM25 + Dense)</span>
-          <span class="skill-tag">ColPali</span>
-          <span class="skill-tag">vLLM</span>
+      <div class="skills-layout">
+        <div class="skill-category">
+          <div class="skill-category-title">LLMs, Agents &amp; Evaluation</div>
+          <div class="skill-chips">
+            <span class="skill-chip">LangGraph</span>
+            <span class="skill-chip">Copilot Studio</span>
+            <span class="skill-chip">Model Context Protocol (MCP)</span>
+            <span class="skill-chip">Semantic Kernel</span>
+            <span class="skill-chip">LLM-as-a-Judge</span>
+            <span class="skill-chip">Fine-Tuning (LoRA, QLoRA, DPO)</span>
+            <span class="skill-chip">Hybrid RAG (BM25 + Dense)</span>
+            <span class="skill-chip">ColPali</span>
+            <span class="skill-chip">vLLM</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-title">Machine Learning &amp; MLOps</div>
+          <div class="skill-chips">
+            <span class="skill-chip">PyTorch</span>
+            <span class="skill-chip">TensorFlow</span>
+            <span class="skill-chip">RoBERTa</span>
+            <span class="skill-chip">Scikit-learn</span>
+            <span class="skill-chip">Qdrant</span>
+            <span class="skill-chip">Spark / PySpark</span>
+            <span class="skill-chip">MLflow</span>
+            <span class="skill-chip">Databricks</span>
+            <span class="skill-chip">SQL</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <div class="skill-category-title">Cloud, Backend &amp; Platforms</div>
+          <div class="skill-chips">
+            <span class="skill-chip">Azure (OpenAI, ML Studio, Functions)</span>
+            <span class="skill-chip">AWS</span>
+            <span class="skill-chip">GCP (Data Engineer)</span>
+            <span class="skill-chip">FastAPI</span>
+            <span class="skill-chip">Docker</span>
+            <span class="skill-chip">Python 3.12</span>
+            <span class="skill-chip">Scala</span>
+          </div>
         </div>
       </div>
 
-      <div class="skills-group">
-        <div class="skills-group-title">Machine Learning & Data Engineering</div>
-        <div class="skills-tags">
-          <span class="skill-tag">PyTorch</span>
-          <span class="skill-tag">TensorFlow</span>
-          <span class="skill-tag">RoBERTa</span>
-          <span class="skill-tag">Scikit-learn</span>
-          <span class="skill-tag">Qdrant</span>
-          <span class="skill-tag">Spark / PySpark</span>
-          <span class="skill-tag">MLflow</span>
-          <span class="skill-tag">Databricks</span>
-          <span class="skill-tag">SQL</span>
-        </div>
-      </div>
-
-      <div class="skills-group">
-        <div class="skills-group-title">Cloud & Platforms</div>
-        <div class="skills-tags">
-          <span class="skill-tag">Azure (OpenAI, ML Studio, Functions)</span>
-          <span class="skill-tag">AWS</span>
-          <span class="skill-tag">GCP (Professional Data Engineer)</span>
-          <span class="skill-tag">Docker</span>
-          <span class="skill-tag">FastAPI</span>
-        </div>
-      </div>
-
-      <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.92rem; color: var(--text-muted);">
-        <p><strong>Education:</strong> Post Graduate Diploma in Data Science &mdash; <em>IIIT Bangalore</em> (2018&ndash;2019) &bull; B.Tech in Electrical & Electronics &mdash; <em>Dayanand Sagar University</em> (2013&ndash;2017)</p>
-        <p style="margin-top: 0.35rem;"><strong>Certifications:</strong> Google Cloud Professional Data Engineer &bull; Databricks Certified Apache Spark Developer (Scala) &bull; DeepLearning.AI NLP & TensorFlow Specializations</p>
+      <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.92rem; color: var(--text-secondary);">
+        <p><strong>🎓 Education:</strong> Post Graduate Diploma in Data Science &mdash; <em>IIIT Bangalore</em> (2018&ndash;2019) &bull; B.Tech in Electrical &amp; Electronics &mdash; <em>Dayanand Sagar University</em> (2013&ndash;2017)</p>
+        <p style="margin-top: 0.5rem;"><strong>📜 Certifications:</strong> Google Cloud Professional Data Engineer &bull; Databricks Certified Associate Developer for Apache Spark (Scala) &bull; DeepLearning.AI NLP &amp; TensorFlow Specializations</p>
       </div>
     </section>
 
@@ -332,7 +517,7 @@
   <!-- Site Footer -->
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>&copy; 2026 Prajwal Rao. Senior Applied Data Scientist / AI Engineer.</div>
+      <div>&copy; 2026 Prajwal Rao. Senior Applied Data Scientist &bull; Bengaluru, India.</div>
       <div class="footer-links">
         <a href="https://github.com/Riser01" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener">LinkedIn</a>
