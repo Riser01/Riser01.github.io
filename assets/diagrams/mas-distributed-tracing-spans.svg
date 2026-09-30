@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 440" width="100%" height="100%" style="background: #090d16; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="470" y="35" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Distributed Multi-Agent Trace Tree (OpenTelemetry / Langfuse)</text>
+  <text x="470" y="58" text-anchor="middle" fill="#94a3b8" font-size="13">Parent-Child Trace Hierarchy with Token Consumption and Latency Waterfall</text>
+
+  <!-- Root Trace Bar -->
+  <g transform="translate(40, 80)">
+    <rect width="860" height="40" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="20" y="25" fill="#f8fafc" font-size="12" font-weight="700">Root Trace: [POST /api/v1/analyze-market] &bull; Total: 2,450ms &bull; 8,420 Tokens &bull; $0.0124</text>
+  </g>
+
+  <!-- Span 1: Supervisor -->
+  <g transform="translate(60, 135)">
+    <rect width="320" height="34" rx="4" fill="#132438" stroke="#38bdf8"/>
+    <text x="15" y="22" fill="#38bdf8" font-size="11" font-weight="600">Span 1: Supervisor Task Decomposition</text>
+    <text x="250" y="22" fill="#94a3b8" font-size="10">340ms (820 tok)</text>
+  </g>
+
+  <!-- Span 2: Research Subagent (Parallel) -->
+  <g transform="translate(90, 180)">
+    <line x1="-15" y1="-10" x2="-15" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <line x1="-15" y1="17" x2="0" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <rect width="460" height="34" rx="4" fill="#2e1065" stroke="#a855f7"/>
+    <text x="15" y="22" fill="#c084fc" font-size="11" font-weight="600">Span 2: Web Research Subagent (Search &amp; Scrape)</text>
+    <text x="370" y="22" fill="#e9d5ff" font-size="10">1,120ms (3,800 tok)</text>
+  </g>
+
+  <!-- Span 3: Tool Execution Child Span -->
+  <g transform="translate(130, 225)">
+    <line x1="-20" y1="-10" x2="-20" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <line x1="-20" y1="17" x2="0" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <rect width="280" height="30" rx="4" fill="#1e1810" stroke="#f59e0b"/>
+    <text x="12" y="20" fill="#fbbf24" font-size="10" font-weight="600">Tool: tavily_search(query="SaaS churn")</text>
+    <text x="210" y="20" fill="#fde68a" font-size="9">680ms</text>
+  </g>
+
+  <!-- Span 4: Synthesis & Code Generation -->
+  <g transform="translate(90, 270)">
+    <line x1="-15" y1="-100" x2="-15" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <line x1="-15" y1="17" x2="0" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <rect width="520" height="34" rx="4" fill="#064e3b" stroke="#10b981"/>
+    <text x="15" y="22" fill="#34d399" font-size="11" font-weight="600">Span 3: Synthesis &amp; Report Generator Agent</text>
+    <text x="420" y="22" fill="#a7f3d0" font-size="10">890ms (2,900 tok)</text>
+  </g>
+
+  <!-- Span 5: Guardrail Evaluation -->
+  <g transform="translate(90, 315)">
+    <line x1="-15" y1="-50" x2="-15" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <line x1="-15" y1="17" x2="0" y2="17" stroke="#334155" stroke-width="1.5"/>
+    <rect width="240" height="34" rx="4" fill="#132438" stroke="#38bdf8"/>
+    <text x="15" y="22" fill="#38bdf8" font-size="11" font-weight="600">Span 4: Hallucination Guardrail</text>
+    <text x="175" y="22" fill="#94a3b8" font-size="10">100ms</text>
+  </g>
+
+  <!-- Summary Footer -->
+  <g transform="translate(40, 375)">
+    <rect width="860" height="45" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="20" y="28" fill="#cbd5e1" font-size="11">Diagnostic Value: Isolates exactly which agent had latency spikes or token runaway, enabling sub-millisecond MTTR in distributed agent clusters.</text>
+  </g>
+</svg>

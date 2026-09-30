@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 480" width="100%" height="100%" style="background: #090d16; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="480" y="38" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Multi-Agent Communication Topologies</text>
+  <text x="480" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Comparing Orchestration Patterns: Centralized Supervisor vs. Autonomous Peer Swarm vs. Event Bus</text>
+
+  <!-- Panel A: Hierarchical Supervisor -->
+  <g transform="translate(30, 85)">
+    <rect width="280" height="365" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="140" y="32" text-anchor="middle" fill="#38bdf8" font-size="14" font-weight="700">A. Hierarchical Supervisor</text>
+    <text x="140" y="50" text-anchor="middle" fill="#64748b" font-size="11">Centralized Decision Router</text>
+    
+    <!-- Supervisor Node -->
+    <rect x="70" y="70" width="140" height="46" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="2"/>
+    <text x="140" y="98" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="600">Supervisor LLM</text>
+
+    <!-- Lines to subagents -->
+    <line x1="100" y1="116" x2="55" y2="180" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <line x1="140" y1="116" x2="140" y2="180" stroke="#38bdf8" stroke-width="1.5"/>
+    <line x1="180" y1="116" x2="225" y2="180" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+    <!-- Worker 1 -->
+    <rect x="15" y="180" width="75" height="42" rx="6" fill="#131c31" stroke="#94a3b8"/>
+    <text x="52" y="206" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">Coder</text>
+
+    <!-- Worker 2 -->
+    <rect x="102" y="180" width="76" height="42" rx="6" fill="#131c31" stroke="#94a3b8"/>
+    <text x="140" y="206" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">Reviewer</text>
+
+    <!-- Worker 3 -->
+    <rect x="190" y="180" width="75" height="42" rx="6" fill="#131c31" stroke="#94a3b8"/>
+    <text x="227" y="206" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="600">Deployer</text>
+
+    <line x1="52" y1="222" x2="100" y2="280" stroke="#38bdf8" stroke-width="1"/>
+    <line x1="140" y1="222" x2="140" y2="280" stroke="#38bdf8" stroke-width="1"/>
+    <line x1="227" y1="222" x2="180" y2="280" stroke="#38bdf8" stroke-width="1"/>
+
+    <!-- Synthesized Output -->
+    <rect x="55" y="280" width="170" height="35" rx="6" fill="#064e3b" stroke="#10b981"/>
+    <text x="140" y="302" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">Validated Final State</text>
+
+    <!-- Pros / Cons -->
+    <text x="20" y="335" fill="#94a3b8" font-size="10">&#x2714; High control &amp; low hallucination</text>
+    <text x="20" y="352" fill="#ef4444" font-size="10">&#x2718; Single point of failure (Supervisor bottle-neck)</text>
+  </g>
+
+  <!-- Panel B: Peer Swarm -->
+  <g transform="translate(340, 85)">
+    <rect width="280" height="365" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="140" y="32" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="700">B. Collaborative Peer Swarm</text>
+    <text x="140" y="50" text-anchor="middle" fill="#64748b" font-size="11">Decentralized Direct Handoffs</text>
+
+    <!-- Circle of nodes -->
+    <circle cx="80" cy="115" r="30" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="80" y="119" text-anchor="middle" fill="#f8fafc" font-size="10" font-weight="600">Research</text>
+
+    <circle cx="200" cy="115" r="30" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="200" y="119" text-anchor="middle" fill="#f8fafc" font-size="10" font-weight="600">Drafting</text>
+
+    <circle cx="140" cy="210" r="30" fill="#1e293b" stroke="#a855f7" stroke-width="1.5"/>
+    <text x="140" y="214" text-anchor="middle" fill="#f8fafc" font-size="10" font-weight="600">Critic</text>
+
+    <!-- Bi-directional arrows -->
+    <path d="M 110 115 L 170 115" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arrow)"/>
+    <path d="M 95 140 L 125 185" stroke="#a855f7" stroke-width="1.5"/>
+    <path d="M 185 140 L 155 185" stroke="#a855f7" stroke-width="1.5"/>
+
+    <rect x="40" y="270" width="200" height="45" rx="6" fill="#2e1065" stroke="#a855f7"/>
+    <text x="140" y="288" text-anchor="middle" fill="#e9d5ff" font-size="11" font-weight="600">Handoff Function:</text>
+    <text x="140" y="304" text-anchor="middle" fill="#c084fc" font-size="10">transfer_to_agent(context)</text>
+
+    <!-- Pros / Cons -->
+    <text x="20" y="335" fill="#94a3b8" font-size="10">&#x2714; High autonomy &amp; rapid specialized handoffs</text>
+    <text x="20" y="352" fill="#ef4444" font-size="10">&#x2718; Risk of infinite ping-pong loops</text>
+  </g>
+
+  <!-- Panel C: Event-Driven Message Bus -->
+  <g transform="translate(650, 85)">
+    <rect width="280" height="365" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <text x="140" y="32" text-anchor="middle" fill="#10b981" font-size="14" font-weight="700">C. Event-Driven Message Bus</text>
+    <text x="140" y="50" text-anchor="middle" fill="#64748b" font-size="11">Decoupled Asynchronous Pub/Sub</text>
+
+    <!-- Event Bus Spine -->
+    <rect x="20" y="145" width="240" height="28" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="1.5"/>
+    <text x="140" y="163" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">Shared Event Bus (Redis / Kafka)</text>
+
+    <!-- Agent Producers & Consumers -->
+    <rect x="25" y="75" width="105" height="40" rx="6" fill="#1e293b" stroke="#94a3b8"/>
+    <text x="77" y="100" text-anchor="middle" fill="#f8fafc" font-size="10">Ingest Agent</text>
+    <line x1="77" y1="115" x2="77" y2="145" stroke="#10b981" stroke-width="1.5"/>
+
+    <rect x="150" y="75" width="105" height="40" rx="6" fill="#1e293b" stroke="#94a3b8"/>
+    <text x="202" y="100" text-anchor="middle" fill="#f8fafc" font-size="10">Audit Agent</text>
+    <line x1="202" y1="115" x2="202" y2="145" stroke="#10b981" stroke-width="1.5"/>
+
+    <rect x="25" y="200" width="105" height="40" rx="6" fill="#1e293b" stroke="#94a3b8"/>
+    <text x="77" y="225" text-anchor="middle" fill="#f8fafc" font-size="10">Scoring Agent</text>
+    <line x1="77" y1="173" x2="77" y2="200" stroke="#10b981" stroke-width="1.5"/>
+
+    <rect x="150" y="200" width="105" height="40" rx="6" fill="#1e293b" stroke="#94a3b8"/>
+    <text x="202" y="225" text-anchor="middle" fill="#f8fafc" font-size="10">Alert Agent</text>
+    <line x1="202" y1="173" x2="202" y2="200" stroke="#10b981" stroke-width="1.5"/>
+
+    <!-- Pros / Cons -->
+    <text x="20" y="275" fill="#f8fafc" font-size="11" font-weight="600">Enterprise Standard:</text>
+    <text x="20" y="295" fill="#94a3b8" font-size="10">Agents react to typed JSON schemas.</text>
+    <text x="20" y="335" fill="#94a3b8" font-size="10">&#x2714; Massively scalable &amp; zero tight-coupling</text>
+    <text x="20" y="352" fill="#ef4444" font-size="10">&#x2718; Eventual consistency debugging complexity</text>
+  </g>
+</svg>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architecting Production Multi-Agent Systems: Supervisors, Swarms & MCP | Prajwal Rao</title>
+  <meta name="description" content="A comprehensive engineering guide to designing scalable multi-agent systems using hierarchical supervisors, autonomous peer swarms, and the Model Context Protocol (MCP)." />
+  <link rel="stylesheet" href="../assets/css/main.css" />
+  <link rel="stylesheet" href="../assets/css/article.css" />
+  <!-- KaTeX for pristine vector mathematical typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+</head>
+<body>
+
+  <!-- Top Reading Progress Indicator -->
+  <div id="reading-progress"></div>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a href="../index.html" class="brand-logo">
+        <span class="brand-badge">PR</span>
+        <span>Prajwal Rao</span>
+      </a>
+      <nav class="main-nav">
+        <a href="../index.html">Overview</a>
+        <a href="../index.html#projects">Projects</a>
+        <a href="index.html" class="active">Articles</a>
+        <a href="hybrid-retrieval-rrf-and-fusion.html#interactive-calculator">RRF Simulator</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme">
+          ☀️ <span>Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container article-container">
+    <article>
+      <!-- Header -->
+      <header class="article-header">
+        <div class="article-breadcrumb">
+          <a href="../index.html">Home</a> &gt; <a href="index.html">Articles</a> &gt; <span>Multi-Agent Systems</span>
+        </div>
+        <h1 class="article-title">Architecting Production Multi-Agent Systems: Hierarchical Supervisors, Swarms, and Model Context Protocol (MCP)</h1>
+        <p class="article-lead">
+          Why monolithic "God Prompt" LLMs collapse under complex workflows, how to structure multi-agent communication topologies that actually converge, and how Anthropic's Model Context Protocol standardizes agent tool integration.
+        </p>
+        <div class="article-author-bar">
+          <div class="author-pill">
+            <div class="author-avatar">PR</div>
+            <span>Prajwal Rao &bull; Senior Applied Data Scientist</span>
+          </div>
+          <span>&bull;</span>
+          <span>September 2026</span>
+          <span>&bull;</span>
+          <span>16 min read</span>
+          <span class="badge-reading-level">Novice &rarr; Intermediate</span>
+        </div>
+
+        <!-- Editorial Hero Graphic -->
+        <div class="article-hero-banner">
+          <img src="../assets/images/multi-agent-orchestration-hero.jpg" alt="Distributed Multi-Agent System Orchestration Architecture Graphic" />
+        </div>
+
+        <!-- Executive Summary Card (60-Second Quick Scan) -->
+        <div class="executive-summary-card">
+          <div class="executive-summary-title">
+            <span>⚡ Executive Summary &bull; Core Takeaways in 60 Seconds</span>
+          </div>
+          <div class="executive-summary-grid">
+            <div>
+              <div class="summary-item-label">The Core Failure</div>
+              <div class="summary-item-text">Stuffing 40 tools and a 4,000-word prompt into a single agent causes severe cognitive overload, tool confusion, and context window pollution.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">The 2026 Solution</div>
+              <div class="summary-item-text">Decoupled Multi-Agent Topology: A Hierarchical Supervisor coordinates narrow specialized worker subagents via Model Context Protocol (MCP) tool standard interfaces.</div>
+            </div>
+            <div>
+              <div class="summary-item-label">Production Impact</div>
+              <div class="summary-item-text"><strong>+42% task completion reliability</strong> on complex multi-step workflows, 50% fewer hallucinations, and clean isolated regression boundaries.</div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Layout with Sidebar -->
+      <div class="article-layout">
+        
+        <div class="article-content">
+
+          <!-- Section 1: The Problem -->
+          <h2 id="death-of-god-prompt">1. The Death of the "God Prompt" Agent</h2>
+          <p>
+            When AI teams begin building agentic applications, the initial impulse is almost universal: write a monolithic 3,000-word system prompt, arm the model with 35 distinct function definitions (search, calculator, database writer, email client, git commit), and pray the LLM figures out what to do.
+          </p>
+          <p>
+            In production, this pattern collapses catastrophically. As tool counts exceed 10–15 functions, LLM attention mechanisms degrade. The model suffers from <strong>"Tool Hallucination"</strong> (inventing nonexistent JSON arguments), misidentifies parameter types, or picks suboptimal tools because prompt instruction boundaries bleed together.
+          </p>
+          <p>
+            The fundamental law of distributed software applies to AI agents as well: <strong>single-responsibility components scale; monolithic God objects do not.</strong> A production multi-agent system (MAS) partitions complex business objectives across specialized autonomous nodes, each equipped with dedicated system prompts, constrained toolsets, and clean state boundaries.
+          </p>
+
+          <!-- Callout Novice -->
+          <div class="callout callout-novice">
+            <div class="callout-header">💡 The 2-Minute Intuition (Novice Track): The Kitchen Brigade</div>
+            <p>
+              Imagine walking into a Michelin-starred restaurant kitchen. You don't see a single superhero cook trying to bake bread, butcher beef, sauté scallops, whip soufflés, and wash dishes simultaneously. If one person tried, dinners would burn and service would halt.
+            </p>
+            <p>
+              Instead, you see the <strong>Classical French Brigade</strong>:
+            </p>
+            <ul>
+              <li><strong>The Executive Chef (Supervisor Agent):</strong> Reads customer orders, coordinates timing, delegates plates, and performs final quality checks.</li>
+              <li><strong>The Saucier (Worker Agent 1):</strong> Specializes exclusively in pan sauces and reductions. Has 4 specific pans (tools) and nothing else.</li>
+              <li><strong>The Pastry Chef (Worker Agent 2):</strong> Operates in a cold room, mastering ovens and confectioneries without getting distracted by meat orders.</li>
+            </ul>
+            <p>
+              A <strong>Multi-Agent System</strong> organizes AI the exact same way: narrow specialized agents doing one job flawlessly under an orchestrator's oversight.
+            </p>
+          </div>
+
+          <!-- Section 2: Topologies -->
+          <h2 id="topologies">2. Architectural Topologies: Supervisors, Swarms, and Event Buses</h2>
+          <p>
+            How should agents talk to each other? The industry has converged on three distinct communication topologies, each engineered for specific trade-offs between centralized determinism and autonomous flexibility:
+          </p>
+
+          <!-- Topologies Architecture Diagram -->
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/mas-architectures-comparison.svg" alt="Multi-Agent Communication Topologies: Hierarchical Supervisor vs Swarm vs Event Bus" />
+            <div class="article-diagram-caption">
+              <span>Figure 1: Multi-Agent Communication Topologies — Balancing centralized supervisor control against peer swarm autonomy and event-bus scalability.</span>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Topology</th>
+                  <th>Coordination Model</th>
+                  <th>State Sharing</th>
+                  <th>Best Fit For</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Hierarchical Supervisor</strong></td>
+                  <td>Central LLM routes tasks to subagents and validates results before proceeding.</td>
+                  <td>Centralized typed graph state (e.g. LangGraph <code>AgentState</code>).</td>
+                  <td>Enterprise workflows with strict compliance, legal approvals, and bounded budgets.</td>
+                </tr>
+                <tr>
+                  <td><strong>Collaborative Peer Swarm</strong></td>
+                  <td>Decentralized handoff functions; any agent can invoke another peer directly.</td>
+                  <td>Contextual message history appended through tool calls.</td>
+                  <td>Open-ended creative brainstorming, exploratory research, and interactive simulations.</td>
+                </tr>
+                <tr>
+                  <td><strong>Event-Driven Pub/Sub</strong></td>
+                  <td>Decoupled message queues (Kafka / Redis); agents publish events when tasks conclude.</td>
+                  <td>Immutable JSON payload envelopes across event topics.</td>
+                  <td>High-throughput batch processing, asynchronous background indexing, and distributed microservices.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Section 3: Formal Protocol State Machine -->
+          <h2 id="supervisor-state-machine">3. Mathematical Formalization of Hierarchical Orchestration</h2>
+          <p>
+            Let us formalize the Supervisor orchestration process as a discrete finite state machine $(\mathcal{S}, \mathcal{A}, \mathcal{T}, \mathcal{O})$:
+          </p>
+
+          <div class="math-block">
+            $$\mathcal{S}_{t+1} = \mathcal{T}\left(\mathcal{S}_t, \mathcal{A}_t\right), \quad \text{where} \ \mathcal{A}_t = \arg\max_{a \in \mathcal{A}_{\text{subagents}}} P(a \mid \mathcal{S}_t, \mathcal{G}_{\text{goal}})$$
+          </div>
+
+          <p>
+            Where:
+          </p>
+          <ul>
+            <li>$\mathcal{S}_t$: The comprehensive global execution state at turn $t$ (user query, intermediate artifacts, message history).</li>
+            <li>$\mathcal{A}_t$: The action chosen by the supervisor: either routing to a subagent $w_i \in \mathcal{W}$ or concluding with final response $\text{END}$.</li>
+            <li>$\mathcal{G}_{\text{goal}}$: The overarching user objective.</li>
+            <li>$\mathcal{T}$: The transition function that updates state with subagent output: $\mathcal{S}_{t+1} = \mathcal{S}_t \oplus \text{Output}(w_i)$.</li>
+          </ul>
+
+          <!-- Step-by-Step Numerical Walkthrough -->
+          <div class="step-walkthrough">
+            <div class="step-walkthrough-title">
+              <span>🔍 Step-by-Step Walkthrough: Task Decomposition in Action</span>
+            </div>
+            <p style="margin-bottom: 0.5rem; font-size: 0.92rem;">
+              User Objective: <em>"Analyze competitor XYZ's latest quarterly pricing changes and update our revenue forecast spreadsheet."</em>
+            </p>
+            <ol style="margin: 0.5rem 0 0.5rem 1.25rem; font-size: 0.9rem;">
+              <li><strong>Turn 1 (Supervisor):</strong> Evaluates goal. Decomposes task into sub-goals. Routes to <code>Research_Agent</code> with query: <em>"Competitor XYZ Q3 pricing updates"</em>.</li>
+              <li><strong>Turn 2 (Research Agent):</strong> Executes search tools, retrieves pricing PDF, extracts tier tables, returns clean Markdown summary to Supervisor.</li>
+              <li><strong>Turn 3 (Supervisor):</strong> Evaluates research artifact. Validates completeness. Routes to <code>Financial_Modeler_Agent</code> with extracted numbers + historical spreadsheet context.</li>
+              <li><strong>Turn 4 (Modeler Agent):</strong> Executes Python pandas script in sandbox, computes new projected growth, returns updated numbers.</li>
+              <li><strong>Turn 5 (Supervisor):</strong> Synthesizes final comprehensive briefing for the user and terminates at <code>END</code>.</li>
+            </ol>
+            <p style="margin-top: 0.5rem; font-size: 0.92rem; color: var(--accent-emerald);">
+              <strong>Result:</strong> Zero tool overlap. Neither worker agent had access to the other's internal tools or prompt context, ensuring maximum precision and zero context contamination.
+            </p>
+          </div>
+
+          <!-- Section 4: Model Context Protocol (MCP) -->
+          <h2 id="mcp-protocol">4. Standardizing Agent Tooling: The Model Context Protocol (MCP)</h2>
+          <p>
+            Until recently, every multi-agent framework implemented its own proprietary tool interface. If you wrote a PostgreSQL query tool for LangChain, you had to rewrite it from scratch for AutoGen, CrewAI, or custom Python agents.
+          </p>
+          <p>
+            In late 2024, Anthropic open-sourced the <strong>Model Context Protocol (MCP)</strong> — an open standard (analogous to the Language Server Protocol / LSP for IDEs) that decouples agent hosts from tool and context providers over standardized JSON-RPC 2.0 messages.
+          </p>
+
+          <!-- MCP Architecture Diagram -->
+          <div class="article-diagram-wrapper">
+            <img src="../assets/diagrams/mcp-agent-protocol.svg" alt="Model Context Protocol Multi-Agent Integration Architecture" />
+            <div class="article-diagram-caption">
+              <span>Figure 2: The Model Context Protocol (MCP) Ecosystem — Decoupling agent reasoning engines from tool and data providers via standardized JSON-RPC.</span>
+            </div>
+          </div>
+
+          <p>
+            Under MCP, tools are isolated micro-servers that expose three fundamental primitives:
+          </p>
+          <ul>
+            <li><strong>Resources:</strong> File-like data streams that can be read by clients (e.g. database records, API logs, local file buffers).</li>
+            <li><strong>Prompts:</strong> Pre-packaged, parameterized prompt templates that guide agents on domain-specific best practices.</li>
+            <li><strong>Tools:</strong> Executable functions with formal JSON-schema arguments that perform actions (e.g. running queries, writing code, dispatching webhooks).</li>
+          </ul>
+
+          <!-- Callout Deep Dive -->
+          <div class="callout callout-deepdive">
+            <div class="callout-header">⚙️ Production Engineering (Intermediate Track): Architectural Benefits of MCP</div>
+            <p>
+              Why should engineering teams standardize on MCP over custom Python functions?
+            </p>
+            <ol>
+              <li><strong>Process Isolation:</strong> An MCP tool server runs in its own process or container (communicating via <code>stdio</code> or <code>SSE</code>). A crashing tool cannot crash the agent runtime.</li>
+              <li><strong>Security Boundaries:</strong> Sensitive credentials (database passwords, API secrets) live exclusively inside the MCP server process. The LLM host never touches the raw credentials — it only receives the executed result.</li>
+              <li><strong>Zero Framework Lock-In:</strong> The exact same MCP server can be queried interchangeably by Claude Desktop, Cursor, LangGraph, or custom agent scripts.</li>
+            </ol>
+          </div>
+
+          <!-- Section 5: Runnable Implementation -->
+          <h2 id="langgraph-supervisor-code">5. Production Implementation: LangGraph Hierarchical Supervisor</h2>
+          <p>
+            Here is a fully runnable production implementation of a Hierarchical Multi-Agent Supervisor using LangGraph and Pydantic structured output routing:
+          </p>
+
+          <div class="code-wrapper">
+            <div class="code-header">
+              <span>Python 3.12 &bull; hierarchical_multi_agent.py</span>
+              <button class="copy-btn">Copy</button>
+            </div>
+            <pre><code><span class="hl-k">from</span> typing <span class="hl-k">import</span> TypedDict, Annotated, Sequence, Literal
+<span class="hl-k">import</span> operator
+<span class="hl-k">from</span> pydantic <span class="hl-k">import</span> BaseModel, Field
+<span class="hl-k">from</span> langgraph.graph <span class="hl-k">import</span> StateGraph, END
+<span class="hl-k">from</span> langchain_core.messages <span class="hl-k">import</span> BaseMessage, HumanMessage, AIMessage
+
+<span class="hl-c"># 1. Define Global Shared Multi-Agent State</span>
+<span class="hl-k">class</span> <span class="hl-f">MultiAgentState</span>(TypedDict):
+    messages: Annotated[Sequence[BaseMessage], operator.add]
+    next_worker: <span class="hl-t">str</span>
+    intermediate_data: <span class="hl-t">dict</span>
+
+<span class="hl-c"># 2. Structured Output Schema for Supervisor Routing Decision</span>
+<span class="hl-k">class</span> <span class="hl-f">SupervisorRouting</span>(BaseModel):
+    next_step: Literal[<span class="hl-s">"research_worker"</span>, <span class="hl-s">"code_worker"</span>, <span class="hl-s">"FINISH"</span>] = Field(
+        description=<span class="hl-s">"The next specialized worker to delegate to, or FINISH if the user request is resolved."</span>
+    )
+    delegation_instruction: <span class="hl-t">str</span> = Field(
+        description=<span class="hl-s">"Specific, unambiguous instruction for the delegated subagent."</span>
+    )
+
+<span class="hl-c"># 3. Supervisor Orchestration Node</span>
+<span class="hl-k">def</span> <span class="hl-f">supervisor_node</span>(state: MultiAgentState) -&gt; <span class="hl-t">dict</span>:
+    last_msg = state[<span class="hl-s">"messages"</span>][-<span class="hl-n">1</span>].content
+    
+    <span class="hl-c"># Deterministic mock routing demonstration (in prod, use llm.with_structured_output(SupervisorRouting))</span>
+    <span class="hl-k">if</span> <span class="hl-s">"research"</span> <span class="hl-k">in</span> last_msg.lower() <span class="hl-k">and</span> <span class="hl-s">"research_done"</span> <span class="hl-k">not in</span> state.get(<span class="hl-s">"intermediate_data"</span>, {}):
+        <span class="hl-k">return</span> {<span class="hl-s">"next_worker"</span>: <span class="hl-s">"research_worker"</span>}
+    <span class="hl-k">elif</span> <span class="hl-s">"code"</span> <span class="hl-k">in</span> last_msg.lower() <span class="hl-k">and</span> <span class="hl-s">"code_done"</span> <span class="hl-k">not in</span> state.get(<span class="hl-s">"intermediate_data"</span>, {}):
+        <span class="hl-k">return</span> {<span class="hl-s">"next_worker"</span>: <span class="hl-s">"code_worker"</span>}
+    <span class="hl-k">return</span> {<span class="hl-s">"next_worker"</span>: <span class="hl-s">"FINISH"</span>}
+
+<span class="hl-c"># 4. Specialized Worker 1: Research Agent</span>
+<span class="hl-k">def</span> <span class="hl-f">research_worker_node</span>(state: MultiAgentState) -&gt; <span class="hl-t">dict</span>:
+    result = <span class="hl-s">"Market Research Report: Vector DB enterprise market grew 48% YoY in 2025."</span>
+    data = state.get(<span class="hl-s">"intermediate_data"</span>, {})
+    data[<span class="hl-s">"research_done"</span>] = <span class="hl-k">True</span>
+    <span class="hl-k">return</span> {
+        <span class="hl-s">"messages"</span>: [AIMessage(content=f<span class="hl-s">"[Research Agent] Completed: {result}"</span>)],
+        <span class="hl-s">"intermediate_data"</span>: data
+    }
+
+<span class="hl-c"># 5. Specialized Worker 2: Code Execution Agent</span>
+<span class="hl-k">def</span> <span class="hl-f">code_worker_node</span>(state: MultiAgentState) -&gt; <span class="hl-t">dict</span>:
+    code_result = <span class="hl-s">"Python Benchmark: MaxSim late-interaction achieved 12ms P95 latency."</span>
+    data = state.get(<span class="hl-s">"intermediate_data"</span>, {})
+    data[<span class="hl-s">"code_done"</span>] = <span class="hl-k">True</span>
+    <span class="hl-k">return</span> {
+        <span class="hl-s">"messages"</span>: [AIMessage(content=f<span class="hl-s">"[Code Agent] Executed: {code_result}"</span>)],
+        <span class="hl-s">"intermediate_data"</span>: data
+    }
+
+<span class="hl-c"># 6. Build the StateGraph</span>
+workflow = <span class="hl-f">StateGraph</span>(MultiAgentState)
+workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"supervisor"</span>, supervisor_node)
+workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"research_worker"</span>, research_worker_node)
+workflow.<span class="hl-f">add_node</span>(<span class="hl-s">"code_worker"</span>, code_worker_node)
+
+workflow.<span class="hl-f">set_entry_point</span>(<span class="hl-s">"supervisor"</span>)
+
+workflow.<span class="hl-f">add_conditional_edges</span>(
+    <span class="hl-s">"supervisor"</span>,
+    <span class="hl-k">lambda</span> s: s[<span class="hl-s">"next_worker"</span>],
+    {
+        <span class="hl-s">"research_worker"</span>: <span class="hl-s">"research_worker"</span>,
+        <span class="hl-s">"code_worker"</span>: <span class="hl-s">"code_worker"</span>,
+        <span class="hl-s">"FINISH"</span>: END
+    }
+)
+
+<span class="hl-c"># Subagents always report back to the supervisor for validation</span>
+workflow.<span class="hl-f">add_edge</span>(<span class="hl-s">"research_worker"</span>, <span class="hl-s">"supervisor"</span>)
+workflow.<span class="hl-f">add_edge</span>(<span class="hl-s">"code_worker"</span>, <span class="hl-s">"supervisor"</span>)
+
+app = workflow.<span class="hl-f">compile</span>()
+</code></pre>
+          </div>
+
+          <!-- Section 6: Production Decision Matrix -->
+          <h2 id="decision-matrix">6. Production Architecture Decision Matrix</h2>
+          <p>
+            When should you actually pay the latency and token overhead of a multi-agent system versus keeping a single agent? Use this engineering rule of thumb:
+          </p>
+
+          <div class="table-responsive">
+            <table class="article-table">
+              <thead>
+                <tr>
+                  <th>Workflow Property</th>
+                  <th>Single-Agent Architecture</th>
+                  <th>Multi-Agent Architecture (MAS)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Tool Complexity</strong></td>
+                  <td>&lt; 8 tools with orthogonal parameters</td>
+                  <td>&gt; 10 tools, or tools requiring mutually exclusive permissions</td>
+                </tr>
+                <tr>
+                  <td><strong>Evaluation &amp; Auditing</strong></td>
+                  <td>Single output is inspected as one block</td>
+                  <td>Sub-tasks must be independently evaluated and gated by humans</td>
+                </tr>
+                <tr>
+                  <td><strong>Context Volume</strong></td>
+                  <td>Context comfortably fits in &lt; 8,000 tokens</td>
+                  <td>Context exceeds 50,000 tokens across disparate domains (code, PDF, web)</td>
+                </tr>
+                <tr>
+                  <td><strong>Token Cost &amp; Latency</strong></td>
+                  <td>Lowest cost; single inference loop</td>
+                  <td>Higher token footprint; justified only by high task completion stakes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+        <!-- Sticky Sidebar Table of Contents -->
+        <aside class="sidebar-toc">
+          <div class="toc-title">Table of Contents</div>
+          <ul class="toc-list">
+            <li><a href="#death-of-god-prompt">1. Death of the God Prompt</a></li>
+            <li><a href="#topologies">2. Architectural Topologies</a></li>
+            <li><a href="#supervisor-state-machine">3. Mathematical Formalization</a></li>
+            <li><a href="#mcp-protocol">4. Model Context Protocol</a></li>
+            <li><a href="#langgraph-supervisor-code">5. LangGraph Implementation</a></li>
+            <li><a href="#decision-matrix">6. Decision Matrix</a></li>
+          </ul>
+        </aside>
+      </div>
+
+      <!-- Navigation Footer -->
+      <footer class="article-nav-footer">
+        <a href="agentic-rag-routing-and-crag.html" class="nav-article-card">
+          <span class="nav-article-label">&larr; Previous Article</span>
+          <span class="nav-article-title">Agentic RAG & Cognitive Routing</span>
+        </a>
+        <a href="multi-agent-failure-modes-and-observability.html" class="nav-article-card" style="text-align: right;">
+          <span class="nav-article-label">Next Article &rarr;</span>
+          <span class="nav-article-title">Multi-Agent Failure Modes & Observability</span>
+        </a>
+      </footer>
+
+    </article>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>&copy; 2026 Prajwal Rao. Built for high-reliability systems and distributed AI.</div>
+      <div class="footer-links">
+        <a href="https://github.com/Riser01" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/prajwal-rao-d/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:prajwalrao56@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

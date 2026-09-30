@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 440" width="100%" height="100%" style="background: #090d16; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="460" y="38" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Model Context Protocol (MCP) Multi-Agent Architecture</text>
+  <text x="460" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Standardizing Context Exchange, Remote Tools, and Persistent Memory Across Heterogeneous Agents</text>
+
+  <!-- Left: Client Agent -->
+  <g transform="translate(40, 95)">
+    <rect width="250" height="300" rx="10" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="15" y="15" width="220" height="35" rx="6" fill="rgba(56, 189, 248, 0.15)"/>
+    <text x="125" y="38" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="700">MCP Client (Host Agent)</text>
+
+    <text x="25" y="80" fill="#94a3b8" font-size="11">Agent Runtime:</text>
+    <text x="25" y="98" fill="#f8fafc" font-size="12" font-weight="600">LangGraph / AutoGen Core</text>
+
+    <rect x="20" y="120" width="210" height="70" rx="6" fill="#1e293b"/>
+    <text x="30" y="142" fill="#38bdf8" font-size="11" font-weight="600">Local Context Window</text>
+    <text x="30" y="160" fill="#cbd5e1" font-size="10">• Conversation State</text>
+    <text x="30" y="176" fill="#cbd5e1" font-size="10">• Dynamic System Prompt</text>
+
+    <rect x="20" y="205" width="210" height="70" rx="6" fill="#1e293b"/>
+    <text x="30" y="227" fill="#10b981" font-size="11" font-weight="600">Protocol Handler (JSON-RPC)</text>
+    <text x="30" y="245" fill="#cbd5e1" font-size="10">• stdio / SSE Transports</text>
+    <text x="30" y="261" fill="#cbd5e1" font-size="10">• Bi-directional capability handshake</text>
+  </g>
+
+  <!-- Middle: The MCP Bus / JSON-RPC Protocol -->
+  <g transform="translate(320, 150)">
+    <rect width="280" height="190" rx="8" fill="#131c31" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4,4"/>
+    <text x="140" y="30" text-anchor="middle" fill="#f8fafc" font-size="13" font-weight="700">Standardized MCP Interface</text>
+
+    <!-- Communication arrows -->
+    <rect x="20" y="50" width="240" height="34" rx="6" fill="#0f172a" stroke="#38bdf8"/>
+    <text x="140" y="72" text-anchor="middle" fill="#38bdf8" font-size="11">tools/list &amp; tools/call</text>
+
+    <rect x="20" y="95" width="240" height="34" rx="6" fill="#0f172a" stroke="#10b981"/>
+    <text x="140" y="117" text-anchor="middle" fill="#10b981" font-size="11">resources/read (Knowledge)</text>
+
+    <rect x="20" y="140" width="240" height="34" rx="6" fill="#0f172a" stroke="#a855f7"/>
+    <text x="140" y="162" text-anchor="middle" fill="#a855f7" font-size="11">prompts/get (Reusable Skills)</text>
+  </g>
+
+  <!-- Right: MCP Servers & External Services -->
+  <g transform="translate(630, 95)">
+    <rect width="250" height="300" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="15" y="15" width="220" height="35" rx="6" fill="rgba(16, 185, 129, 0.15)"/>
+    <text x="125" y="38" text-anchor="middle" fill="#10b981" font-size="13" font-weight="700">Decoupled MCP Servers</text>
+
+    <!-- Server 1 -->
+    <rect x="20" y="65" width="210" height="60" rx="6" fill="#1e293b" stroke="#334155"/>
+    <text x="30" y="87" fill="#f8fafc" font-size="11" font-weight="600">Database &amp; SQL Server</text>
+    <text x="30" y="105" fill="#94a3b8" font-size="10">Exposes safe read/write queries</text>
+
+    <!-- Server 2 -->
+    <rect x="20" y="135" width="210" height="60" rx="6" fill="#1e293b" stroke="#334155"/>
+    <text x="30" y="157" fill="#f8fafc" font-size="11" font-weight="600">GitHub &amp; CI/CD Server</text>
+    <text x="30" y="175" fill="#94a3b8" font-size="10">PR reviews, branch creation</text>
+
+    <!-- Server 3 -->
+    <rect x="20" y="205" width="210" height="60" rx="6" fill="#1e293b" stroke="#334155"/>
+    <text x="30" y="227" fill="#f8fafc" font-size="11" font-weight="600">Vector Search / RAG Server</text>
+    <text x="30" y="245" fill="#94a3b8" font-size="10">Hybrid retrieval candidate fusion</text>
+  </g>
+</svg>

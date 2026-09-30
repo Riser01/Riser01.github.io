@@ -514,6 +514,77 @@ p code, li code {
   }
 }
 
+@media (max-width: 768px) {
+  .article-container {
+    padding: 0 1rem;
+  }
+  .article-header {
+    padding: 2.25rem 0 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .article-title {
+    font-size: clamp(1.7rem, 6vw, 2.4rem);
+    line-height: 1.25;
+  }
+  .article-lead {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    margin-bottom: 1.25rem;
+  }
+  .article-author-bar {
+    gap: 0.75rem;
+    font-size: 0.8rem;
+  }
+  .executive-summary-card {
+    padding: 1.25rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .executive-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .article-content {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+  .article-content h2 {
+    font-size: 1.45rem;
+    margin: 2rem 0 0.85rem;
+  }
+  .article-content h3 {
+    font-size: 1.18rem;
+    margin: 1.5rem 0 0.65rem;
+  }
+  .math-block {
+    padding: 1rem 0.85rem;
+    font-size: 0.95rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  pre {
+    padding: 1rem 0.85rem;
+    font-size: 0.82rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .code-header {
+    padding: 0.5rem 0.85rem;
+  }
+  .callout {
+    padding: 1.15rem;
+    margin: 1.5rem 0;
+  }
+  .article-diagram-wrapper {
+    margin: 1.75rem 0;
+  }
+  .article-diagram-caption {
+    font-size: 0.78rem;
+    padding: 0.6rem 0.85rem;
+  }
+  .step-walkthrough {
+    padding: 1rem 0.85rem;
+  }
+}
+
 /* Article Hero Banner & Media Containers */
 .article-hero-banner {
   margin: 1.5rem 0 2.5rem;

@@ -12,7 +12,10 @@ EXPECTED_HTML_FILES = [
     "articles/multimodal-rag-image-extraction.html",
     "articles/rag-system-evaluation-and-metrics.html",
     "articles/hybrid-retrieval-rrf-and-fusion.html",
-    "articles/agentic-rag-routing-and-crag.html"
+    "articles/agentic-rag-routing-and-crag.html",
+    "articles/multi-agent-systems-orchestration.html",
+    "articles/multi-agent-failure-modes-and-observability.html",
+    "articles/multi-agent-security-guardrails-and-hitl.html"
 ]
 
 @pytest.mark.parametrize("rel_path", EXPECTED_HTML_FILES)
@@ -91,7 +94,10 @@ def test_dual_tier_callouts_in_articles():
         "articles/multimodal-rag-image-extraction.html",
         "articles/rag-system-evaluation-and-metrics.html",
         "articles/hybrid-retrieval-rrf-and-fusion.html",
-        "articles/agentic-rag-routing-and-crag.html"
+        "articles/agentic-rag-routing-and-crag.html",
+        "articles/multi-agent-systems-orchestration.html",
+        "articles/multi-agent-failure-modes-and-observability.html",
+        "articles/multi-agent-security-guardrails-and-hitl.html"
     ]
     for rel_path in article_files:
         full_path = os.path.join(PROJECT_ROOT, rel_path)

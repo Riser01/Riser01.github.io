@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 460" width="100%" height="100%" style="background: #090d16; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <text x="470" y="38" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">The 4 Critical Failure Modes in Multi-Agent Systems</text>
+  <text x="470" y="62" text-anchor="middle" fill="#94a3b8" font-size="13">Why Naive Autonomous Agent Swarms Stall, Infinite Loop, or Hallucinate in Production</text>
+
+  <!-- Box 1: Ping-Pong Deadlock -->
+  <g transform="translate(35, 85)">
+    <rect width="415" height="160" rx="8" fill="#1e131d" stroke="#f43f5e" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#f43f5e" font-size="14" font-weight="700">1. Circular Ping-Pong Deadlock</text>
+    <text x="20" y="52" fill="#cbd5e1" font-size="11">Agent A asks Agent B for data; Agent B requests clarification from Agent A.</text>
+    
+    <rect x="25" y="70" width="165" height="35" rx="6" fill="#2d1522" stroke="#f43f5e"/>
+    <text x="107" y="92" text-anchor="middle" fill="#fda4af" font-size="10">Agent A: "Clarify table schema"</text>
+
+    <text x="208" y="93" fill="#f43f5e" font-size="14" font-weight="700">&harr;</text>
+
+    <rect x="225" y="70" width="165" height="35" rx="6" fill="#2d1522" stroke="#f43f5e"/>
+    <text x="307" y="92" text-anchor="middle" fill="#fda4af" font-size="10">Agent B: "Provide query first"</text>
+
+    <text x="20" y="135" fill="#f87171" font-size="10" font-weight="600">Symptom: 85 API calls in 90 seconds until rate limit exhaustion ($40 burned).</text>
+  </g>
+
+  <!-- Box 2: Context Drift / Telephone Game -->
+  <g transform="translate(490, 85)">
+    <rect width="415" height="160" rx="8" fill="#1e1810" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#f59e0b" font-size="14" font-weight="700">2. The "Telephone Game" Context Drift</text>
+    <text x="20" y="52" fill="#cbd5e1" font-size="11">Critical constraints are summarized away through successive agent handoffs.</text>
+
+    <rect x="20" y="70" width="375" height="40" rx="6" fill="#2a1e0b" stroke="#f59e0b"/>
+    <text x="30" y="87" fill="#fef3c7" font-size="10">User: "Draft refund policy for EU residents under 14-day statutory law."</text>
+    <text x="30" y="102" fill="#fde68a" font-size="9">&rarr; Summary A: "Draft refund policy" &rarr; Agent C writes US 30-day warranty!</text>
+
+    <text x="20" y="135" fill="#fbbf24" font-size="10" font-weight="600">Symptom: Compliance violation due to semantic loss across handoffs.</text>
+  </g>
+
+  <!-- Box 3: Split-Brain State Desynchronization -->
+  <g transform="translate(35, 265)">
+    <rect width="415" height="165" rx="8" fill="#121829" stroke="#38bdf8" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#38bdf8" font-size="14" font-weight="700">3. Split-Brain State Desynchronization</text>
+    <text x="20" y="52" fill="#cbd5e1" font-size="11">Two agents execute concurrent tool calls without transactional locking.</text>
+
+    <rect x="25" y="70" width="170" height="40" rx="6" fill="#132438" stroke="#38bdf8"/>
+    <text x="110" y="88" text-anchor="middle" fill="#bae6fd" font-size="10">Agent 1: Updates DB record</text>
+    <text x="110" y="102" text-anchor="middle" fill="#7dd3fc" font-size="9">status = "PROCESSING"</text>
+
+    <text x="208" y="93" fill="#ef4444" font-size="14" font-weight="700">&#x26A0;</text>
+
+    <rect x="225" y="70" width="170" height="40" rx="6" fill="#132438" stroke="#38bdf8"/>
+    <text x="310" y="88" text-anchor="middle" fill="#bae6fd" font-size="10">Agent 2: Reads stale cache</text>
+    <text x="310" y="102" text-anchor="middle" fill="#7dd3fc" font-size="9">status = "PENDING"</text>
+
+    <text x="20" y="140" fill="#38bdf8" font-size="10" font-weight="600">Symptom: Double charges, corrupted states, duplicate emails dispatched.</text>
+  </g>
+
+  <!-- Box 4: Tool Explosion & Stampede -->
+  <g transform="translate(490, 265)">
+    <rect width="415" height="165" rx="8" fill="#131c19" stroke="#10b981" stroke-width="1.5"/>
+    <text x="20" y="30" fill="#10b981" font-size="14" font-weight="700">4. Cascading Tool Stampede</text>
+    <text x="20" y="52" fill="#cbd5e1" font-size="11">An agent spawns 50 parallel research subagents that DDoS internal APIs.</text>
+
+    <rect x="20" y="70" width="375" height="40" rx="6" fill="#0d281e" stroke="#10b981"/>
+    <text x="30" y="87" fill="#a7f3d0" font-size="10">Supervisor spawns: Subagent[1..50] each querying internal Elasticsearch</text>
+    <text x="30" y="102" fill="#6ee7b7" font-size="9">&rarr; Connection pool exhausted &rarr; Database connection timeout (503 Service Unavailable)</text>
+
+    <text x="20" y="140" fill="#34d399" font-size="10" font-weight="600">Symptom: Production infrastructure outage triggered by unthrottled agent concurrency.</text>
+  </g>
+</svg>
